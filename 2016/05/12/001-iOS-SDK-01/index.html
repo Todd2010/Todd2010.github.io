@@ -1,0 +1,616 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="title: iOS点燃SDK的地狱之门系列一  
+date: 2016-03-01前言
+地狱之门：1971年苏联地质学家进行钻探时，意外地发现了一个充满天然气的地下洞穴。钻探装置下的一片泥土倒塌，留下一个直径约50-100米的大洞。为了防止有毒气体外泄，他们决定点燃漏出来的天然气。截至今日，洞口的火焰从未间断过。当地人称之为“地狱之门”。  
+
+
+地狱之门是一个巨大的天然气坑，号称世界首坑。而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Buddha's Temple">
+<meta property="og:url" content="http://todd2010.github.io/2016/05/12/001-iOS-SDK-01/index.html">
+<meta property="og:site_name" content="Buddha's Temple">
+<meta property="og:description" content="title: iOS点燃SDK的地狱之门系列一  
+date: 2016-03-01前言
+地狱之门：1971年苏联地质学家进行钻探时，意外地发现了一个充满天然气的地下洞穴。钻探装置下的一片泥土倒塌，留下一个直径约50-100米的大洞。为了防止有毒气体外泄，他们决定点燃漏出来的天然气。截至今日，洞口的火焰从未间断过。当地人称之为“地狱之门”。  
+
+
+地狱之门是一个巨大的天然气坑，号称世界首坑。而">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_00.jpg">
+<meta property="og:updated_time" content="2016-05-12T06:16:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Buddha's Temple">
+<meta name="twitter:description" content="title: iOS点燃SDK的地狱之门系列一  
+date: 2016-03-01前言
+地狱之门：1971年苏联地质学家进行钻探时，意外地发现了一个充满天然气的地下洞穴。钻探装置下的一片泥土倒塌，留下一个直径约50-100米的大洞。为了防止有毒气体外泄，他们决定点燃漏出来的天然气。截至今日，洞口的火焰从未间断过。当地人称之为“地狱之门”。  
+
+
+地狱之门是一个巨大的天然气坑，号称世界首坑。而">
+<meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_00.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title>  | Buddha's Temple </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=56164015";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Buddha's Temple</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-12T14:11:00+08:00" content="2016-05-12">
+              2016-05-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>title: iOS点燃SDK的地狱之门系列一  </p>
+<h2 id="date-2016-03-01"><a href="#date-2016-03-01" class="headerlink" title="date: 2016-03-01"></a>date: 2016-03-01</h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>地狱之门：1971年苏联地质学家进行钻探时，意外地发现了一个充满天然气的地下洞穴。钻探装置下的一片泥土倒塌，留下一个直径约50-100米的大洞。为了防止有毒气体外泄，他们决定点燃漏出来的天然气。截至今日，洞口的火焰从未间断过。当地人称之为“地狱之门”。  </p>
+</blockquote>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_00.jpg" alt="iOS_SDK_Tutorial_00.jpg"></p>
+<p>地狱之门是一个巨大的天然气坑，号称世界首坑。而创建iOS的SDK基本上也相当于点燃了坑中的天然气，不费点时间和力气，还真是扑灭不了心中的怒火。</p>
+<hr>
+<a id="more"></a>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>先打个谜一样的广告，我所在的公司是一家极其伟大的公司，恩~公开场合不能说违心话，哈哈！公司的产品是一款主要面向初高中学生的在线教育App软件，孩子们只要把不会的题目用我们的App拍下来，就能够在1秒之内得到关于这道题目的结果，包括答案，解析，考点，老师评语，相似题目等很多非常实用的内容。到目前为止，只要你拍的题目是在K12教育体系之内并且图片清晰，那么几乎所有的题目都能搜到答案。如果孩子们看了结果之后还有疑惑，可以点击结果页面的【老师答疑】按钮，我们会根据这道题目的属性（哪个年级、哪门学科、哪个知识点）把孩子跟老师直接关联起来，除了实时同步老师和学生的声音之外，我们还能同步老师的笔记，能让孩子们感觉老师就像在自己身边辅导一样。我们平台上的老师都是在某个学科深耕一二十年的大牛级人物，他/她们会把这道题目用温柔的声音耐心地讲到孩子们听懂为止。  </p>
+<p>每天叫醒我的不是闹钟，而是我们公司的口号：改变中国的教育，让孩子们的学习不再煎熬！  </p>
+<p>看到这里，我想你已经猜出来了，没错，这里就是新闻联播的逗逼访谈节目。    </p>
+<p>咱们回到直播间，正是因为这么牛逼的产品，被某黑心度的分发渠道下架了，还做了个几乎跟我们产品没什么两样的东西。   </p>
+<p>既然能被某度盯上，那肯定也能被其他正经公司看上了。于是乎，各大公司高管万众来朝，想要在他们的App中也加入我们公司的核心产品 —— 拍照搜题和老师答疑。    </p>
+<p>显而易见，在技术层面，摆在眼前只有两种合作模式。第一，我们只提供服务器端的接口，由对方自己完成App端的实现；第二，我们提供App端的SDK（对于iOS来说，就是提供一个Framework），对方拿到我们的SDK，拖拽到自己的工程中，然后简单的调用一两个方法，就完成了拍照搜题和老师答疑的功能。最后的结果，毫无意外，肯定是选第二种方案，毕竟人家是金主，花钱买省心。然而，从技术角度来看，也是采用第二种方案更为合理。如果采用第一种方案，先抛开老师答疑的复杂性和可行性，就拍照搜题来说，对方公司就要花极大的力气来完成App端的实现，比如拍照页面、截图页面、答案展示页面等所有相关页面的设计与实现；还有数据库的存取、各种交互动画等，尤其是图片压缩算法，众所周知，iPhone拍的照片都有2、3M大小，就算是经过裁切，也还有800K左右，在我们的App端，我们会对裁剪后的图片进行预处理，根据图片的清晰度选择对应的压缩系数，既要让图片尽可能的压缩，又要能确保图片传到服务器之后能够被识别出来。要知道，我们服务器每天会处理几千万甚至上亿张的图片，只要能让每一张图片多压缩1KB，那都是能省出好大一笔费用的。此外，图片压缩的越小，网络传输的时间就越少，这对提升App的用户体验也有相当大的作用。就我罗列的那些拍照搜题功能的实现，对方公司要是从零开始，对于iOS来说，怎么也得数月时间才能完成吧，要是再加上老师答疑，排期得用年来计算了吧（半年也是年）。    </p>
+<p>终于，拍照搜题和老师答疑的SDK任务就像是一块陨石砸在了我的头上，由于这块石头太大，刚砸的时候没感觉，一个星期下来，反应迟钝的我开始了剧烈的疼痛，痛得我恨不得直接把代码给人家。如今，一个月过去了，每天躲在角落里舔着伤口，总算也不怎么疼了。    </p>
+<p>既然不疼了，那就把过去一个月的疼痛再回味一下吧。    </p>
+<p>看到现在，都是些满满的湿货，再不来点干货，估计要被唾沫淹死了！  </p>
+<hr>
+<h2 id="iOS-SDK-基础（库和框架）"><a href="#iOS-SDK-基础（库和框架）" class="headerlink" title="iOS SDK 基础（库和框架）"></a>iOS SDK 基础（库和框架）</h2><p>SDK – Software Development Kit：软件开发包，这是一个抽象且包罗万象的名称。在本文中，具体是指iOS系统中的库(Library)或者框架(Framework)。</p>
+<p>库是一段编译好的二进制代码，加上.h头文件就可以给别人使用了。既然是已经编译好的代码，被嵌入到App中运行的时候，这段代码就不需要再次编译，直接链接就可以了，某种程度上这也是缩短编译时间的一种方法吧（虽然很少有人做库是因为这个）。</p>
+<p>iOS中的库分为静态库(Static Library，一般是以.a为扩展名的文件)和动态库(Dynamic Library，一般是以.dylib为扩展名的文件，自从Xcode7以后，很多.dylib文件变成了.tbd文件，名字没变，后缀名变了，这是苹果用来减小动态库体积做的一些优化，<a href="http://geeklu.com/2016/03/tbd-file/" target="_blank" rel="external">具体细节想要深究可查看这篇文章</a>)。在生成静态库和动态库的时候，只需要编译就可以了，没有链接过程，更不存在运行状态。他们的区别主要是在被嵌入到App中运行之前的链接阶段，在这个过程中，静态库会被直接加载到内存中，不管App是否用到了静态库中的代码。而且，如果在同一个iOS设备上不同的App都使用了某个静态库，那么内存里就可能会有多份该静态库的拷贝。而动态库在链接之后，只会把动态库的引用链接到App中，只有当程序运行时需要用到库中的代码，才会真正的把库加载进内存，相对于静态库，动态库可以被多个程序共享使用。  </p>
+<p>在iOS中，库和框架严格来说是有一点区别的。  </p>
+<p>库仅仅是一堆代码的集合，不包括.h头文件，也不包括诸如.storyboard文件、.xcassets图片集合文件以及其他资源文件。而框架就能够在库的基础上包含这些资源。其实说白了，框架就是一种打包方式，是一种特殊的bundle文件。框架也分静态框架和动态框架，其链接原理跟静态库和动态库类似，不再赘述。</p>
+<p>在iOS中，不存在真正意义上的第三方动态库和动态框架，只存在苹果自己的动态库和动态框架。比如，UIKit.framework、Foundation.framework、AVFoundation.framework等才是真正意义上的动态框架。这些框架在很多App中都会调用，但是在内存中只有一份拷贝给各个App共享。虽然自从iOS8之后，苹果允许制作第三方的动态框架，但是不同的App如果使用同一份动态框架，在内存中还是会存在多份拷贝，只不过在链接阶段还是链接动态框架的引用而已。  </p>
+<p>为什么苹果在iOS8的时候允许制作第三方动态框架呢？那是因为iOS8推出了Swift语言，而Swift代码只能编译成动态库或动态框架。想深究原因，给出网址，自行查看。<a href="https://github.com/ksm/SwiftInFlux#static-libraries" target="_blank" rel="external">网址1</a>  <a href="https://developer.apple.com/swift/blog/?id=2" target="_blank" rel="external">网址2</a>  这两个链接中的内容主要表达的意思是：目前Swift代码无法编译成静态框架；想要编译成静态框架，静候佳音吧。</p>
+<p>因此，如果你想要把包含Swift语言的代码打包成静态框架，目前来说是无法实现的。    </p>
+<p>Swift的推出还直接导致了CocoaPods 0.36.0版本的延迟发布。在Objective-C的年代，CocoaPods把导入的第三方代码打包生成了一个静态库（libPods.a）嵌入到App中执行。在推出Swift语言之后就有了很多Swift版本的第三方库（如AFNetworking的Swift版本Alamofire），只要你的项目中Pod了含有Swift代码的第三方库，那么在Podfile文件中就必须写上 <code>use_frameworks!</code>，而一旦加上这个Flag，那么CocoaPods就会把所有Pod的第三方库都生成动态框架（Pod_项目名字.framework）嵌入到App中执行。因此，这是一种要么全是静态框架，要么全是动态框架的策略。<a href="https://blog.cocoapods.org/CocoaPods-0.36/" target="_blank" rel="external">想要更多八卦，再来看一篇相关文章</a>  </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Todd Cheng" />
+          <p class="site-author-name" itemprop="name">Todd Cheng</p>
+          <p class="site-description motion-element" itemprop="description">古佛中的逗逼佛</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Todd2010" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/todd2010" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#date-2016-03-01"><span class="nav-number">1.</span> <span class="nav-text">date: 2016-03-01</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">3.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS-SDK-基础（库和框架）"><span class="nav-number">4.</span> <span class="nav-text">iOS SDK 基础（库和框架）</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Todd Cheng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
