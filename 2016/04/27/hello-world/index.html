@@ -1,0 +1,1060 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言
+地狱之门：1971年苏联地质学家进行钻探时，意外地发现了一个充满天然气的地下洞穴。钻探装置下的一片泥土倒塌，留下一个直径约50-100米的大洞。为了防止有毒气体外泄，他们决定点燃漏出来的天然气。截至今日，洞口的火焰从未间断过。当地人称之为“地狱之门”。  
+
+
+地狱之门是一个巨大的天然气坑，号称世界首坑。而创建iOS的SDK基本上也相当于点燃了坑中的天然气，不费点时间和力气，还真是扑灭不了心">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS点燃SDK的地狱之门">
+<meta property="og:url" content="http://todd2010.github.io/2016/04/27/hello-world/index.html">
+<meta property="og:site_name" content="Buddha's Temple">
+<meta property="og:description" content="前言
+地狱之门：1971年苏联地质学家进行钻探时，意外地发现了一个充满天然气的地下洞穴。钻探装置下的一片泥土倒塌，留下一个直径约50-100米的大洞。为了防止有毒气体外泄，他们决定点燃漏出来的天然气。截至今日，洞口的火焰从未间断过。当地人称之为“地狱之门”。  
+
+
+地狱之门是一个巨大的天然气坑，号称世界首坑。而创建iOS的SDK基本上也相当于点燃了坑中的天然气，不费点时间和力气，还真是扑灭不了心">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_00.jpg">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_01.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_02.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_03.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_Build%20Phases.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_04.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_05.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_07.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_08.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_09.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_10.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_11.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_12.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_13.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_14.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_15.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_16.png">
+<meta property="og:updated_time" content="2016-05-12T02:13:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS点燃SDK的地狱之门">
+<meta name="twitter:description" content="前言
+地狱之门：1971年苏联地质学家进行钻探时，意外地发现了一个充满天然气的地下洞穴。钻探装置下的一片泥土倒塌，留下一个直径约50-100米的大洞。为了防止有毒气体外泄，他们决定点燃漏出来的天然气。截至今日，洞口的火焰从未间断过。当地人称之为“地狱之门”。  
+
+
+地狱之门是一个巨大的天然气坑，号称世界首坑。而创建iOS的SDK基本上也相当于点燃了坑中的天然气，不费点时间和力气，还真是扑灭不了心">
+<meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_00.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS点燃SDK的地狱之门 | Buddha's Temple </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=56164015";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Buddha's Temple</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS点燃SDK的地狱之门
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-27T11:14:52+08:00" content="2016-04-27">
+              2016-04-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>地狱之门：1971年苏联地质学家进行钻探时，意外地发现了一个充满天然气的地下洞穴。钻探装置下的一片泥土倒塌，留下一个直径约50-100米的大洞。为了防止有毒气体外泄，他们决定点燃漏出来的天然气。截至今日，洞口的火焰从未间断过。当地人称之为“地狱之门”。  </p>
+</blockquote>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_00.jpg" alt="iOS_SDK_Tutorial_00.jpg"></p>
+<p>地狱之门是一个巨大的天然气坑，号称世界首坑。而创建iOS的SDK基本上也相当于点燃了坑中的天然气，不费点时间和力气，还真是扑灭不了心中的怒火。</p>
+<hr>
+<a id="more"></a>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>先打个谜一样的广告，我所在的公司是一家极其伟大的公司，恩~公开场合不能说违心话，哈哈！公司的产品是一款主要面向初高中学生的在线教育App软件，孩子们只要把不会的题目用我们的App拍下来，就能够在1秒之内得到关于这道题目的结果，包括答案，解析，考点，老师评语，相似题目等很多非常实用的内容。到目前为止，只要你拍的题目是在K12教育体系之内并且图片清晰，那么几乎所有的题目都能搜到答案。如果孩子们看了结果之后还有疑惑，可以点击结果页面的【老师答疑】按钮，我们会根据这道题目的属性（哪个年级、哪门学科、哪个知识点）把孩子跟老师直接关联起来，除了实时同步老师和学生的声音之外，我们还能同步老师的笔记，能让孩子们感觉老师就像在自己身边辅导一样。我们平台上的老师都是在某个学科深耕一二十年的大牛级人物，他/她们会把这道题目用温柔的声音耐心地讲到孩子们听懂为止。  </p>
+<p>每天叫醒我的不是闹钟，而是我们公司的口号：改变中国的教育，让孩子们的学习不再煎熬！  </p>
+<p>看到这里，我想你已经猜出来了，没错，这里就是新闻联播的逗逼访谈节目。    </p>
+<p>咱们回到直播间，正是因为这么牛逼的产品，被某黑心度的分发渠道下架了，还做了个几乎跟我们产品没什么两样的东西。   </p>
+<p>既然能被某度盯上，那肯定也能被其他正经公司看上了。于是乎，各大公司高管万众来朝，想要在他们的App中也加入我们公司的核心产品 —— 拍照搜题和老师答疑。    </p>
+<p>显而易见，在技术层面，摆在眼前只有两种合作模式。第一，我们只提供服务器端的接口，由对方自己完成App端的实现；第二，我们提供App端的SDK（对于iOS来说，就是提供一个Framework），对方拿到我们的SDK，拖拽到自己的工程中，然后简单的调用一两个方法，就完成了拍照搜题和老师答疑的功能。最后的结果，毫无意外，肯定是选第二种方案，毕竟人家是金主，花钱买省心。然而，从技术角度来看，也是采用第二种方案更为合理。如果采用第一种方案，先抛开老师答疑的复杂性和可行性，就拍照搜题来说，对方公司就要花极大的力气来完成App端的实现，比如拍照页面、截图页面、答案展示页面等所有相关页面的设计与实现；还有数据库的存取、各种交互动画等，尤其是图片压缩算法，众所周知，iPhone拍的照片都有2、3M大小，就算是经过裁切，也还有800K左右，在我们的App端，我们会对裁剪后的图片进行预处理，根据图片的清晰度选择对应的压缩系数，既要让图片尽可能的压缩，又要能确保图片传到服务器之后能够被识别出来。要知道，我们服务器每天会处理几千万甚至上亿张的图片，只要能让每一张图片多压缩1KB，那都是能省出好大一笔费用的。此外，图片压缩的越小，网络传输的时间就越少，这对提升App的用户体验也有相当大的作用。就我罗列的那些拍照搜题功能的实现，对方公司要是从零开始，对于iOS来说，怎么也得数月时间才能完成吧，要是再加上老师答疑，排期得用年来计算了吧（半年也是年）。    </p>
+<p>终于，拍照搜题和老师答疑的SDK任务就像是一块陨石砸在了我的头上，由于这块石头太大，刚砸的时候没感觉，一个星期下来，反应迟钝的我开始了剧烈的疼痛，痛得我恨不得直接把代码给人家。如今，一个月过去了，每天躲在角落里舔着伤口，总算也不怎么疼了。    </p>
+<p>既然不疼了，那就把过去一个月的疼痛再回味一下吧。    </p>
+<p>看到现在，都是些满满的湿货，再不来点干货，估计要被唾沫淹死了！  </p>
+<hr>
+<h2 id="iOS-SDK-基础（库和框架）"><a href="#iOS-SDK-基础（库和框架）" class="headerlink" title="iOS SDK 基础（库和框架）"></a>iOS SDK 基础（库和框架）</h2><p>SDK – Software Development Kit：软件开发包，这是一个抽象且包罗万象的名称。在本文中，具体是指iOS系统中的库(Library)或者框架(Framework)。</p>
+<p>库是一段编译好的二进制代码，加上.h头文件就可以给别人使用了。既然是已经编译好的代码，被嵌入到App中运行的时候，这段代码就不需要再次编译，直接链接就可以了，某种程度上这也是缩短编译时间的一种方法吧（虽然很少有人做库是因为这个）。</p>
+<p>iOS中的库分为静态库(Static Library，一般是以.a为扩展名的文件)和动态库(Dynamic Library，一般是以.dylib为扩展名的文件，自从Xcode7以后，很多.dylib文件变成了.tbd文件，名字没变，后缀名变了，这是苹果用来减小动态库体积做的一些优化，<a href="http://geeklu.com/2016/03/tbd-file/" target="_blank" rel="external">具体细节想要深究可查看这篇文章</a>)。在生成静态库和动态库的时候，只需要编译就可以了，没有链接过程，更不存在运行状态。他们的区别主要是在被嵌入到App中运行之前的链接阶段，在这个过程中，静态库会被直接加载到内存中，不管App是否用到了静态库中的代码。而且，如果在同一个iOS设备上不同的App都使用了某个静态库，那么内存里就可能会有多份该静态库的拷贝。而动态库在链接之后，只会把动态库的引用链接到App中，只有当程序运行时需要用到库中的代码，才会真正的把库加载进内存，相对于静态库，动态库可以被多个程序共享使用。  </p>
+<p>在iOS中，库和框架严格来说是有一点区别的。  </p>
+<p>库仅仅是一堆代码的集合，不包括.h头文件，也不包括诸如.storyboard文件、.xcassets图片集合文件以及其他资源文件。而框架就能够在库的基础上包含这些资源。其实说白了，框架就是一种打包方式，是一种特殊的bundle文件。框架也分静态框架和动态框架，其链接原理跟静态库和动态库类似，不再赘述。</p>
+<p>在iOS中，不存在真正意义上的第三方动态库和动态框架，只存在苹果自己的动态库和动态框架。比如，UIKit.framework、Foundation.framework、AVFoundation.framework等才是真正意义上的动态框架。这些框架在很多App中都会调用，但是在内存中只有一份拷贝给各个App共享。虽然自从iOS8之后，苹果允许制作第三方的动态框架，但是不同的App如果使用同一份动态框架，在内存中还是会存在多份拷贝，只不过在链接阶段还是链接动态框架的引用而已。  </p>
+<p>为什么苹果在iOS8的时候允许制作第三方动态框架呢？那是因为iOS8推出了Swift语言，而Swift代码只能编译成动态库或动态框架。想深究原因，给出网址，自行查看。<a href="https://github.com/ksm/SwiftInFlux#static-libraries" target="_blank" rel="external">网址1</a>  <a href="https://developer.apple.com/swift/blog/?id=2" target="_blank" rel="external">网址2</a>  这两个链接中的内容主要表达的意思是：目前Swift代码无法编译成静态框架；想要编译成静态框架，静候佳音吧。</p>
+<p>因此，如果你想要把包含Swift语言的代码打包成静态框架，目前来说是无法实现的。    </p>
+<p>Swift的推出还直接导致了CocoaPods 0.36.0版本的延迟发布。在Objective-C的年代，CocoaPods把导入的第三方代码打包生成了一个静态库（libPods.a）嵌入到App中执行。在推出Swift语言之后就有了很多Swift版本的第三方库（如AFNetworking的Swift版本Alamofire），只要你的项目中Pod了含有Swift代码的第三方库，那么在Podfile文件中就必须写上 <code>use_frameworks!</code>，而一旦加上这个Flag，那么CocoaPods就会把所有Pod的第三方库都生成动态框架（Pod_项目名字.framework）嵌入到App中执行。因此，这是一种要么全是静态框架，要么全是动态框架的策略。<a href="https://blog.cocoapods.org/CocoaPods-0.36/" target="_blank" rel="external">想要更多八卦，再来看一篇相关文章</a>     </p>
+<h2 id="静态框架进阶一"><a href="#静态框架进阶一" class="headerlink" title="静态框架进阶一"></a>静态框架进阶一</h2><p>想要搞清楚SDK开发，那还是来点实践吧，Demo有点多，我会尽一切可能阐述清楚。  </p>
+<p>先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！  </p>
+<p>Xcode7.3.1 + Objecitve-C  </p>
+<p>从网上能搜到很多关于静态库（xxx.a）的制作教程，其中大多都是Xcode6之前的。因为在Xcode6之前，苹果只提供了<code>Cocoa Touch Static Library</code>模板。这个模板只能制作静态库（xxx.a），如果想要制作静态框架（xxx.framework），还是要费点力气的，不过你可以借用第三方的力量来实现 <a href="https://github.com/kstenerud/iOS-Universal-Framework" target="_blank" rel="external">iOS-Universal-Framework</a>。随着Xcode6的发布，苹果新增了一个<code>Cocoa Touch Framework</code>模板，这也就意味着Xcode6支持框架开发了，同时<code>iOS-Universal-Framework</code>开发者也宣布不再继续维护此项目并建议开发者使用官方模板来开发。     </p>
+<p>静态库（xxx.a）和静态框架（xxx.framework）的区别上文已经有所阐述，考虑到方便性、整体性、专业性以及与时俱进，我觉得，哪怕再简单的库，还是建议制作成静态框架来提供给他人使用吧。   </p>
+<p>恩！那就开始了。。。  </p>
+<p>首先新建一个<code>Cocoa Touch Framework</code>模板的工程。</p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_01.png" alt="iOS_SDK_Tutorial_01.png">   </p>
+<p>然后取个名字（BuddhaSDK），选择好工程文件存放的位置，就算新建好了。  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_02.png" alt="iOS_SDK_Tutorial_02.png">     </p>
+<p>这时候你会看到，这个模板自带的文件其实就两个，一个 <code>BuddhaSDK.h</code> 文件，一个 <code>Info.plist</code> 文件。还有一个奇怪的红色 <code>BuddhaSDK.framework</code> 文件，你可以在这个文件上右击并点击 <code>Show in Finder</code>，会发现什么也没发生，因为根本不存在这个文件，所以才会显示红色。而我们最关心的就是这个文件，接下来就是要让它变成黑色并实现我们想要的功能。  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_03.png" alt="iOS_SDK_Tutorial_03.png">    </p>
+<p>对于 <code>BuddhaSDK.h</code> 文件和 <code>Info.plist</code> 文件，确实有不少东西可以讲，下文慢慢分析吧，再扯会犊子！  </p>
+<p>那我们做个什么功能呢，网上大多都是各种log，那我就来个AES加解密和Base64编解码吧，争取在小白的崇山峻岭中占据制高点。如果你不知道什么叫做AES和Base64，那真是极好的，我去拿船桨，咱们友谊的小船轻轻荡起来吧。   </p>
+<p>App中总是会有很多敏感的信息需要在客户端和服务器端之间传输，比如用户的手机号和密码、我们公司针对图片搜索到的答案解析等等，这些都是公司的核心资产，不加个密伪装一下真不好意思在网络上走来走去的。不过，安全问题光靠对数据的加解密肯定是行不通的，需要许许多多的防护措施和前后端的配合。就光对数据的加解密算法来说，很多公司也是需要制作一个静态框架的，有些敏感的信息不光要防着外界的黑客，还得防着公司里别有用心的灰太狼。犊子扯完，回到主题！  </p>
+<p>继续撸会代码吧，新建一个 <code>CanNotSee</code> 的类，继承自 <code>NSObject</code> 类。</p>
+<p>在 CanNotSee.h 文件中声明4个方法，如下：  </p>
+<pre><code>
+/**
+ * base64编码
+ */
+- (NSString *)encodeWithBase64:(NSString *)sourceString;
+
+/**
+ * base64解码
+ */
+- (NSString *)decodeWithBase64:(NSString *)encodedString;
+
+
+/**
+ * AES加密（ECB模式 PKCS7填充 128位）
+ */
+- (NSData *)encryptWithAES:(NSString *)sourceString;
+
+/**
+ * AES解密（ECB模式 PKCS7填充 128位）
+ */
+- (NSString *)decryptWithAES:(NSData *)encryptedData;
+</code></pre><p>在 CanNotSee.m 文件中实现这4个方法，如下：   </p>
+<pre><code>
+#import &lt;CommonCrypto/CommonCrypto.h&gt;
+
+#pragma mark - Base64
+
+// base64编码 (NSString -&gt; NSData -&gt; NSString)
+- (NSString *)encodeWithBase64:(NSString *)sourceString {
+    NSData *sourceData = [sourceString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *encodedString = [sourceData base64EncodedStringWithOptions:0];
+    return encodedString;
+}
+
+// base64解码 (NSString -&gt; NSData -&gt; NSString)
+- (NSString *)decodeWithBase64:(NSString *)encodedString {
+    NSData *encodedData = [[NSData alloc] initWithBase64EncodedString:encodedString options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:encodedData encoding:NSUTF8StringEncoding];
+    return decodedString;
+}
+
+#pragma mark - AES
+
+// AES加密（ECB模式 PKCS7填充 128位）
+- (NSData *)encryptWithAES:(NSString *)sourceString {
+    NSData *sourceData = [sourceString dataUsingEncoding:NSUTF8StringEncoding];
+
+    // 准备秘钥（128位，16个字节）
+    char keyPtr[kCCKeySizeAES128+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [@&quot;abcdefghigklmnop&quot; getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+
+    // 准备加密后数据的容器
+    NSUInteger dataLength = [sourceData length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    memset(buffer, 0, bufferSize);
+
+    size_t dataOutMoved = 0;
+    NSInteger cryptStatus = CCCrypt(kCCEncrypt,            // 加密
+                                    kCCAlgorithmAES128,    // 128位
+                                    kCCOptionECBMode | kCCOptionPKCS7Padding, // ECB模式(0x0000或者默认都是CBC模式)
+                                    keyPtr,                // 秘钥
+                                    kCCKeySizeAES128,      // 秘钥长度
+                                    NULL,                  // 初始化向量
+                                    [sourceData bytes],    // 未加密数据
+                                    dataLength,            // 未加密数据的长度
+                                    buffer,                // 加密后的数据
+                                    bufferSize,            // 加密后数据的大小
+                                    &amp;dataOutMoved          // 加密后数据的位移
+                                    );
+
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:dataOutMoved];
+        return resultData;
+    }
+    free(buffer);
+    return nil;
+}
+
+// AES解密（ECB模式 PKCS7填充 128位）
+- (NSString *)decryptWithAES:(NSData *)encryptedData {
+    // 准备秘钥
+    char keyPtr[kCCKeySizeAES128+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [@&quot;abcdefghigklmnop&quot; getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+
+    // 准备解密后数据的容器
+    NSUInteger dataLength = [encryptedData length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    memset(buffer, 0, bufferSize);
+
+    size_t dataOutMoved = 0;
+    NSInteger cryptStatus = CCCrypt(kCCDecrypt,            // 解密
+                                    kCCAlgorithmAES128,    // 128位
+                                    kCCOptionECBMode | kCCOptionPKCS7Padding, // ECB模式(0x0000或者默认都是CBC模式)
+                                    keyPtr,                // 秘钥
+                                    kCCKeySizeAES128,      // 秘钥长度
+                                    NULL,                  // 初始化向量
+                                    [encryptedData bytes], // 加密数据
+                                    dataLength,            // 加密数据长度
+                                    buffer,                // 解密后的数据
+                                    bufferSize,            // 解密后数据的大小
+                                    &amp;dataOutMoved          // 解密后数据的位移
+                                    );
+
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:dataOutMoved];
+        return [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+    free(buffer);
+    return nil;
+}
+</code></pre><p>Base64编解码的具体实现其实很简单，核心代码两行就能搞定了。  </p>
+<p>AES加解密稍微复杂一点，它分好几种模式，还有几种填充算法以及不同的加密位数等，不过这么多分支在使用上其实差不多，主要就是准备好所需的参数，然后调用系统提供的方法就可以了，本文不做深究。仅扩展一点，AES是一种对称加密算法，这个时候，请你再瞧一下上面的代码，可以看到AES加解密的具体实现几乎没多大区别，这时你的心中是不是有种莫名的顿悟，原来对称加密算法是这个意思呀。哈哈，那就掉坑里了，所谓对称加密，最重要的一点是加解密的算法中使用的是同一个的秘钥，跟代码写的对不对称无关。在上面的代码中，<code>@&quot;abcdefghigklmnop&quot;</code> 就是秘钥。因此，前后端的秘钥如果有更改，必须要周知相关人员。  </p>
+<p>其实，Base64和AES算法主要是对NSData的操作，最好的写法是对NSData进行分类（Categroy），这点下文会继续分析，并且还能挖到Categroy在静态框架的一个小坑。  </p>
+<p>恩，到这里，编解码和加解密的功能都实现了，我们的目的是给框架使用者提供若干个接口，但是不能让他们看到具体的实现细节。  </p>
+<p>回到 <code>BuddhaSDK.h</code> 文件，忽略其他东西，在最后一行有这么一句话：<br><code>In this header, you should import all the public headers of your framework</code><br><code>using statements like #import &lt;BuddhaSDK/PublicHeader.h&gt;</code><br>显而易见，那就在这句话的下面写上：<br><code>#import &lt;BuddhaSDK/CanNotSee.h&gt;</code><br>这样，在 <code>CanNotSee.h</code> 里的4个方法的声明接口就能够被暴露出来了。  </p>
+<p>不过，难道这样就好了吗？是不是总觉得哪里不对劲。我怎么能确保 <code>CanNotSee.m</code> 这个文件确确实实在最后生成静态框架中被隐藏起来了呢，而且，难道只有系统生成的 <code>BuddhaSDK.h</code> 文件才能够被暴露出来的吗？肯定有个地方能让我们指定哪些文件可以暴露，哪些文件可以隐藏。  </p>
+<p>恩，直觉真是靠谱！点击 工程文件 -&gt; TARGETS - &gt; Build Phases，展开 <code>Headers</code>，能看到三个分组，分别是 <code>Public</code>，<code>Private</code>，<code>Project</code>。   </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_Build%20Phases.png" alt="iOS_SDK_Tutorial_Build Phases.png"></p>
+<p>这三组的意思苹果也给出了相应的解释：  </p>
+<blockquote>
+<p>Public: The interface is finalized and meant to be used by your product’s clients. A public header is included in the product as readable source code without restriction.</p>
+<p>Private: The interface isn’t intended for your clients or it’s in early stages of development. A private header is included in the product, but it’s marked “private”. Thus the symbols are visible to all clients, but clients should understand that they’re not supposed to use them.</p>
+<p>Project: The interface is for use only by implementation files in the current project. A project header is not included in the target, except in object code. The symbols are not visible to clients at all, only to you.     </p>
+</blockquote>
+<p>从这个解释里可以看出，Private对于使用框架的人来说是没什么关系的，制作框架的时候也几乎不会把文件放在Private组之下。因此，该组可以忽略。剩下Public和Project组的作用也就很明显了，Public用来暴露那些你想要让框架使用者看到的代码文件，而不想暴露的代码文件全部都放在Project组。  </p>
+<p>在本项目中，确保 <code>BuddhaSDK.h</code> 和 <code>CanNotSee.h</code> 文件是在Public组中的，其他所有代码文件全都拉到Project中（其实就是 <code>CanNotSee.m</code> 文件）。  </p>
+<p>OK，貌似该做的都做了，那就 <code>Command + R</code> 运行起来呗，可是键盘怎么按都没有反应，那就只能键盘 <code>Command + B</code> 或点击Xcode上的运行箭头，这下有反应了，而且 <code>BuddhaSDK.framework</code> 文件居然就这么变黑了。先暂缓激动，刚才为什么键盘按 <code>Command + R</code> 没反应呢？那是因为，咱们做的是框架，不是一个可执行的App或者命令行程序，框架只有编译的过程，没有链接和运行的过程。再次声明一下，静态和动态体现在该框架被嵌入到其他App中运行之前的链接阶段。因此，也可以推断出，框架在编译的时候肯定会有参数来指定最后生成的东西是静态框架还是动态框架，以便于让其他App能够判断出框架是否需要加载进内存。  </p>
+<p>那么，这个编译的参数是什么呢？点击 工程文件 -&gt; TARGETS - &gt; Build Settings，在搜索框中输入 <code>mach</code> ：    </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_04.png" alt="iOS_SDK_Tutorial_05.png">   </p>
+<p>这个 <code>Mach-O Type</code> 就是我们要寻找的编译参数。而这个 <code>Dynamic Library</code> 默认指定最后生成的是动态框架。点击 <code>Dynamic Library</code>，还能看到 <code>Executable</code>，<code>Bundle</code>，<code>Static Library</code>，<code>Relocatable Object File</code>。对于这五个参数，苹果也给出了解释。  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_05.png" alt="iOS_SDK_Tutorial_06.png">  </p>
+<p>在我们的工程中，显然应该选 <code>Static Library</code>。  </p>
+<p>键盘 <code>Command + Shift + K</code> 清理一下工程，<code>BuddhaSDK.framework</code> 变红色了，<code>Command + B</code> 再次编译一下，<code>BuddhaSDK.framework</code> 又变黑了！这样，我们就生成了一个静态框架。右击 <code>BuddhaSDK.framework</code> 文件，点击 <code>Show in Finder</code>, 摆在眼前的就是咱们日思夜想的静态框架了。   </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_07.png" alt="iOS_SDK_Tutorial_07.png">     </p>
+<p>针对这个静态框架，有几处可以说道说道。  </p>
+<p>首先，可以看到，framework本质上就是一种Bundle，而Bundle就是一个内部结构按照标准规则组织的特殊目录。在 <code>BuddhaSDK.framework</code> 目录下的 <code>Header</code> 文件夹里可以看到暴露出来的 <code>BuddhaSDK.h</code> 文件，而其他需要隐藏的文件就被编译到了 <code>BuddhaSDK</code> 这个没有后缀名的文件中去了，这是一个二进制文件（在命令行中通过 <code>file</code> 命令来查看该文件的类型，返回结果是 <code>current ar archive random library</code>），我猜测它应该就是静态库的一种变形吧。   </p>
+<p>其次，在上图的最左边，有两个文件夹，分别是 <code>Debug-iphonesimulator</code> 和 <code>Release-iphonesimulator</code>，而 <code>Release-iphonesimulator</code> 文件夹里什么也没有。那是因为我们在编译的时候只编译了 <code>Debug</code> 环境下的Framework，在开发阶段编译这个就够了，但是在给别人用的时候，如果你的Framework中有些逻辑是区分 <code>Debug</code> 和 <code>Release</code> 环境的，比如 <code>Debug</code> 的时候有Log，<code>Release</code> 的时候没有Log；再比如 <code>Debug</code> 的时候网络请求是 <code>xxx.qa.google.com</code> 网址，<code>Release</code> 的时候网络请求是 <code>xxx.online.google.com</code> 网址。那么，就需要编译一个 <code>Release</code> 环境的Framework。如果没有任何区别，那给人家 <code>Debug</code> 环境下的Framework也是可以的。而编译 <code>Release</code> 环境的Framework只需要跟着下图设置就可以了。  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_08.png" alt="iOS_SDK_Tutorial_08.png">  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_09.png" alt="iOS_SDK_Tutorial_09.png">    </p>
+<p>键盘 <code>Command + Shift + K</code> 清理一下工程，<code>Command + B</code> 重新编译一下。这回可以看到 <code>Release-iphonesimulator</code> 文件夹里有了我们想要的东西，而 <code>Debug-iphonesimulator</code> 文件夹里就什么都没有了。     </p>
+<p><code>Debug-iphonesimulator</code> 和 <code>Release-iphonesimulator</code> 这两个文件夹名字的前半部分已经讲清了，后半部分的 <code>iphonesimulator</code> 又代表了什么意思呢？后文会加以阐述。  </p>
+<p>对于这个静态框架，暂时先说到这里。</p>
+<p>接下来就需要建一个全新可执行的App工程，用来嵌入 <code>BuddhaSDK.framework</code> 并检查这个框架是否达到了我们的要求。对于这个框架，我们的要求很简单，能调用 <code>CanNotSee.h</code> 中的四个接口，并且对传的参数能返回正确的结果。   </p>
+<p>新建一个 <code>Single View Application</code> 模板的工程，名字为 <code>TestSDKDemo</code>。   </p>
+<p>把刚才我们编译好的 <code>BuddhaSDK.framework</code> 直接拉到 <code>TestSDKDemo</code> 项目中，随便放在什么地方，看心情而定（只要不放在 <code>Products</code> 文件夹下）。然后在 <code>ViewController.m</code> 中加入代码，如下：   </p>
+<pre><code>#import &quot;ViewController.h&quot;
+#import &quot;BuddhaSDK/BuddhaSDK.h&quot;
+
+@interface ViewController ()
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    NSString *sourceString = @&quot;Hello, SDK!&quot;;
+    NSLog(@&quot;原始数据：%@&quot;, sourceString);
+
+    CanNotSee *canNotSee = [[CanNotSee alloc] init];
+
+    NSString *encodedStringWithBase64 = [canNotSee encodeWithBase64:sourceString];
+    NSLog(@&quot;Base64编码之后的数据：%@&quot;, encodedStringWithBase64);
+
+    NSString *decodedStringWithBase64 = [canNotSee decodeWithBase64:encodedStringWithBase64];
+    NSLog(@&quot;Base64解码之后的数据：%@&quot;, decodedStringWithBase64);
+
+    NSData *encryptedStringWithAES = [canNotSee encryptWithAES:sourceString];
+    NSLog(@&quot;AES加密之后的数据：%@&quot;, encryptedStringWithAES);
+
+    NSString *decryptedStringWithAES = [canNotSee decryptWithAES:encryptedStringWithAES];
+    NSLog(@&quot;AES解密之后的数据：%@&quot;, decryptedStringWithAES);
+}  
+
+@end
+</code></pre><p>运行，结果如下：  </p>
+<pre><code>2016-05-04 10:47:26.726 TestSDKDemo[1014:47973] 原始数据：Hello, SDK!
+2016-05-04 10:47:26.727 TestSDKDemo[1014:47973] Base64编码之后的数据：SGVsbG8sIFNESyE=
+2016-05-04 10:47:26.727 TestSDKDemo[1014:47973] Base64解码之后的数据：Hello, SDK!
+2016-05-04 10:47:26.727 TestSDKDemo[1014:47973] AES加密之后的数据：&lt;9226e6fe fc348008 c343d346 f210a560&gt;
+2016-05-04 10:47:26.727 TestSDKDemo[1014:47973] AES解密之后的数据：Hello, SDK!
+</code></pre><p><code>TestSDKDemo</code> 工程如下图所示：  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_10.png" alt="iOS_SDK_Tutorial_10.png">  </p>
+<p>我们完成了对Base64和AES算法的封装，暴露出了想要给他人使用的接口，隐藏了所有的实现细节。  </p>
+<p>见证奇迹成功，美好的事物就这么发生了！  </p>
+<p>到目前为止，除了我非得搞Base64和AES算法看上去可能略微有点小复杂，其他都非常简单。如果你项目中想要做的静态框架跟上文所做的东西差不多，那么仅仅掌握这些知识，其实基本上也差不多了。  </p>
+<p>如果你还有点时间，并且怀着好奇心和探索精神，那咱们再继续扯会。  </p>
+<hr>
+<h2 id="静态框架进阶二"><a href="#静态框架进阶二" class="headerlink" title="静态框架进阶二"></a>静态框架进阶二</h2><p>在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！  </p>
+<h3 id="坑一"><a href="#坑一" class="headerlink" title="坑一"></a>坑一</h3><p>在咱们的静态框架 <code>BuddhaSDK.framework</code> 中，Base64和AES算法的具体实现都隐藏在一个叫做 <code>CanNotSee</code> 的类中。然而，在某一天，发生了一件非常不幸的事情，有个睁眼瞎非得在 <code>TestSDKDemo</code> 这个工程里新建一个叫做 <code>CanNotSee</code> 的同名类，仅仅是同名，它们里面写的是完全不同的代码。接下来咱们可以模拟一下睁眼瞎。  </p>
+<p>新建一个 <code>CanNotSee</code> 的类，继承自 <code>NSObject</code>。  </p>
+<p><code>CanNotSee.h</code> 中代码如下：  </p>
+<pre><code>@interface CanNotSee : NSObject
+
++ (instancetype)sharedManager;
+
+- (void)LogYourName:(NSString *)yourName;
+
+@end
+</code></pre><p><code>CanNotSee.m</code> 中代码如下：  </p>
+<pre><code>#import &quot;CanNotSee.h&quot;
+
+@implementation CanNotSee
+
++ (instancetype)sharedManager {
+    static CanNotSee *instance = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        instance = [[CanNotSee alloc] init];
+    });
+
+    return instance;
+}
+
+- (void)LogYourName:(NSString *)yourName {
+    if(yourName == nil || yourName.length == 0) {
+        NSLog(@&quot;Hello, Lazy&quot;);
+    } else {
+        NSLog(@&quot;Hello, %@&quot;, yourName);
+    }
+}
+
+@end
+</code></pre><p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_11.png" alt="iOS_SDK_Tutorial_11.png"></p>
+<p>代码写完，没有报错。<code>Command + B</code> 编译一下，没有任何问题，<code>Command + R</code> 再运行一下，崩了！  </p>
+<p>这尼玛是咋滴了（故作呆萌状），添加全局的异常断点，然后再运行一下，看看到底是出了什么幺蛾子。   </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_12.png" alt="iOS_SDK_Tutorial_12.png">   </p>
+<p>聚焦到最下面的输入输出控制台，Xcode说在 <code>CanNotSee</code> 类中找不到 <code>encodeWithBase64:</code> 这个方法。从这个错误中可以看出，不管  <code>BuddhaSDK.framework</code> 中有没有 <code>CanNotSee</code> 类，<code>TestSDKDemo</code> 这个工程在运行的时候首先调用的还是自家的 <code>CanNotSee</code> 类中的方法，哪怕在我们都没有引入 <code>CanNotSee.h</code> 文件的情况下（在 <code>ViewController.m</code> 中引入的是 <code>BuddhaSDK/BuddhaSDK.h</code>，相当于只是仅仅引入了 <code>BuddhaSDK.framework</code> 中的 <code>CanNotSee.h</code> 头文件）。因此，最后的结论就是，在同一个目标工程里面显然是不允许存在两个同名的类。  </p>
+<p>对于这个结论，还有两个重要的点需要补充说明。  </p>
+<p>首先，在咱们的测试工程中，同名文件的问题可能你会觉得根本没人会这么做。当然咱们的测试工程文件那么少，你一眼就能看到。还有，如果你只是在你公司内部的项目中做一个类似对加解密的简单封装并且你对整个工程都有一个非常清晰的掌控，你可能也会注意到同名文件的问题。而如果你要做的Framework是给公司其他项目组使用甚至给其他公司使用，为了减少沟通成本，也为了不让别人觉得你low，那么你就必须要将自己Framework中的每一个类都取一个将来尽量不会产生冲突的名字。其实，这就涉及到了Objective-C命名空间的问题，很不幸的是，Objective-C是没有命名空间这个概念的，而为了避免类名冲突，Objective-C采用的是前缀的方法（可以粗略的理解为命名空间的一种解决办法）。就比如苹果自带框架的前缀，如 <code>Foundation</code> 框架的 <code>NS</code>； <code>UIKit</code> 框架的 <code>UI</code>； <code>AVFoundation</code> 框架的 <code>AV</code>等等。因此，在交付Framework给他人使用的时候，最好能有相应的文档来说明一下Framework的前缀。那么，在咱们的 <code>BuddhaSDK</code> 工程中就需要更改一下了，加入我们自己的前缀 <code>ABC</code> 吧。可是，如果你的项目在实现过程中从来就没有过前缀，然后项目也非常大了，这时候突然需要为你的项目进行SDK化，那怎么办呢？比如，就我当下的项目，拍照搜题和老师答疑，代码文件有100多个，这时候需要把这些文件都做成SDK，如果把每一个类都加上前缀，那不是要了我的亲命吗？可我还是个宝宝，美好的世界还没怎么看看呢。这里再留个悬念吧，后文本宝宝慢慢的再续上，这是一个终极大坑，也是咱们主题下的地狱之门！  </p>
+<p>其次，还有一个概念前文提到，但是没有举过例子，这边再次强化一下。一般来说，如果一个项目中有两个同名的文件，首先在新建的时候就会提示项目中已经存在同名文件，问你是取消还是替换，如下图（项目中已经有了 <code>ViewController</code> 类，我又新建了一个 <code>ViewController</code> 类）。还有，哪怕你是从外部直接拉了一个同名文件到项目中，Xcode都不需要编译就会立刻报错。而如果有两个同名文件，一个在Framework中，一个不在Framework中，Xcode不但不会报错，还能通过编译过程。这是为什么呢？其实这点上文已经讲过，这是因为Framework是一个已经编译好的Buddle，因此Framework在嵌入到App之后，Xcode不会对其进行语法语义之类的分析，也不会对其再次编译，只有在链接和运行的时候才会去骚动那些Framework。   </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_13.png" alt="iOS_SDK_Tutorial_13.png">    </p>
+<p>在上面的测试项目中，为了更快速的引出不能有同名文件的结论，我故意让两个 <code>CanNotSee</code> 类中的代码完全不一样，从而在运行的时候直接崩溃报错。而如果两个 <code>CanNotSee.h</code> 头文件中的内容完全一致，两个 <code>CanNotSee.m</code> 文件中的内容仅仅有略微的差别，比如不在Framework中的 <code>CanNotSee.m</code> 文件中AES加解密秘钥不是 <code>@&quot;abcdefghigklmnop&quot;</code>，那么在运行的时候是不会崩溃的，但是加解密的结果就是不对，一旦跳进了这种坑，那你就多买点泡面和睡袋在公司以泪洗面吧！  </p>
+<p>到这里，咱们已经从第一个坑中爬出来了，这是个可大可小的坑，接下来就再看一个不大不小的坑吧！  </p>
+<h3 id="坑二"><a href="#坑二" class="headerlink" title="坑二"></a>坑二</h3><p>还记得上文中有讲过会有一个关于分类（Categroy）的坑吗？下面咱们挖一下吧！   </p>
+<p>前面说过，Base64和AES算法主要是对NSData的操作，最好的写法是对NSData进行分类（Categroy）。    </p>
+<p><code>NSData+CanNotSee.h</code> 代码如下：    </p>
+<pre><code>@interface NSData (ABCCanNotSee)
+
+/**
+ * base64编码
+ */
+- (NSString *)base64EncodedString;
+
+/**
+ * base64解码
+ */
+- (NSString *)base64DecodedString;
+
+
+/**
+ * AES加密（ECB模式 PKCS7填充 128位）
+ * @param key : @&quot;abcdefghigklmnop&quot;
+ */
+- (NSData *)AESEncryptWithKey:(NSString *)key;
+
+/**
+ * AES解密（ECB模式 PKCS7填充 128位）
+ * @param key : @&quot;abcdefghigklmnop&quot;
+ */
+- (NSData *)AESDecryptWithKey:(NSString *)key;
+
+@end
+</code></pre><p><code>NSData+CanNotSee.m</code> 代码如下：  </p>
+<pre><code>#import &quot;NSData+ABCCanNotSee.h&quot;
+
+#import &lt;CommonCrypto/CommonCrypto.h&gt;
+
+@implementation NSData (ABCCanNotSee)
+
+/**
+ * base64编码
+ */
+- (NSString *)base64EncodedString {
+    return [self base64EncodedStringWithOptions:0];
+}
+
+/**
+ * base64解码
+ */
+- (NSString *)base64DecodedString {
+    NSData *encodedData = [[NSData alloc] initWithBase64EncodedData:self options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:encodedData encoding:NSUTF8StringEncoding];
+    return decodedString;
+}
+
+
+/**
+ * AES加密（ECB模式 PKCS7填充 128位）
+ * @param key : @&quot;abcdefghigklmnop&quot;
+ */
+- (NSData *)AESEncryptWithKey:(NSString *)key {
+    // 准备秘钥（128位，16个字节）
+    char keyPtr[kCCKeySizeAES128+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+
+    // 准备加密后数据的容器
+    NSUInteger dataLength = [self length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    memset(buffer, 0, bufferSize);
+
+    size_t dataOutMoved = 0;
+    NSInteger cryptStatus = CCCrypt(kCCEncrypt,            // 加密
+                                    kCCAlgorithmAES128,    // 128位
+                                    kCCOptionECBMode | kCCOptionPKCS7Padding, // ECB模式(0x0000或者默认都是CBC模式)
+                                    keyPtr,                // 秘钥
+                                    kCCKeySizeAES128,      // 秘钥长度
+                                    NULL,                  // 初始化向量
+                                    [self bytes],          // 未加密数据
+                                    dataLength,            // 未加密数据的长度
+                                    buffer,                // 加密后的数据
+                                    bufferSize,            // 加密后数据的大小
+                                    &amp;dataOutMoved          // 加密后数据的位移
+                                    );
+
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:dataOutMoved];
+        return resultData;
+    }
+    free(buffer);
+    return nil;
+}
+
+/**
+ * AES解密（ECB模式 PKCS7填充 128位）
+ * @param key : @&quot;abcdefghigklmnop&quot;
+ */
+- (NSData *)AESDecryptWithKey:(NSString *)key {
+    // 准备秘钥
+    char keyPtr[kCCKeySizeAES128+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+
+    // 准备解密后数据的容器
+    NSUInteger dataLength = [self length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    memset(buffer, 0, bufferSize);
+
+    size_t dataOutMoved = 0;
+    NSInteger cryptStatus = CCCrypt(kCCDecrypt,            // 解密
+                                    kCCAlgorithmAES128,    // 128位
+                                    kCCOptionECBMode | kCCOptionPKCS7Padding, // ECB模式(0x0000或者默认都是CBC模式)
+                                    keyPtr,                // 秘钥
+                                    kCCKeySizeAES128,      // 秘钥长度
+                                    NULL,                  // 初始化向量
+                                    [self bytes],          // 加密数据
+                                    dataLength,            // 加密数据长度
+                                    buffer,                // 解密后的数据
+                                    bufferSize,            // 解密后数据的大小
+                                    &amp;dataOutMoved          // 解密后数据的位移
+                                    );
+
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:dataOutMoved];
+        return resultData;
+    }
+    free(buffer);
+    return nil;
+}
+
+@end
+</code></pre><p>代码写完，还有两步需要操作。  </p>
+<p>首先在 <code>ABCBuddhaSDK.h</code> 文件最下面加入一行代码 <code>#import &lt;ABCBuddhaSDK/NSData+ABCCanNotSee.h&gt;</code>， 从而让 <code>NSData</code> 分类的头文件暴露出来。如下图：  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_14.png" alt="iOS_SDK_Tutorial_14.png">   </p>
+<p>然后来到工程的 <code>Build Phases</code> 的 <code>Headers</code> ，把 <code>NSData+ABCCanNotSee.h</code> 头文件拉到 <code>Public</code> 组下，把 <code>NSData+ABCCanNotSee.m</code> 实现文件拉到 <code>Project</code> 组下。如下图：    </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_15.png" alt="iOS_SDK_Tutorial_15.png">    </p>
+<p>最后清理工程，重新编译生成带有 <code>NSData</code> 分类功能的Framework <code>ABCBuddhaSDK.framework</code>。   </p>
+<p>再次来到 <code>TestSDKDemo</code> Xcode工程中，把原来的Framework删了，把刚编译好的 <code>ABCBuddhaSDK.framework</code> 添加到工程中，并且在 <code>ViewController.m</code> 中输入如下代码：   </p>
+<pre><code>#import &quot;ABCBuddhaSDK/ABCBuddhaSDK.h&quot;
+
+@interface ViewController ()
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    NSString *sourceString = @&quot;Hello, SDK!&quot;;
+    NSLog(@&quot;原始数据：%@&quot;, sourceString);
+
+    NSData *sourceData = [sourceString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *encodedStringWithBase64 = [sourceData base64EncodedString];
+    NSLog(@&quot;Base64编码之后的数据：%@&quot;, encodedStringWithBase64);
+
+    NSData *encodedData = [encodedStringWithBase64 dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *decodedStringWithBase64 = [encodedData base64DecodedString];
+    NSLog(@&quot;Base64解码之后的数据：%@&quot;, decodedStringWithBase64);
+
+    NSData *encryptedStringWithAES = [sourceData AESEncryptWithKey:@&quot;abcdefghigklmnop&quot;];
+    NSLog(@&quot;AES加密之后的数据：%@&quot;, encryptedStringWithAES);
+
+    NSData *decryptedDataWithAES = [encryptedStringWithAES AESDecryptWithKey:@&quot;abcdefghigklmnop&quot;];
+    NSString *decryptedStringWithAES = [[NSString alloc] initWithData:decryptedDataWithAES encoding:NSUTF8StringEncoding];
+    NSLog(@&quot;AES解密之后的数据：%@&quot;, decryptedStringWithAES);
+}
+
+@end
+</code></pre><p><code>Command + R</code> 运行，你猜结果是什么？要是不崩溃，那我上面那些就都是废话了。可是，这又是为什么呢？先来看看到底崩在哪里了！  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_16.png" alt="iOS_SDK_Tutorial_16.png">    </p>
+<p>几乎是同样的错误，方法不存在！可是这次就真的很疑惑了，没有同名文件，<code>NSData+ABCCanNotSee</code> 头文件里也存在 <code>- base64EncodedString</code> 这个方法，系统怎么就找不到这个方法呢？而且，不用分来就没问题，一用分类就出错了。   </p>
+<p>显然，应该很容易猜到，问题肯定出在分类上！  </p>
+<p>通过 <code>iOS</code> <code>Framework</code> <code>Catergory</code> 三个单词稍作查询，就能查到<a href="https://developer.apple.com/library/mac/qa/qa1490/_index.html" target="_blank" rel="external">苹果官方的解释</a>。在这篇文章中，苹果给出了产生原因和解决办法的详细说明，我简单的转述一下。  </p>
+<hr>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>xxx字长文，不少的废话，几乎翻遍了网上的所能找到的一切资料了，这篇文章主要是对这一个月来跟SDK缠绵的总结，如果它能帮到你，那真是巧了、巧了、巧了！  </p>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://skyline75489.github.io/post/2015-8-14_ios_static_dynamic_framework_learning.html" target="_blank" rel="external">iOS 静态库，动态库与 Framework</a><br><a href="http://blog.csdn.net/mylizh/article/details/38660675" target="_blank" rel="external">xib与nib的区别</a><br><a href="http://blog.csdn.net/mylizh/article/details/38662209" target="_blank" rel="external">浅谈NSBundle</a><br><a href="http://blog.csdn.net/mylizh/article/details/38586733" target="_blank" rel="external">iOS开发之静态库（二）—— .a</a><br><a href="http://blog.csdn.net/mylizh/article/details/38759849" target="_blank" rel="external">iOS开发之静态库（六）—— 时空之争</a><br><a href="http://blog.csdn.net/mylizh/article/details/38755933" target="_blank" rel="external">Apple移动设备处理器指令集 armv6、armv7、armv7s及arm64</a><br><a href="http://blog.csdn.net/mylizh/article/details/50499689" target="_blank" rel="external">Xcode7新特性之bitcode</a><br><a href=""></a><br><a href=""></a><br><a href=""></a><br><a href=""></a><br><a href=""></a><br><a href=""></a>  </p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Todd Cheng" />
+          <p class="site-author-name" itemprop="name">Todd Cheng</p>
+          <p class="site-description motion-element" itemprop="description">古佛中的逗逼佛</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Todd2010" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/todd2010" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">2.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS-SDK-基础（库和框架）"><span class="nav-number">3.</span> <span class="nav-text">iOS SDK 基础（库和框架）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态框架进阶一"><span class="nav-number">4.</span> <span class="nav-text">静态框架进阶一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态框架进阶二"><span class="nav-number">5.</span> <span class="nav-text">静态框架进阶二</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#坑一"><span class="nav-number">5.1.</span> <span class="nav-text">坑一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坑二"><span class="nav-number">5.2.</span> <span class="nav-text">坑二</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">6.</span> <span class="nav-text">结束语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Todd Cheng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
