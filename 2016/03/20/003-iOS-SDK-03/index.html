@@ -1,0 +1,820 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="静态框架进阶二在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！  
+坑一在咱们的静态框架 BuddhaSDK.framework 中，Base64和AES算法的具体实现都隐藏在一个叫做 CanNotSee 的类中。然而，在某一天，发生了一件非常不幸的事情，有个睁眼瞎非得在 TestSDKDemo 这个工程里新建一个叫做 CanNotSee 的同名类，仅仅是同名，它们里面写的是完全不同的代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS点燃SDK的地狱之门系列三">
+<meta property="og:url" content="http://todd2010.github.io/2016/03/20/003-iOS-SDK-03/index.html">
+<meta property="og:site_name" content="Buddha's Temple">
+<meta property="og:description" content="静态框架进阶二在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！  
+坑一在咱们的静态框架 BuddhaSDK.framework 中，Base64和AES算法的具体实现都隐藏在一个叫做 CanNotSee 的类中。然而，在某一天，发生了一件非常不幸的事情，有个睁眼瞎非得在 TestSDKDemo 这个工程里新建一个叫做 CanNotSee 的同名类，仅仅是同名，它们里面写的是完全不同的代码。">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_11.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_12.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_13.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_14.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_15.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_16.png">
+<meta property="og:updated_time" content="2016-05-12T07:06:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS点燃SDK的地狱之门系列三">
+<meta name="twitter:description" content="静态框架进阶二在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！  
+坑一在咱们的静态框架 BuddhaSDK.framework 中，Base64和AES算法的具体实现都隐藏在一个叫做 CanNotSee 的类中。然而，在某一天，发生了一件非常不幸的事情，有个睁眼瞎非得在 TestSDKDemo 这个工程里新建一个叫做 CanNotSee 的同名类，仅仅是同名，它们里面写的是完全不同的代码。">
+<meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_11.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS点燃SDK的地狱之门系列三 | Buddha's Temple </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=56164015";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Buddha's Temple</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS点燃SDK的地狱之门系列三
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-20T12:00:00+08:00" content="2016-03-20">
+              2016-03-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="静态框架进阶二"><a href="#静态框架进阶二" class="headerlink" title="静态框架进阶二"></a>静态框架进阶二</h2><p>在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！  </p>
+<h3 id="坑一"><a href="#坑一" class="headerlink" title="坑一"></a>坑一</h3><p>在咱们的静态框架 <code>BuddhaSDK.framework</code> 中，Base64和AES算法的具体实现都隐藏在一个叫做 <code>CanNotSee</code> 的类中。然而，在某一天，发生了一件非常不幸的事情，有个睁眼瞎非得在 <code>TestSDKDemo</code> 这个工程里新建一个叫做 <code>CanNotSee</code> 的同名类，仅仅是同名，它们里面写的是完全不同的代码。接下来咱们可以模拟一下睁眼瞎。  </p>
+<p>新建一个 <code>CanNotSee</code> 的类，继承自 <code>NSObject</code>。  </p>
+<p><code>CanNotSee.h</code> 中代码如下：  </p>
+<pre><code class="Objective-C">@interface CanNotSee : NSObject
+
++ (instancetype)sharedManager;
+
+- (void)LogYourName:(NSString *)yourName;
+
+@end
+</code></pre>
+<p><code>CanNotSee.m</code> 中代码如下：  </p>
+<pre><code class="Objective-C">#import &quot;CanNotSee.h&quot;
+
+@implementation CanNotSee
+
++ (instancetype)sharedManager {
+    static CanNotSee *instance = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        instance = [[CanNotSee alloc] init];
+    });
+
+    return instance;
+}
+
+- (void)LogYourName:(NSString *)yourName {
+    if(yourName == nil || yourName.length == 0) {
+        NSLog(@&quot;Hello, Lazy&quot;);
+    } else {
+        NSLog(@&quot;Hello, %@&quot;, yourName);
+    }
+}
+
+@end
+</code></pre>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_11.png" alt="iOS_SDK_Tutorial_11.png"></p>
+<p>代码写完，没有报错。<code>Command + B</code> 编译一下，没有任何问题，<code>Command + R</code> 再运行一下，崩了！  </p>
+<p>这尼玛是咋滴了（故作呆萌状），添加全局的异常断点，然后再运行一下，看看到底是出了什么幺蛾子。   </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_12.png" alt="iOS_SDK_Tutorial_12.png">   </p>
+<p>聚焦到最下面的输入输出控制台，Xcode说在 <code>CanNotSee</code> 类中找不到 <code>encodeWithBase64:</code> 这个方法。从这个错误中可以看出，不管  <code>BuddhaSDK.framework</code> 中有没有 <code>CanNotSee</code> 类，<code>TestSDKDemo</code> 这个工程在运行的时候首先调用的还是自家的 <code>CanNotSee</code> 类中的方法，哪怕在我们都没有引入 <code>CanNotSee.h</code> 文件的情况下（在 <code>ViewController.m</code> 中引入的是 <code>BuddhaSDK/BuddhaSDK.h</code>，相当于只是仅仅引入了 <code>BuddhaSDK.framework</code> 中的 <code>CanNotSee.h</code> 头文件）。因此，最后的结论就是，在同一个目标工程里面显然是不允许存在两个同名的类。  </p>
+<p>对于这个结论，还有两个重要的点需要补充说明。  </p>
+<p>首先，在咱们的测试工程中，同名文件的问题可能你会觉得根本没人会这么做。当然咱们的测试工程文件那么少，你一眼就能看到。还有，如果你只是在你公司内部的项目中做一个类似对加解密的简单封装并且你对整个工程都有一个非常清晰的掌控，你可能也会注意到同名文件的问题。而如果你要做的Framework是给公司其他项目组使用甚至给其他公司使用，为了减少沟通成本，也为了不让别人觉得你low，那么你就必须要将自己Framework中的每一个类都取一个将来尽量不会产生冲突的名字。其实，这就涉及到了Objective-C命名空间的问题，很不幸的是，Objective-C是没有命名空间这个概念的，而为了避免类名冲突，Objective-C采用的是前缀的方法（可以粗略的理解为命名空间的一种解决办法）。就比如苹果自带框架的前缀，如 <code>Foundation</code> 框架的 <code>NS</code>； <code>UIKit</code> 框架的 <code>UI</code>； <code>AVFoundation</code> 框架的 <code>AV</code>等等。因此，在交付Framework给他人使用的时候，最好能有相应的文档来说明一下Framework的前缀。那么，在咱们的 <code>BuddhaSDK</code> 工程中就需要更改一下了，加入我们自己的前缀 <code>ABC</code> 吧。可是，如果你的项目在实现过程中从来就没有过前缀，然后项目也非常大了，这时候突然需要为你的项目进行SDK化，那怎么办呢？比如，就我当下的项目，拍照搜题和老师答疑，代码文件有100多个，这时候需要把这些文件都做成SDK，如果把每一个类都加上前缀，那不是要了我的亲命吗？可我还是个宝宝，美好的世界还没怎么看看呢。这里再留个悬念吧，后文本宝宝慢慢的再续上，这是一个终极大坑，也是咱们主题下的地狱之门！  </p>
+<p>其次，还有一个概念前文提到，但是没有举过例子，这边再次强化一下。一般来说，如果一个项目中有两个同名的文件，首先在新建的时候就会提示项目中已经存在同名文件，问你是取消还是替换，如下图（项目中已经有了 <code>ViewController</code> 类，我又新建了一个 <code>ViewController</code> 类）。还有，哪怕你是从外部直接拉了一个同名文件到项目中，Xcode都不需要编译就会立刻报错。而如果有两个同名文件，一个在Framework中，一个不在Framework中，Xcode不但不会报错，还能通过编译过程。这是为什么呢？其实这点上文已经讲过，这是因为Framework是一个已经编译好的Buddle，因此Framework在嵌入到App之后，Xcode不会对其进行语法语义之类的分析，也不会对其再次编译，只有在链接和运行的时候才会去骚动那些Framework。   </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_13.png" alt="iOS_SDK_Tutorial_13.png">    </p>
+<p>在上面的测试项目中，为了更快速的引出不能有同名文件的结论，我故意让两个 <code>CanNotSee</code> 类中的代码完全不一样，从而在运行的时候直接崩溃报错。而如果两个 <code>CanNotSee.h</code> 头文件中的内容完全一致，两个 <code>CanNotSee.m</code> 文件中的内容仅仅有略微的差别，比如不在Framework中的 <code>CanNotSee.m</code> 文件中AES加解密秘钥不是 <code>@&quot;abcdefghigklmnop&quot;</code>，那么在运行的时候是不会崩溃的，但是加解密的结果就是不对，一旦跳进了这种坑，那你就多买点泡面和睡袋在公司以泪洗面吧！  </p>
+<p>到这里，咱们已经从第一个坑中爬出来了，这是个可大可小的坑，接下来就再看一个不大不小的坑吧！  </p>
+<h3 id="坑二"><a href="#坑二" class="headerlink" title="坑二"></a>坑二</h3><p>还记得上文中有讲过会有一个关于分类（Categroy）的坑吗？下面咱们挖一下吧！   </p>
+<p>前面说过，Base64和AES算法主要是对NSData的操作，最好的写法是对NSData进行分类（Categroy）。    </p>
+<p><code>NSData+CanNotSee.h</code> 代码如下：    </p>
+<pre><code class="Objective-C">@interface NSData (ABCCanNotSee)
+
+/**
+ * base64编码
+ */
+- (NSString *)base64EncodedString;
+
+/**
+ * base64解码
+ */
+- (NSString *)base64DecodedString;
+
+
+/**
+ * AES加密（ECB模式 PKCS7填充 128位）
+ * @param key : @&quot;abcdefghigklmnop&quot;
+ */
+- (NSData *)AESEncryptWithKey:(NSString *)key;
+
+/**
+ * AES解密（ECB模式 PKCS7填充 128位）
+ * @param key : @&quot;abcdefghigklmnop&quot;
+ */
+- (NSData *)AESDecryptWithKey:(NSString *)key;
+
+@end
+</code></pre>
+<p><code>NSData+CanNotSee.m</code> 代码如下：  </p>
+<pre><code class="Objective-C">#import &quot;NSData+ABCCanNotSee.h&quot;
+
+#import &lt;CommonCrypto/CommonCrypto.h&gt;
+
+@implementation NSData (ABCCanNotSee)
+
+/**
+ * base64编码
+ */
+- (NSString *)base64EncodedString {
+    return [self base64EncodedStringWithOptions:0];
+}
+
+/**
+ * base64解码
+ */
+- (NSString *)base64DecodedString {
+    NSData *encodedData = [[NSData alloc] initWithBase64EncodedData:self options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:encodedData encoding:NSUTF8StringEncoding];
+    return decodedString;
+}
+
+
+/**
+ * AES加密（ECB模式 PKCS7填充 128位）
+ * @param key : @&quot;abcdefghigklmnop&quot;
+ */
+- (NSData *)AESEncryptWithKey:(NSString *)key {
+    // 准备秘钥（128位，16个字节）
+    char keyPtr[kCCKeySizeAES128+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+
+    // 准备加密后数据的容器
+    NSUInteger dataLength = [self length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    memset(buffer, 0, bufferSize);
+
+    size_t dataOutMoved = 0;
+    NSInteger cryptStatus = CCCrypt(kCCEncrypt,            // 加密
+                                    kCCAlgorithmAES128,    // 128位
+                                    kCCOptionECBMode | kCCOptionPKCS7Padding, // ECB模式(0x0000或者默认都是CBC模式)
+                                    keyPtr,                // 秘钥
+                                    kCCKeySizeAES128,      // 秘钥长度
+                                    NULL,                  // 初始化向量
+                                    [self bytes],          // 未加密数据
+                                    dataLength,            // 未加密数据的长度
+                                    buffer,                // 加密后的数据
+                                    bufferSize,            // 加密后数据的大小
+                                    &amp;dataOutMoved          // 加密后数据的位移
+                                    );
+
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:dataOutMoved];
+        return resultData;
+    }
+    free(buffer);
+    return nil;
+}
+
+/**
+ * AES解密（ECB模式 PKCS7填充 128位）
+ * @param key : @&quot;abcdefghigklmnop&quot;
+ */
+- (NSData *)AESDecryptWithKey:(NSString *)key {
+    // 准备秘钥
+    char keyPtr[kCCKeySizeAES128+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+
+    // 准备解密后数据的容器
+    NSUInteger dataLength = [self length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    memset(buffer, 0, bufferSize);
+
+    size_t dataOutMoved = 0;
+    NSInteger cryptStatus = CCCrypt(kCCDecrypt,            // 解密
+                                    kCCAlgorithmAES128,    // 128位
+                                    kCCOptionECBMode | kCCOptionPKCS7Padding, // ECB模式(0x0000或者默认都是CBC模式)
+                                    keyPtr,                // 秘钥
+                                    kCCKeySizeAES128,      // 秘钥长度
+                                    NULL,                  // 初始化向量
+                                    [self bytes],          // 加密数据
+                                    dataLength,            // 加密数据长度
+                                    buffer,                // 解密后的数据
+                                    bufferSize,            // 解密后数据的大小
+                                    &amp;dataOutMoved          // 解密后数据的位移
+                                    );
+
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:dataOutMoved];
+        return resultData;
+    }
+    free(buffer);
+    return nil;
+}
+
+@end
+</code></pre>
+<p>代码写完，还有两步需要操作。  </p>
+<p>首先在 <code>ABCBuddhaSDK.h</code> 文件最下面加入一行代码 <code>#import &lt;ABCBuddhaSDK/NSData+ABCCanNotSee.h&gt;</code>， 从而让 <code>NSData</code> 分类的头文件暴露出来。如下图：  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_14.png" alt="iOS_SDK_Tutorial_14.png">   </p>
+<p>然后来到工程的 <code>Build Phases</code> 的 <code>Headers</code> ，把 <code>NSData+ABCCanNotSee.h</code> 头文件拉到 <code>Public</code> 组下，把 <code>NSData+ABCCanNotSee.m</code> 实现文件拉到 <code>Project</code> 组下。如下图：    </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_15.png" alt="iOS_SDK_Tutorial_15.png">    </p>
+<p>最后清理工程，重新编译生成带有 <code>NSData</code> 分类功能的Framework <code>ABCBuddhaSDK.framework</code>。   </p>
+<p>再次来到 <code>TestSDKDemo</code> Xcode工程中，把原来的Framework删了，把刚编译好的 <code>ABCBuddhaSDK.framework</code> 添加到工程中，并且在 <code>ViewController.m</code> 中输入如下代码：   </p>
+<pre><code class="Objective-C">#import &quot;ABCBuddhaSDK/ABCBuddhaSDK.h&quot;
+
+@interface ViewController ()
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    NSString *sourceString = @&quot;Hello, SDK!&quot;;
+    NSLog(@&quot;原始数据：%@&quot;, sourceString);
+
+    NSData *sourceData = [sourceString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *encodedStringWithBase64 = [sourceData base64EncodedString];
+    NSLog(@&quot;Base64编码之后的数据：%@&quot;, encodedStringWithBase64);
+
+    NSData *encodedData = [encodedStringWithBase64 dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *decodedStringWithBase64 = [encodedData base64DecodedString];
+    NSLog(@&quot;Base64解码之后的数据：%@&quot;, decodedStringWithBase64);
+
+    NSData *encryptedStringWithAES = [sourceData AESEncryptWithKey:@&quot;abcdefghigklmnop&quot;];
+    NSLog(@&quot;AES加密之后的数据：%@&quot;, encryptedStringWithAES);
+
+    NSData *decryptedDataWithAES = [encryptedStringWithAES AESDecryptWithKey:@&quot;abcdefghigklmnop&quot;];
+    NSString *decryptedStringWithAES = [[NSString alloc] initWithData:decryptedDataWithAES encoding:NSUTF8StringEncoding];
+    NSLog(@&quot;AES解密之后的数据：%@&quot;, decryptedStringWithAES);
+}
+
+@end
+</code></pre>
+<p><code>Command + R</code> 运行，你猜结果是什么？要是不崩溃，那我上面那些就都是废话了。可是，这又是为什么呢？先来看看到底崩在哪里了！  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_16.png" alt="iOS_SDK_Tutorial_16.png">    </p>
+<p>几乎是同样的错误，方法不存在！可是这次就真的很疑惑了，没有同名文件，<code>NSData+ABCCanNotSee</code> 头文件里也存在 <code>- base64EncodedString</code> 这个方法，系统怎么就找不到这个方法呢？而且，不用分来就没问题，一用分类就出错了。   </p>
+<p>显然，应该很容易猜到，问题肯定出在分类上！  </p>
+<p>通过 <code>iOS</code> <code>Framework</code> <code>Catergory</code> 三个单词稍作查询，就能查到<a href="https://developer.apple.com/library/mac/qa/qa1490/_index.html" target="_blank" rel="external">苹果官方的解释</a>。在这篇文章中，苹果给出了产生原因和解决办法的详细说明，我简单的转述一下。    </p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/10/002-iOS-SDK-02/" rel="next" title="iOS点燃SDK的地狱之门系列二">
+                <i class="fa fa-chevron-left"></i> iOS点燃SDK的地狱之门系列二
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Todd Cheng" />
+          <p class="site-author-name" itemprop="name">Todd Cheng</p>
+          <p class="site-description motion-element" itemprop="description">古佛中的逗逼佛</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Todd2010" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/todd2010" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态框架进阶二"><span class="nav-number">1.</span> <span class="nav-text">静态框架进阶二</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#坑一"><span class="nav-number">1.1.</span> <span class="nav-text">坑一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坑二"><span class="nav-number">1.2.</span> <span class="nav-text">坑二</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Todd Cheng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
