@@ -85,17 +85,13 @@
 
 
 <meta name="description" content="静态框架进阶一想要搞清楚SDK开发，那还是来点实践吧，Demo有点多，我会尽一切可能阐述清楚。  
-先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！  
-Xcode7.3.1 + Objecitve-C  
-从网上能搜到很多关于静态库（xxx.a）的制作教程，其中大多都是Xcode6之前的。因为在Xcode6之前，苹果只提供了Cocoa">
+先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS点燃SDK的地狱之门系列二">
 <meta property="og:url" content="http://todd2010.github.io/2016/03/10/002-iOS-SDK-02/index.html">
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description" content="静态框架进阶一想要搞清楚SDK开发，那还是来点实践吧，Demo有点多，我会尽一切可能阐述清楚。  
-先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！  
-Xcode7.3.1 + Objecitve-C  
-从网上能搜到很多关于静态库（xxx.a）的制作教程，其中大多都是Xcode6之前的。因为在Xcode6之前，苹果只提供了Cocoa">
+先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_01.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_02.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_03.png">
@@ -106,13 +102,11 @@ Xcode7.3.1 + Objecitve-C
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_08.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_09.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_10.png">
-<meta property="og:updated_time" content="2016-03-10T04:00:00.000Z">
+<meta property="og:updated_time" content="2016-05-12T07:07:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS点燃SDK的地狱之门系列二">
 <meta name="twitter:description" content="静态框架进阶一想要搞清楚SDK开发，那还是来点实践吧，Demo有点多，我会尽一切可能阐述清楚。  
-先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！  
-Xcode7.3.1 + Objecitve-C  
-从网上能搜到很多关于静态库（xxx.a）的制作教程，其中大多都是Xcode6之前的。因为在Xcode6之前，苹果只提供了Cocoa">
+先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！">
 <meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_01.png">
 
 
@@ -301,7 +295,8 @@ Xcode7.3.1 + Objecitve-C
 
       
         <h2 id="静态框架进阶一"><a href="#静态框架进阶一" class="headerlink" title="静态框架进阶一"></a>静态框架进阶一</h2><p>想要搞清楚SDK开发，那还是来点实践吧，Demo有点多，我会尽一切可能阐述清楚。  </p>
-<p>先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！  </p>
+<p>先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！    </p>
+<a id="more"></a>  
 <p>Xcode7.3.1 + Objecitve-C  </p>
 <p>从网上能搜到很多关于静态库（xxx.a）的制作教程，其中大多都是Xcode6之前的。因为在Xcode6之前，苹果只提供了<code>Cocoa Touch Static Library</code>模板。这个模板只能制作静态库（xxx.a），如果想要制作静态框架（xxx.framework），还是要费点力气的，不过你可以借用第三方的力量来实现 <a href="https://github.com/kstenerud/iOS-Universal-Framework" target="_blank" rel="external">iOS-Universal-Framework</a>。随着Xcode6的发布，苹果新增了一个<code>Cocoa Touch Framework</code>模板，这也就意味着Xcode6支持框架开发了，同时<code>iOS-Universal-Framework</code>开发者也宣布不再继续维护此项目并建议开发者使用官方模板来开发。     </p>
 <p>静态库（xxx.a）和静态框架（xxx.framework）的区别上文已经有所阐述，考虑到方便性、整体性、专业性以及与时俱进，我觉得，哪怕再简单的库，还是建议制作成静态框架来提供给他人使用吧。   </p>
