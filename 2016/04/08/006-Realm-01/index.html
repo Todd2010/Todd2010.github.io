@@ -1,0 +1,675 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="官网英文原版 —— Objective-C官网中文翻译 —— Objective-C
+疑问
+
+你问：既然官方有了中文翻译，你为什么还要重新翻译？
+我答： ……
+你问：你是不是有点傲娇？
+我答：我太傲娇了！
+你曰：SB！  
+
+
+基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Realm官方文档的翻译解读以及项目扩展系列一">
+<meta property="og:url" content="http://todd2010.github.io/2016/04/08/006-Realm-01/index.html">
+<meta property="og:site_name" content="Buddha's Temple">
+<meta property="og:description" content="官网英文原版 —— Objective-C官网中文翻译 —— Objective-C
+疑问
+
+你问：既然官方有了中文翻译，你为什么还要重新翻译？
+我答： ……
+你问：你是不是有点傲娇？
+我答：我太傲娇了！
+你曰：SB！  
+
+
+基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Realm_Tutorial_01.jpg">
+<meta property="og:updated_time" content="2016-05-12T12:42:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Realm官方文档的翻译解读以及项目扩展系列一">
+<meta name="twitter:description" content="官网英文原版 —— Objective-C官网中文翻译 —— Objective-C
+疑问
+
+你问：既然官方有了中文翻译，你为什么还要重新翻译？
+我答： ……
+你问：你是不是有点傲娇？
+我答：我太傲娇了！
+你曰：SB！  
+
+
+基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。">
+<meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Realm_Tutorial_01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Realm官方文档的翻译解读以及项目扩展系列一 | Buddha's Temple </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=56164015";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Buddha's Temple</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Realm官方文档的翻译解读以及项目扩展系列一
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-08T12:00:00+08:00" content="2016-04-08">
+              2016-04-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="官网英文原版-——-Objective-C"><a href="#官网英文原版-——-Objective-C" class="headerlink" title="官网英文原版 —— Objective-C"></a><a href="https://realm.io/docs/objc/latest/" target="_blank" rel="external">官网英文原版 —— Objective-C</a></h3><h3 id="官网中文翻译-——-Objective-C"><a href="#官网中文翻译-——-Objective-C" class="headerlink" title="官网中文翻译 —— Objective-C"></a><a href="https://realm.io/cn/docs/objc/latest/" target="_blank" rel="external">官网中文翻译 —— Objective-C</a></h3><hr>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><blockquote>
+<ul>
+<li>你问：既然官方有了中文翻译，你为什么还要重新翻译？</li>
+<li>我答： ……</li>
+<li>你问：你是不是有点傲娇？</li>
+<li>我答：我太傲娇了！</li>
+<li>你曰：SB！  </li>
+</ul>
+</blockquote>
+<h3 id="基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。"><a href="#基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。" class="headerlink" title="基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。"></a>基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。</h3><a id="more"></a>   
+<hr>
+<h2 id="Realm-–-SQLite和Core-Data的替代品"><a href="#Realm-–-SQLite和Core-Data的替代品" class="headerlink" title="Realm – SQLite和Core Data的替代品"></a>Realm – SQLite和Core Data的替代品</h2><blockquote>
+<ul>
+<li>如果你准备使用<strong>Swift</strong>语言来开发应用，不管是全新的<strong>Swift</strong>应用还是<strong>Objective-C</strong>与<strong>Swift</strong>混合的应用，那么你应该考虑使用<strong>Swift</strong>版本的<strong>Realm</strong>。</li>
+<li><strong>Realm</strong>不支持<strong>Objective-C</strong>版本与<strong>Swift</strong>版本在同一个项目中共存。</li>
+</ul>
+</blockquote>
+<p>Reaml能以高效、安全、快速的方式来编写App的<strong>数据模型层</strong>。</p>
+<p>先大致浏览一下Realm数据模型的简单定义与使用：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个模型和定义一个常规Objective-C类的做法基本相似</span><br><span class="line">// 不同点在于：1、必须继承RLMObject类； 2、属性的修饰符（Property Attribute）在这里去掉了，后面会给出原因</span><br><span class="line"></span><br><span class="line">#import &lt;Realm/Realm.h&gt;</span><br><span class="line">@interface Dog : RLMObject</span><br><span class="line">@property NSString *name;</span><br><span class="line">@property NSInteger age;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#import &lt;Realm/Realm.h&gt;</span><br><span class="line">#import &quot;Dog.h&quot;</span><br><span class="line"></span><br><span class="line">RLM_ARRAY_TYPE(Dog)  // 一对多关系（一个人有多条狗）</span><br><span class="line"></span><br><span class="line">@interface Person : RLMObject</span><br><span class="line">@property NSString      *name;</span><br><span class="line">@property NSData        *picture;</span><br><span class="line">@property RLMArray&lt;Dog&gt; *dogs;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 数据模型的使用和常规Objective-C对象的使用一样</span><br><span class="line">Dog *mydog = [[Dog alloc] init];</span><br><span class="line">mydog.name = @&quot;Rex&quot;;</span><br><span class="line">mydog.age = 1;</span><br><span class="line">NSLog(@&quot;Name of dog: %@&quot;, mydog.name);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 查询所有小于2岁的狗狗</span><br><span class="line">RLMResults *puppies = [Dog objectsWhere:@&quot;age &lt; 2&quot;];</span><br><span class="line">NSLog(@&quot;Count of all dogs less than 2 years old: %ld&quot;, puppies.count);  // count == 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 数据的存储十分简单</span><br><span class="line">RLMRealm *realm = [RLMRealm defaultRealm];</span><br><span class="line">[realm transactionWithBlock:^&#123;</span><br><span class="line">    [realm addObject:mydog];</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">// 检索操作会在需要的时候及时更新</span><br><span class="line">NSLog(@&quot;Count of all dogs less than 2 years old: %ld&quot;, puppies.count);  // count == 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 可以在线程中执行检索或者更新操作（推荐）</span><br><span class="line">dispatch_async(dispatch_queue_create(&quot;background&quot;, 0), ^&#123;</span><br><span class="line">    Dog *theDog = [[Dog objectsWhere:@&quot;age == 1&quot;] firstObject];</span><br><span class="line">    RLMRealm *realm = [RLMRealm defaultRealm];</span><br><span class="line">    [realm beginWriteTransaction];</span><br><span class="line">    theDog.age = 3;</span><br><span class="line">    [realm commitWriteTransaction];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如果您的App正在使用Core Data并且打算换成Realm，可以参考这篇文章 <a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">Migrating an App from Core Data to Realm</a>。</p>
+<hr>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><ul>
+<li><a href="https://realm.io" target="_blank" rel="external">Realm 官网</a></li>
+<li><a href="https://github.com/realm/realm-cocoa" target="_blank" rel="external">Realm Github</a></li>
+<li><a href="https://realm.io/docs/objc/latest/api/" target="_blank" rel="external">Realm Objective-C API 文档</a></li>
+</ul>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
+<li>运行App的基本要求：iOS &gt;= 7.0, OS X &gt;= 10.9, WatchKit</li>
+<li>Xcode版本号 &gt;= 6.4</li>
+<li>支持Objective-C, Swift 1.2 &amp; Swift 2.x</li>
+</ul>
+<h3 id="Xcode中导入Realm框架"><a href="#Xcode中导入Realm框架" class="headerlink" title="Xcode中导入Realm框架"></a>Xcode中导入Realm框架</h3><p>1、安装最新版本的 <code>CocoaPods</code> （ &gt;= 0.39.0 ）<br>2、新建 <code>Podfile</code> 文件，编辑 <code>Podfile</code> 文件并输入  </p>
+<pre><code>platform :ios, &apos;8.0&apos;
+
+target &apos;RealmExtension&apos; do
+pod &apos;Realm&apos;, &apos;~&gt; 0.98.3&apos;
+end
+</code></pre><p>3、在命令行中执行 <code>pod install</code><br>4、关掉<code>RealmExtension.xcodeproj</code>工程，用<code>RealmExtension.xcworkspace</code>文件重新打开工程。</p>
+<h3 id="Realm-Browser"><a href="#Realm-Browser" class="headerlink" title="Realm Browser"></a>Realm Browser</h3><p>我们还提供了一个名叫 <code>Realm Browser</code> 的独立Mac App来读取并且编辑 <code>.realm</code> 数据库。<br><img src="http://7xth9g.com2.z0.glb.clouddn.com/Realm_Tutorial_01.jpg" alt="Realm_Tutorial_01.jpg"></p>
+<p>有两种方式来安装 <code>Realm Browser</code> 应用：  </p>
+<ul>
+<li><a href="https://github.com/realm/realm-browser-osx" target="_blank" rel="external">Realm Browser Github 地址</a> 下载代码，直接运行就能生成 <code>Realm Browser</code> 应用  </li>
+<li><a href="https://itunes.apple.com/app/realm-browser/id1007457278" target="_blank" rel="external">Realm Browser Mac App Store 地址</a> 通过Mac App Store安装。  </li>
+</ul>
+<p>运行 <code>Realm Browser</code> 应用，点击 <code>Tool -&gt; Generate demo database</code> 可以生成一个有样本数据的测试数据库。  </p>
+<p>对于如何查看App在iOS设备中的 <code>.realm</code> 文件，可以参考StackOverflow上的这个解决办法 <a href="http://stackoverflow.com/questions/28465706/how-to-find-my-realm-file/28465803#28465803" target="_blank" rel="external">How to find a Realm file if your App is on iOS Device</a>。  </p>
+<h3 id="Xcode-Realm插件（安装意义不大）"><a href="#Xcode-Realm插件（安装意义不大）" class="headerlink" title="Xcode Realm插件（安装意义不大）"></a>Xcode Realm插件（安装意义不大）</h3><p>Realm提供了一个Xcode插件(<a href="https://github.com/realm/realm-cocoa/tree/master/plugin" target="_blank" rel="external">Github 地址</a>)，主要有两个功能：  </p>
+<ul>
+<li>提供了Realm Model的模板。（替代方案：在新建Model的时记得继承 <code>RLMObject</code>）  </li>
+<li>Debug的时候能够在 <code>Variables View</code> 中能够看到 <code>RLMObject</code> 、 <code>RLMResult</code> 以及 <code>RLMArray</code> 对象的具体内容。（替代方案：NSLog可以在控制台中打印具体内容）  </li>
+</ul>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/28/005-iOS-SDK-05/" rel="next" title="iOS点燃SDK的地狱之门系列五">
+                <i class="fa fa-chevron-left"></i> iOS点燃SDK的地狱之门系列五
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/12/007-Realm-02/" rel="prev" title="Realm官方文档的翻译解读以及项目扩展系列二">
+                Realm官方文档的翻译解读以及项目扩展系列二 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Todd Cheng" />
+          <p class="site-author-name" itemprop="name">Todd Cheng</p>
+          <p class="site-description motion-element" itemprop="description">古佛中的逗逼佛</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Todd2010" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/todd2010" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#官网英文原版-——-Objective-C"><span class="nav-number">1.</span> <span class="nav-text">官网英文原版 —— Objective-C</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#官网中文翻译-——-Objective-C"><span class="nav-number">2.</span> <span class="nav-text">官网中文翻译 —— Objective-C</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#疑问"><span class="nav-number"></span> <span class="nav-text">疑问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。"><span class="nav-number">1.</span> <span class="nav-text">基于最新的英文原版。以下内容完全根据本人理解之后所写，严谨的说，不算翻译，而是解读。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Realm-–-SQLite和Core-Data的替代品"><span class="nav-number"></span> <span class="nav-text">Realm – SQLite和Core Data的替代品</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number"></span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xcode中导入Realm框架"><span class="nav-number">2.</span> <span class="nav-text">Xcode中导入Realm框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Realm-Browser"><span class="nav-number">3.</span> <span class="nav-text">Realm Browser</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xcode-Realm插件（安装意义不大）"><span class="nav-number">4.</span> <span class="nav-text">Xcode Realm插件（安装意义不大）</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Todd Cheng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
