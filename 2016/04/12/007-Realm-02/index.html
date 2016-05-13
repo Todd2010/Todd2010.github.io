@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="数据模型（Models）使用常规Objective-C的类(Class)和属性(Property)就可以来定义Realm的数据模型。通过简单的继承 RLMObject 或者继承一个已经存在的 RLMObject 模型类来创建一个新的 RLMObject 数据模型。Realm模型对象在功能上几乎与其他常规Objective-C对象一样 —— 您可以为Realm的模型类添加方法(Method)和协议(">
+<meta name="description">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Realm官方文档的翻译解读以及项目扩展系列二">
 <meta property="og:url" content="http://todd2010.github.io/2016/04/12/007-Realm-02/index.html">
 <meta property="og:site_name" content="Buddha's Temple">
-<meta property="og:description" content="数据模型（Models）使用常规Objective-C的类(Class)和属性(Property)就可以来定义Realm的数据模型。通过简单的继承 RLMObject 或者继承一个已经存在的 RLMObject 模型类来创建一个新的 RLMObject 数据模型。Realm模型对象在功能上几乎与其他常规Objective-C对象一样 —— 您可以为Realm的模型类添加方法(Method)和协议(">
-<meta property="og:updated_time" content="2016-05-12T12:44:07.000Z">
+<meta property="og:description">
+<meta property="og:updated_time" content="2016-05-13T13:35:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Realm官方文档的翻译解读以及项目扩展系列二">
-<meta name="twitter:description" content="数据模型（Models）使用常规Objective-C的类(Class)和属性(Property)就可以来定义Realm的数据模型。通过简单的继承 RLMObject 或者继承一个已经存在的 RLMObject 模型类来创建一个新的 RLMObject 数据模型。Realm模型对象在功能上几乎与其他常规Objective-C对象一样 —— 您可以为Realm的模型类添加方法(Method)和协议(">
+<meta name="twitter:description">
 
 
 
@@ -280,8 +280,10 @@
       
 
       
-        <h2 id="数据模型（Models）"><a href="#数据模型（Models）" class="headerlink" title="数据模型（Models）"></a>数据模型（Models）</h2><p>使用常规Objective-C的类(Class)和属性(Property)就可以来定义Realm的数据模型。通过简单的继承 <code>RLMObject</code> 或者继承一个已经存在的 <code>RLMObject</code> 模型类来创建一个新的 <code>RLMObject</code> 数据模型。Realm模型对象在功能上几乎与其他常规Objective-C对象一样 —— 您可以为Realm的模型类添加方法(Method)和协议(Protocol)。主要的限制是一个Realm数据模型对象只能在其被创建的那个线程中使用（同一个Realm数据模型对象无法跨线程共享）；另外，您无法直接重写任何存储属性的 <code>Setter</code> 和 <code>Getter</code> 。  </p>
-<a id="more"></a>     
+        <center><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="530" height="86" src="http://music.163.com/outchain/player?type=2&id=31877400&auto=0&height=66"></iframe></center>   
+
+<a id="more"></a>   
+<h2 id="数据模型（Models）"><a href="#数据模型（Models）" class="headerlink" title="数据模型（Models）"></a>数据模型（Models）</h2><p>使用常规Objective-C的类(Class)和属性(Property)就可以来定义Realm的数据模型。通过简单的继承 <code>RLMObject</code> 或者继承一个已经存在的 <code>RLMObject</code> 模型类来创建一个新的 <code>RLMObject</code> 数据模型。Realm模型对象在功能上几乎与其他常规Objective-C对象一样 —— 您可以为Realm的模型类添加方法(Method)和协议(Protocol)。主要的限制是一个Realm数据模型对象只能在其被创建的那个线程中使用（同一个Realm数据模型对象无法跨线程共享）；另外，您无法直接重写任何存储属性的 <code>Setter</code> 和 <code>Getter</code> 。        </p>
 <p>可以用 <code>RLMArray</code> 来建立对象之间的关系（如一对多，多对多），还可以添加目标类型的属性来实现嵌套数据结构(nested data structure)。  </p>
 <pre><code class="Objective-C">// 狗狗的数据模型中通过添加Person类型的属性来实现嵌套数据结构
 #import &lt;Realm/Realm.h&gt;

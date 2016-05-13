@@ -84,19 +84,16 @@
 
 
 
-<meta name="description" content="写操作（Writes）对象的所有更改（添加、修改和删除）都必须通过写入事务(transaction)完成。  
-Realm对象在未存储到数据库之前，您可以把它当作常规的Objective-C对象使用。如果想要在线程间共享这些对象或者在应用重启后还能使用它们，那么您就应该将它们存储到Realm数据库中 – 这个操作必须在写入事务中完成。">
+<meta name="description">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Realm官方文档的翻译解读以及项目扩展系列三">
 <meta property="og:url" content="http://todd2010.github.io/2016/04/15/008-Realm-03/index.html">
 <meta property="og:site_name" content="Buddha's Temple">
-<meta property="og:description" content="写操作（Writes）对象的所有更改（添加、修改和删除）都必须通过写入事务(transaction)完成。  
-Realm对象在未存储到数据库之前，您可以把它当作常规的Objective-C对象使用。如果想要在线程间共享这些对象或者在应用重启后还能使用它们，那么您就应该将它们存储到Realm数据库中 – 这个操作必须在写入事务中完成。">
-<meta property="og:updated_time" content="2016-05-12T12:45:28.000Z">
+<meta property="og:description">
+<meta property="og:updated_time" content="2016-05-13T13:36:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Realm官方文档的翻译解读以及项目扩展系列三">
-<meta name="twitter:description" content="写操作（Writes）对象的所有更改（添加、修改和删除）都必须通过写入事务(transaction)完成。  
-Realm对象在未存储到数据库之前，您可以把它当作常规的Objective-C对象使用。如果想要在线程间共享这些对象或者在应用重启后还能使用它们，那么您就应该将它们存储到Realm数据库中 – 这个操作必须在写入事务中完成。">
+<meta name="twitter:description">
 
 
 
@@ -283,9 +280,11 @@ Realm对象在未存储到数据库之前，您可以把它当作常规的Object
       
 
       
-        <h2 id="写操作（Writes）"><a href="#写操作（Writes）" class="headerlink" title="写操作（Writes）"></a>写操作（Writes）</h2><pre><code>对象的所有更改（添加、修改和删除）都必须通过写入事务(transaction)完成。  
-</code></pre><p>Realm对象在未存储到数据库之前，您可以把它当作常规的Objective-C对象使用。如果想要在线程间共享这些对象或者在应用重启后还能使用它们，那么您就应该将它们存储到Realm数据库中 – 这个操作必须在写入事务中完成。   </p>
-<a id="more"></a>  
+        <center><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="530" height="86" src="http://music.163.com/outchain/player?type=2&id=31877484&auto=0&height=66"></iframe></center>   
+
+<a id="more"></a>   
+<h2 id="写操作（Writes）"><a href="#写操作（Writes）" class="headerlink" title="写操作（Writes）"></a>写操作（Writes）</h2><pre><code>对象的所有更改（添加、修改和删除）都必须通过写入事务(transaction)完成。  
+</code></pre><p>Realm对象在未存储到数据库之前，您可以把它当作常规的Objective-C对象使用。如果想要在线程间共享这些对象或者在应用重启后还能使用它们，那么您就应该将它们存储到Realm数据库中 – 这个操作必须在写入事务中完成。     </p>
 <p>由于写入事务会产生不可忽略的性能消耗，因此您应当尽量避免大量写入事务的操作。  </p>
 <p>由于写入事务可能会有失败的情况（比如磁盘满了），Realm建议在写入事务中通过加入NSError来实现错误处理。<code>- transactionWithBlock:</code> , <code>- transactionWithBlock:error:</code>。 一般情况下，使用<code>- transactionWithBlock:</code> 即可。  </p>
 <h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3><p>创建一个新的对象有多种方式。  </p>

@@ -84,19 +84,16 @@
 
 
 
-<meta name="description" content="查询查询操作能够返回只包含 RLMObject 这一种类型的对象数组 RLMResults 。     
-查询操作的结果不是数据的拷贝，如果在写入事务中修改了查询结果里某个对象的属性值会直接修改数据库中的数据。">
+<meta name="description">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Realm官方文档的翻译解读以及项目扩展系列四">
 <meta property="og:url" content="http://todd2010.github.io/2016/04/16/009-Realm-04/index.html">
 <meta property="og:site_name" content="Buddha's Temple">
-<meta property="og:description" content="查询查询操作能够返回只包含 RLMObject 这一种类型的对象数组 RLMResults 。     
-查询操作的结果不是数据的拷贝，如果在写入事务中修改了查询结果里某个对象的属性值会直接修改数据库中的数据。">
-<meta property="og:updated_time" content="2016-05-12T12:51:12.000Z">
+<meta property="og:description">
+<meta property="og:updated_time" content="2016-05-13T13:39:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Realm官方文档的翻译解读以及项目扩展系列四">
-<meta name="twitter:description" content="查询查询操作能够返回只包含 RLMObject 这一种类型的对象数组 RLMResults 。     
-查询操作的结果不是数据的拷贝，如果在写入事务中修改了查询结果里某个对象的属性值会直接修改数据库中的数据。">
+<meta name="twitter:description">
 
 
 
@@ -283,9 +280,11 @@
       
 
       
-        <h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>查询操作能够返回只包含 <code>RLMObject</code> 这一种类型的对象数组 <code>RLMResults</code> 。     </p>
-<p>查询操作的结果不是数据的拷贝，如果在写入事务中修改了查询结果里某个对象的属性值会直接修改数据库中的数据。  </p>
-<a id="more"></a>  
+        <center><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="530" height="86" src="http://music.163.com/outchain/player?type=2&id=31877536&auto=0&height=66"></iframe></center>   
+
+<a id="more"></a>   
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>查询操作能够返回只包含 <code>RLMObject</code> 这一种类型的对象数组 <code>RLMResults</code> 。     </p>
+<p>查询操作的结果不是数据的拷贝，如果在写入事务中修改了查询结果里某个对象的属性值会直接修改数据库中的数据。    </p>
 <p>Realm的所有查询操作和属性访问操作采用的都是懒加载方式。比如说，查询语句的执行会被延迟到查询结果的使用。   </p>
 <p>一旦执行语句被执行之后，或者 <code>通知模块（notification）</code> 被添加之后，在后台线程的帮助下，<code>RLMResults</code> 会时刻保持更新。  </p>
 <p>从Realm中检索对象最基本和常用的方法是 <code>+ [RLMObject allObjects]</code>，这个方法会返回所有RLMObject类型的对象。</p>
