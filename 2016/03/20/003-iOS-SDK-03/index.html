@@ -84,22 +84,22 @@
 
 
 
-<meta name="description" content="静态框架进阶二在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！">
+<meta name="description">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS点燃SDK的地狱之门系列三">
 <meta property="og:url" content="http://todd2010.github.io/2016/03/20/003-iOS-SDK-03/index.html">
 <meta property="og:site_name" content="Buddha's Temple">
-<meta property="og:description" content="静态框架进阶二在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！">
+<meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_11.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_12.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_13.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_14.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_15.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_16.png">
-<meta property="og:updated_time" content="2016-05-12T07:08:13.000Z">
+<meta property="og:updated_time" content="2016-05-13T12:24:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS点燃SDK的地狱之门系列三">
-<meta name="twitter:description" content="静态框架进阶二在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！">
+<meta name="twitter:description">
 <meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_11.png">
 
 
@@ -287,8 +287,10 @@
       
 
       
-        <h2 id="静态框架进阶二"><a href="#静态框架进阶二" class="headerlink" title="静态框架进阶二"></a>静态框架进阶二</h2><p>在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！   </p>
-<a id="more"></a>   
+        <center><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="530" height="86" src="http://music.163.com/outchain/player?type=2&id=3934796&auto=0&height=66"></iframe></center>  
+
+<a id="more"></a>  
+<h2 id="静态框架进阶二"><a href="#静态框架进阶二" class="headerlink" title="静态框架进阶二"></a>静态框架进阶二</h2><p>在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！      </p>
 <h3 id="坑一"><a href="#坑一" class="headerlink" title="坑一"></a>坑一</h3><p>在咱们的静态框架 <code>BuddhaSDK.framework</code> 中，Base64和AES算法的具体实现都隐藏在一个叫做 <code>CanNotSee</code> 的类中。然而，在某一天，发生了一件非常不幸的事情，有个睁眼瞎非得在 <code>TestSDKDemo</code> 这个工程里新建一个叫做 <code>CanNotSee</code> 的同名类，仅仅是同名，它们里面写的是完全不同的代码。接下来咱们可以模拟一下睁眼瞎。  </p>
 <p>新建一个 <code>CanNotSee</code> 的类，继承自 <code>NSObject</code>。  </p>
 <p><code>CanNotSee.h</code> 中代码如下：  </p>
