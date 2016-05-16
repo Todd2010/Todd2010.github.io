@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_Cover.png">
-<meta property="og:updated_time" content="2016-05-04T04:00:00.000Z">
+<meta property="og:updated_time" content="2016-05-16T14:20:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo+GitHub搭建个人博客">
 <meta name="twitter:description">
@@ -285,12 +285,20 @@
         <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_Cover.png" alt="Hexo+Github_Tutorial_Cover.png">  </p>
 <a id="more"></a>    
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>总是羡慕别人有一个属于自己的时间胶囊，承载着自己的成长积累。也总是莫名觉得搭建一个博客是多么的麻烦，以至于很多文章只存在本地，自娱自乐。  </p>
+<p>总是羡慕别人有一个属于自己的时间胶囊，承载着点滴的成长积累，凝聚成涌浪让自己扬帆千里。也总是莫名觉得搭建一个博客是多么的麻烦，以至于很多文章一直只存储在本地，自娱自乐。  </p>
 </blockquote>
 <p>既然我天性乐于分享，在把一些本地的文章整理之后供大家取乐之余，同时也记录下搭建本博客的过程，其最终结果就是现在你所看到的样子！  </p>
 <p>丑不丑乱不乱都是主题和排版的问题，这些咱另当别论。这篇文章主要是写给那些跟我一样本以为搭建博客非常复杂的人。  </p>
-<p>仅仅使用GitHub（博客部署在GitHub上并且没有个人域名）、不考虑各种自定义的主题配置，从0开始搭建一个跟本博客类似的网站差不多也就需要10到20分钟的时间而已，并且搭建过程十分简单！  </p>
+<p>在仅仅使用GitHub（博客部署在GitHub上并且没有个人域名）、不考虑各种自定义的主题配置，从0开始搭建一个跟本博客类似的网站差不多也就需要10到20分钟的时间而已，并且搭建过程十分简单！  </p>
+<p>系统：Mac OS X El Capitan(10.11)</p>
 <hr>
+<h2 id="HEXO博客框架"><a href="#HEXO博客框架" class="headerlink" title="HEXO博客框架"></a>HEXO博客框架</h2><p>在我们完成Hexo之后，您就在本地搭建好了一个博客，那时我们可以通过 <code>http://localhost:4000/</code> 访问到自己的博客。这个博客只能在你自己的电脑上访问，其他人是访问不到的。要想让咱们的博客连接到互联网中去，就需要把整个博客部署到GitHub上（其实就是把若干个文件上传到GitHub上而已）。至于为什么搬到GitHub上就能够供他人访问，下节介绍。  </p>
+<p>Hexo是一款基于Node.js的静态博客框架。其实说白了，Hexo的就是一个把您写的文章以各种形式（摘要列表、题目归档列表、全篇等）展现出来，再加上些作者相关信息的网站。而主题是来决定这个网站显示成什么样子，如结构、字体、颜色等。  </p>
+<h3 id="安装-Node-js-Hexo"><a href="#安装-Node-js-Hexo" class="headerlink" title="安装 Node.js + Hexo"></a>安装 Node.js + Hexo</h3><p>既然Hexo是用Node.js开发出来的东西，那首先肯定需要安装Node.js。   </p>
+<p>Node.js是一个可以运行JavaScript的环境，要是把这个运行环境装在后台服务器上，那岂不是用JavaScript可以写服务器端的程序了？要是把这个运行环境装在Windows上，那岂不是用JavaScript还可以写Windows桌面应用了？恩，没错，这世界就是这么神奇！（Node.js问世也有7年的时间了，其设计思想还挺独特，很有意思！）  </p>
+<p>在这里，Hexo就是用Node.js写的一个后台服务器。而我们最终的后台就是GitHub。  </p>
+<p>那就先安装Node.js! 来到官网 <a href="https://nodejs.org/en/" target="_blank" rel="external">https://nodejs.org/en/</a>， 下载安装包，安装最后会告诉你Node.js的安装路径，没必要记录下来，后面可以通过 <code>which node</code> 来查看Node.js的安装路径！  </p>
+<p>安装完成之后，为了验证Node.js是否成功安装，可以在终端Terminal中输入 <code>node --version</code> 查看版本号，我当前装的是 <code>v4.4.4</code>。</p>
 
       
     </div>
@@ -315,12 +323,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/02/25/001-First-Tutorial/" rel="next" title="世上无难事，只要肯放弃。">
+                <i class="fa fa-chevron-left"></i> 世上无难事，只要肯放弃。
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/02/25/001-First-Tutorial/" rel="prev" title="世上无难事，只要肯放弃。">
-                世上无难事，只要肯放弃。 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/03/01/002-iOS-SDK/" rel="prev" title="iOS点燃SDK的地狱之门">
+                iOS点燃SDK的地狱之门 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -464,7 +476,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HEXO博客框架"><span class="nav-number">2.</span> <span class="nav-text">HEXO博客框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Node-js-Hexo"><span class="nav-number">2.1.</span> <span class="nav-text">安装 Node.js + Hexo</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
