@@ -86,18 +86,17 @@
 
 <meta name="description">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo+GitHub搭建个人博客">
+<meta property="og:title" content="HEXO+GitHub搭建个人博客">
 <meta property="og:url" content="http://todd2010.github.io/2016/02/25/004-Hexo+Github-Tutorial/index.html">
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
-<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_Cover.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_CoverUpdate.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_01.png">
-<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_02.png">
-<meta property="og:updated_time" content="2016-05-17T08:37:21.000Z">
+<meta property="og:updated_time" content="2016-05-17T12:15:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo+GitHub搭建个人博客">
+<meta name="twitter:title" content="HEXO+GitHub搭建个人博客">
 <meta name="twitter:description">
-<meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_Cover.png">
+<meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_CoverUpdate.png">
 
 
 
@@ -115,7 +114,7 @@
   };
 </script>
 
-  <title> Hexo+GitHub搭建个人博客 | Buddha's Temple </title>
+  <title> HEXO+GitHub搭建个人博客 | Buddha's Temple </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +243,7 @@
             
             
               
-                Hexo+GitHub搭建个人博客
+                HEXO+GitHub搭建个人博客
               
             
           </h1>
@@ -284,7 +283,7 @@
       
 
       
-        <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_Cover.png" alt="Hexo+Github_Tutorial_Cover.png">  </p>
+        <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_CoverUpdate.png" alt="Hexo+Github_Tutorial_CoverUpdate.png">  </p>
 <a id="more"></a>    
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p>总是羡慕别人有一个属于自己的时间胶囊，承载着点滴的成长积累，凝聚成涌浪让自己扬帆千里。也总是莫名觉得搭建一个博客是多么的麻烦，以至于很多文章一直只存储在本地，自娱自乐。  </p>
@@ -308,23 +307,16 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~                     // 切换到主目录（家目录）</span><br><span class="line">hexo init YourBlogName   // 初始化你的博客（实际上的操作是把Hexo的模板文件和主题下载到YourBlogName文件夹中以及安装一些依赖工具），YourBlogName为你博客的名字，我取的名字是 Buddha_Blog</span><br><span class="line">cd blog                  // 切换到博客主目录</span><br><span class="line">npm install              // 安装</span><br></pre></td></tr></table></figure>
 <p>这个时候，咱们的博客后台服务器程序就已经准备完毕了!  </p>
 <p>通过命令 <code>hexo server</code> 来启动服务器，你会看到命令行中显示：  </p>
-<pre><code>INFO  Start processing
-INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.
-</code></pre><p>意思是，您的网站服务器已经启动，您可以通过网址 <code>http://localhost:4000/</code> 来访问您的博客。如果要停止服务，可以键盘按 <code>Ctrl + C</code>。  </p>
-<p>咱们可以在浏览器中输入 <code>http://localhost:4000/</code> 来看下这个博客长什么样。  </p>
-<p>在生成博客的同时，Hexo默认生成了一个 <code>hello-world.md</code> 文件，这个文件中的内容就是你当前在博客上看到的那篇文章。  </p>
-<p><code>hello-world.md</code> 后缀 <code>md</code> 代表这是一篇用 <code>Markdown</code> 语言写出来的文章。<code>Markdown</code> 语言能够使文章排版简单优美。您可以打开 <code>hello-world.md</code> 文件来初略的查看 <code>Markdown</code> 的语法。至于 <code>Markdown</code> 语言的详细介绍不在本文的所述范围之内，还请自行查阅相关资料。</p>
-<h3 id="增加新文章"><a href="#增加新文章" class="headerlink" title="增加新文章"></a>增加新文章</h3><p>我们先在终端Terminal中按 <code>Ctrl + C</code> 来停止博客访问。  </p>
-<p>在我们的博客网站中添加文章有两种方式。  </p>
-<p>第一种方式是通过命令：在终端Terminal中输入 <code>hexo new &quot;NewPost001&quot;</code>（确保在 <code>Todd_Tutorials</code> 路径下执行该命令， <code>NewPost001</code> 为文章的名字）。再次输入命令 <code>hexo server</code> 启动服务，可以看到刚才新建的文章，虽然里面什么都没有。  </p>
-<p>我如果要编辑这些文章，去哪里找呢？它们在<strong>【博客主目录 - &gt;source -&gt; _posts】</strong>中，如下图：  </p>
-<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_02.png" alt="Hexo+Github_Tutorial_02.png">  </p>
-<p>第二种方式就很明显了，直接把你写好的文章放到<strong>【博客主目录 - &gt;source -&gt; _posts】</strong>文件夹下即可。  </p>
-<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>Hexo的官网（<a href="https://hexo.io/themes/" target="_blank" rel="external">https://hexo.io/themes/</a>）上给出了52款主题（截止2016.05.17），每一个主题都各有特色，您可以挑选一个最喜欢的。本博客选择的是一个叫做 <code>NexT</code> 的主题。  </p>
-<p><code>NexT</code> 主题的GitHub地址是 <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">https://github.com/iissnan/hexo-theme-next</a><br><code>NexT</code> 主题的官网地址是 <a href="http://theme-next.iissnan.com" target="_blank" rel="external">http://theme-next.iissnan.com</a>  </p>
-<p><code>NexT</code> 主题的官网非常清晰地描述了怎么把Hexo从默认 <code>landscape</code> 主题换成 <code>NexT</code> 主题。而我选择 <code>NexT</code> 主题有两个原因，一是风格简洁，二是文档详细。因此，跟着 <code>NexT</code> 主题官网上的文档一步一步的做就行了，同样也是非常简单。如果仅仅换一下主题，不做自定义的配置，差不多一分钟就能搞定了。至于自定义的配置，可以等有了文章之后再慢慢调整。  </p>
-<p>至此，在本地已经搭建好了一个Hexo博客，我们可以通过 <code>http://localhost:4000/</code> 网址来访问该博客，接下来要做的就是能让更多人访问到这个博客。  </p>
-<h2 id="部署Hexo博客到GitHub上"><a href="#部署Hexo博客到GitHub上" class="headerlink" title="部署Hexo博客到GitHub上"></a>部署Hexo博客到GitHub上</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.  </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">意思是，您的网站服务器已经启动，您可以通过网址 `http://localhost:4000/` 来访问您的博客。如果要停止服务，可以键盘按 `Ctrl + C`。  </span><br><span class="line"></span><br><span class="line">咱们可以在浏览器中输入 `http://localhost:4000/` 来看下这个博客长什么样。  </span><br><span class="line"></span><br><span class="line">在生成博客的同时，Hexo默认生成了一个 `hello-world.md` 文件，这个文件中的内容就是你当前在博客上看到的那篇文章。  </span><br><span class="line"></span><br><span class="line">`hello-world.md` 后缀 `md` 代表这是一篇用 `Markdown` 语言写出来的文章。`Markdown` 语言能够使文章排版简单优美。您可以打开 `hello-world.md` 文件来初略的查看 `Markdown` 的语法。至于 `Markdown` 语言的详细介绍不在本文的所述范围之内，还请自行查阅相关资料。</span><br><span class="line"></span><br><span class="line">### 增加新文章  </span><br><span class="line"></span><br><span class="line">我们先在终端Terminal中按 `Ctrl + C` 来停止博客访问。  </span><br><span class="line"></span><br><span class="line">在我们的博客网站中添加文章有两种方式。  </span><br><span class="line"></span><br><span class="line">第一种方式是通过命令：在终端Terminal中输入 `hexo new &quot;NewPost001&quot;`（确保在 `Todd_Tutorials` 路径下执行该命令， `NewPost001` 为文章的名字）。再次输入命令 `hexo server` 启动服务，可以看到刚才新建的文章，虽然里面什么都没有。  </span><br><span class="line"></span><br><span class="line">我如果要编辑这些文章，去哪里找呢？它们在**【博客主目录 - &gt;source -&gt; _posts】**中，如下图：  </span><br><span class="line"></span><br><span class="line">![Hexo+Github_Tutorial_02.png](http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_02.png)  </span><br><span class="line"></span><br><span class="line">第二种方式就很明显了，直接把你写好的文章放到**【博客主目录 - &gt;source -&gt; _posts】**文件夹下即可。  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 主题  </span><br><span class="line"></span><br><span class="line">Hexo的官网（[https://hexo.io/themes/](https://hexo.io/themes/)）上给出了52款主题（截止2016.05.17），每一个主题都各有特色，您可以挑选一个最喜欢的。本博客选择的是一个叫做 `NexT` 的主题。  </span><br><span class="line"></span><br><span class="line">`NexT` 主题的GitHub地址是 [https://github.com/iissnan/hexo-theme-next](https://github.com/iissnan/hexo-theme-next)  </span><br><span class="line">`NexT` 主题的官网地址是 [http://theme-next.iissnan.com](http://theme-next.iissnan.com)  </span><br><span class="line"></span><br><span class="line">`NexT` 主题的官网非常清晰地描述了怎么把Hexo从默认 `landscape` 主题换成 `NexT` 主题。而我选择 `NexT` 主题有两个原因，一是风格简洁，二是文档详细。因此，跟着 `NexT` 主题官网上的文档一步一步的做就行了，同样也是非常简单。如果仅仅换一下主题，不做自定义的配置，差不多一分钟就能搞定了。至于自定义的配置，可以等有了文章之后再慢慢调整。  </span><br><span class="line"></span><br><span class="line">至此，在本地已经搭建好了一个Hexo博客，我们可以通过 `http://localhost:4000/` 网址来访问该博客，接下来要做的就是能让更多人访问到这个博客。  </span><br><span class="line"></span><br><span class="line">## 部署HEXO博客到GitHub上  </span><br><span class="line"></span><br><span class="line">为什么把Hexo博客部署到GitHub上就可以被他人访问了？  </span><br><span class="line"></span><br><span class="line">### GitHub Pages  </span><br><span class="line"></span><br><span class="line">Github已经成为当下使用量最大的代码仓库，它不光满足了个人分享开源代码的需求，还赢得了很多大公司项目开发的青睐。为了使个人或企业在其代码仓库中的一些项目更加方便的被他人接受、学习并使用，有一个较为详细的介绍页面是锦上添花的。因此，GitHub迎合了用户的这种诉求并提供了GitHub Pages服务，这是一种提供静态网站托管的服务，从而可以方便的为项目建立介绍站点，也可以用来建立个人博客。如此强大的服务拥护者总多，比如微软([http://microsoft.github.io](http://microsoft.github.io))、twitter([http://twitter.github.io](http://twitter.github.io))、谷歌([http://google.github.io/material-design-icons/](http://google.github.io/material-design-icons/))等。  </span><br><span class="line"></span><br><span class="line">有三点需要注意一下：  </span><br><span class="line">1、GitHub Pages服务为每个GitHub主机上的代码仓库只提供了一个静态网站托管服务，说白了就是一个GitHub账户只能托管一个博客网站，如果你想要搭建3个博客网站，那就需要用三个不同的邮箱注册三个不同的GitHub账户。   </span><br><span class="line">2、GitHub Pages服务托管的网站最大可以有300MB的空间。就写文章的话，够写几千几万篇了吧！  </span><br><span class="line">3、GitHub Pages服务允许绑定自己的域名。这一步我没有做（通过 `http://todd2010.github.io` 网址访问我的博客我也能接受）。绑定域名其实也很简单，您要是感兴趣的话网上有大把的资料可以参考。   </span><br><span class="line"></span><br><span class="line">那具体怎么部署呢？  </span><br><span class="line"></span><br><span class="line">首先需要注册GitHub，从接触互联网开始就注册各种网站，这边我就不说了。  </span><br><span class="line"></span><br><span class="line">注册登录之后，来到GitHub首页，点击 `New repository` 新建一个代码仓库，如下图：  </span><br><span class="line"></span><br><span class="line">![Hexo+Github_Tutorial_03.png](http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_03.png)  </span><br><span class="line"></span><br><span class="line">然后根据下图填写必要的信息，请务必看清图中的说明。  </span><br><span class="line"></span><br><span class="line">![Hexo+Github_Tutorial_04.png](http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_04.png)   </span><br><span class="line"></span><br><span class="line">点击 `Create repository` 按钮。至此，GitHub Pages就准备好了。  </span><br><span class="line"></span><br><span class="line">### 部署</span><br><span class="line"></span><br><span class="line">下文为了叙述方便，我们假设您的GitHub账户名是 `ABC123`。  </span><br><span class="line"></span><br><span class="line">接下来就是要把本地的Hexo博客部署到刚新建的ABC123.github.io的仓库中去。   </span><br><span class="line"></span><br><span class="line">Hexo有一个专门部署GitHub的插件，叫做 `hexo-deployer-git`，GitHub地址：[https://github.com/hexojs/hexo-deployer-git](https://github.com/hexojs/hexo-deployer-git)。Hexo没有自带这个插件，因此需要先安装一下，来到终端Terminal，切换到博客主目录中，输入 `npm install hexo-deployer-git --save` 这个命令就完成了安装。   </span><br><span class="line"></span><br><span class="line">接着在本地博客的主目录下打开 `_config.yml` 配置文件，有两处需要稍作修改。  </span><br><span class="line"></span><br><span class="line">首先在第二段的URL中把 `url: http://yoursite.com` 改成 `url: http://ABC123.github.io`。  </span><br><span class="line"></span><br><span class="line">其次把最下面的部署内容修改成如下代码并保存退出。 </span><br><span class="line"></span><br><span class="line">```    </span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https://github.com/Todd2010/Todd2010.github.io.git  //此处改成您的GitHub仓库地址</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>上面两处修改需要注意冒号后面是有一个空格的，千万不能去掉，最好直接复制我的代码，然后把相应字段的稍作修改。</p>
+<p>再次回到终端Terminal中，输入：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean      // 清理一下</span><br><span class="line">hexo generate   // 可以用简写: hexo g</span><br><span class="line">hexo deploy     // 可以用简写: hexo d</span><br></pre></td></tr></table></figure>
+<p>至此，搭建博客就全部搞定了！  </p>
+<p>在浏览器中输入ABC123.github.io就可以看到属于您的个人博客了。  </p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>在搭建博客的过程中，我遇到过两个问题。  </p>
+<p>1、有时候会遇到输入某条命令出现各种错误，可是试着在命令前加上 <code>sudo</code>, 使用系统权限来执行这条命令，然后输入密码即可。   </p>
+<p>2、在执行 <code>hexo deploy</code> 后，用Safari打开没有及时更新。这时可以稍等5到10秒或多刷新几次。不过这个问题在Chrome上没有发生过。</p>
+
       
     </div>
 
@@ -497,7 +489,7 @@ INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HEXO博客框架"><span class="nav-number">2.</span> <span class="nav-text">HEXO博客框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Node-js-Hexo"><span class="nav-number">2.1.</span> <span class="nav-text">安装 Node.js + Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用Hexo来生成博客"><span class="nav-number">2.2.</span> <span class="nav-text">利用Hexo来生成博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加新文章"><span class="nav-number">2.3.</span> <span class="nav-text">增加新文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主题"><span class="nav-number">2.4.</span> <span class="nav-text">主题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署Hexo博客到GitHub上"><span class="nav-number">3.</span> <span class="nav-text">部署Hexo博客到GitHub上</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HEXO博客框架"><span class="nav-number">2.</span> <span class="nav-text">HEXO博客框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Node-js-Hexo"><span class="nav-number">2.1.</span> <span class="nav-text">安装 Node.js + Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用Hexo来生成博客"><span class="nav-number">2.2.</span> <span class="nav-text">利用Hexo来生成博客</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
             
           </div>
         </section>
