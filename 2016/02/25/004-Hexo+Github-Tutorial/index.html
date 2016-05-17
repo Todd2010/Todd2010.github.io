@@ -93,7 +93,7 @@
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_Cover.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_01.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_02.png">
-<meta property="og:updated_time" content="2016-05-17T08:08:51.000Z">
+<meta property="og:updated_time" content="2016-05-17T08:37:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo+GitHub搭建个人博客">
 <meta name="twitter:description">
@@ -298,33 +298,32 @@
 <p>Hexo是一款基于Node.js的静态博客框架。其实说白了，Hexo的就是一个把您写的文章以各种形式（摘要列表、题目归档列表、全篇等）展现出来，再加上些作者相关信息的网站。而主题是来决定这个网站显示成什么样子，如结构、字体、颜色等。  </p>
 <h3 id="安装-Node-js-Hexo"><a href="#安装-Node-js-Hexo" class="headerlink" title="安装 Node.js + Hexo"></a>安装 Node.js + Hexo</h3><p>既然Hexo是用Node.js开发出来的东西，那首先肯定需要安装Node.js。   </p>
 <p>Node.js是一个可以运行JavaScript的环境。试想一下，要是把这个运行环境装在后台服务器上，那岂不是用JavaScript可以写服务器端的程序了？要是把这个运行环境装在Windows上，那岂不是用JavaScript还可以写Windows桌面应用了？恩，没错，更神奇的在于Node.js还能开发Mac服务端程序、Mac桌面应用、Android手机应用、路由器应用、机顶盒应用等等！Node.js问世也有7年的时间了，其本身的设计思想还挺独特，很有意思，没了解过的可以关注下！Node.js不在本文重点介绍的范畴之内，停止扯淡！   </p>
-<p>在这里，Hexo就是基于的Node.js运行环境并且用JavaScript语言写的一个后台服务器。而我们最终的后台服务器程序就托管在GitHub上。  </p>
-<p>那就先来安装Node.js吧! 来到官网 <a href="https://nodejs.org/en/" target="_blank" rel="external">https://nodejs.org/en/</a>， 下载安装包，安装到最后会告诉你Node.js的安装路径，没必要记录下来，后面可以通过 <code>which node</code> 来查看Node.js的安装路径！  </p>
-<p>安装完成之后，为了验证Node.js是否成功安装，可以在终端Terminal中输入 <code>node --version</code> 查看版本号，我当前装的Node.js的版本号是 <code>v4.4.4</code>，至此，Node.js准备就绪。   </p>
+<p>Hexo就是基于的Node.js运行环境并且用JavaScript语言写的一个后台服务器。而我们最终的后台服务器程序就托管在GitHub上。  </p>
+<p>那就先来安装Node.js吧! 来到官网 <a href="https://nodejs.org/en/" target="_blank" rel="external">https://nodejs.org/en/</a>， 下载安装包，安装到最后会告诉你Node.js的安装路径，没必要记录下来，如果你想要知道，可以通过 <code>which node</code> 来查看Node.js的安装路径！  </p>
+<p>安装完成之后，为了验证Node.js是否安装成功，可以在终端Terminal中输入 <code>node --version</code> 查看版本号，我当前装的Node.js的版本号是 <code>v4.4.4</code>，至此，Node.js准备就绪。   </p>
 <p>接下来就可以安装Hexo了，其实在Hexo的GitHub（<a href="https://github.com/hexojs/hexo" target="_blank" rel="external">https://github.com/hexojs/hexo</a>）上已经很详细的写出了安装步骤，下面我再重复一下吧！  </p>
 <p>回到终端Terminal中，输入 <code>sudo npm install hexo-cli -g</code> 命令，然后输入你的开机密码，回车，等待安装完成。这条命令表示在系统中安装Hexo，同样可以通过 <code>hexo --version</code> 来查看Hexo的版本号，如下图，我当前装的Hexo的版本号是 <code>1.0.1</code>，至此，Hexo准备就绪。  </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_01.png" alt="Hexo+Github_Tutorial_01.png">  </p>
-<h3 id="利用Hexo来生成博客"><a href="#利用Hexo来生成博客" class="headerlink" title="利用Hexo来生成博客"></a>利用Hexo来生成博客</h3><p>Hexo装好了，那就用Hexo来生成一个默认的博客网站吧！找一个地方存放你的博客网站，比如我的博客放在了我的家目录中，在终端Terminal中，输入下面四条命令：  </p>
+<h3 id="利用Hexo来生成博客"><a href="#利用Hexo来生成博客" class="headerlink" title="利用Hexo来生成博客"></a>利用Hexo来生成博客</h3><p>Hexo装好了，那就用Hexo来生成一个默认的博客网站吧！找一个存放你博客网站地方，比如我的博客放在了我的家目录中，在终端Terminal中，输入下面四条命令：  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~                     // 切换到主目录（家目录）</span><br><span class="line">hexo init YourBlogName   // 初始化你的博客（实际上的操作是把Hexo的模板文件和主题下载到YourBlogName文件夹中以及安装一些依赖工具），YourBlogName为你博客的名字，我取的名字是 Buddha_Blog</span><br><span class="line">cd blog                  // 切换到博客主目录</span><br><span class="line">npm install              // 安装</span><br></pre></td></tr></table></figure>
 <p>这个时候，咱们的博客后台服务器程序就已经准备完毕了!  </p>
 <p>通过命令 <code>hexo server</code> 来启动服务器，你会看到命令行中显示：  </p>
 <pre><code>INFO  Start processing
 INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.
-</code></pre><p>意思是，您的博客已经启动，您可以通过网址 <code>http://localhost:4000/</code> 来访问您的博客网站。如果要停止服务，可以键盘按 <code>Ctrl + C</code>。  </p>
-<p>咱们可以在浏览器中输入 <code>http://localhost:4000/</code> 来看下刚才所做的工作。  </p>
+</code></pre><p>意思是，您的网站服务器已经启动，您可以通过网址 <code>http://localhost:4000/</code> 来访问您的博客。如果要停止服务，可以键盘按 <code>Ctrl + C</code>。  </p>
+<p>咱们可以在浏览器中输入 <code>http://localhost:4000/</code> 来看下这个博客长什么样。  </p>
 <p>在生成博客的同时，Hexo默认生成了一个 <code>hello-world.md</code> 文件，这个文件中的内容就是你当前在博客上看到的那篇文章。  </p>
-<p><code>hello-world.md</code> 后缀 <code>md</code> 代表这是一篇用 <code>Markdown</code> 语言写出来的文章。<code>Markdown</code> 语言能够使文章排版简单优美。您可以打开 <code>hello-world.md</code> 文件来初略的查看 <code>Markdown</code> 的语法。   </p>
-<p>至于 <code>Markdown</code> 语言的详细介绍不在本文的所述范围之内，还请自行查阅相关资料。</p>
+<p><code>hello-world.md</code> 后缀 <code>md</code> 代表这是一篇用 <code>Markdown</code> 语言写出来的文章。<code>Markdown</code> 语言能够使文章排版简单优美。您可以打开 <code>hello-world.md</code> 文件来初略的查看 <code>Markdown</code> 的语法。至于 <code>Markdown</code> 语言的详细介绍不在本文的所述范围之内，还请自行查阅相关资料。</p>
 <h3 id="增加新文章"><a href="#增加新文章" class="headerlink" title="增加新文章"></a>增加新文章</h3><p>我们先在终端Terminal中按 <code>Ctrl + C</code> 来停止博客访问。  </p>
 <p>在我们的博客网站中添加文章有两种方式。  </p>
-<p>第一种方式通过命令：在终端Terminal中输入 <code>hexo new &quot;NewPost001&quot;</code>（确保在 <code>Todd_Tutorials</code> 路径下执行该命令， <code>NewPost001</code> 为文章的名字）。这个时候可以输入命令 <code>hexo server</code> 启动服务，可以看到刚才新建的文章，虽然里面什么都没有。  </p>
-<p>我如果要编辑这些文章，去哪里找呢？他们在<strong>【博客主目录 - &gt;source -&gt; _posts】</strong>中，如下图：  </p>
+<p>第一种方式是通过命令：在终端Terminal中输入 <code>hexo new &quot;NewPost001&quot;</code>（确保在 <code>Todd_Tutorials</code> 路径下执行该命令， <code>NewPost001</code> 为文章的名字）。再次输入命令 <code>hexo server</code> 启动服务，可以看到刚才新建的文章，虽然里面什么都没有。  </p>
+<p>我如果要编辑这些文章，去哪里找呢？它们在<strong>【博客主目录 - &gt;source -&gt; _posts】</strong>中，如下图：  </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/Hexo+Github_Tutorial_02.png" alt="Hexo+Github_Tutorial_02.png">  </p>
 <p>第二种方式就很明显了，直接把你写好的文章放到<strong>【博客主目录 - &gt;source -&gt; _posts】</strong>文件夹下即可。  </p>
-<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>Hexo的官网（<a href="https://hexo.io/themes/" target="_blank" rel="external">https://hexo.io/themes/</a>）上给出了52款主题（截止2016.05.17），每一个主题都很各有特色，你可以挑选一个你最喜欢的。本博客选择的是一个叫做 <code>NexT</code> 的主题。  </p>
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>Hexo的官网（<a href="https://hexo.io/themes/" target="_blank" rel="external">https://hexo.io/themes/</a>）上给出了52款主题（截止2016.05.17），每一个主题都各有特色，您可以挑选一个最喜欢的。本博客选择的是一个叫做 <code>NexT</code> 的主题。  </p>
 <p><code>NexT</code> 主题的GitHub地址是 <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">https://github.com/iissnan/hexo-theme-next</a><br><code>NexT</code> 主题的官网地址是 <a href="http://theme-next.iissnan.com" target="_blank" rel="external">http://theme-next.iissnan.com</a>  </p>
-<p><code>NexT</code> 主题的官网非常清晰地描述了怎么把Hexo从默认 <code>landscape</code> 主题换成 <code>NexT</code> 主题。而我选择 <code>NexT</code> 主题主要是两个原因，一是风格简洁，二是文档详细。因此，跟着 <code>NexT</code> 主题官网上的文档一步一步的做就行了。同样也是非常简单，如果仅仅换一下主题，不做自定义的配置，差不多一分钟的时间就能搞定了。至于自定义的配置，可以等有了文章之后具体慢慢的调整。  </p>
-<p>至此，在本地已经搭建好了一个Hexo博客，我们可以通过 <code>http://localhost:4000/</code> 网址来访问博客，接下来要做的就是能让更多人访问到这个博客。  </p>
+<p><code>NexT</code> 主题的官网非常清晰地描述了怎么把Hexo从默认 <code>landscape</code> 主题换成 <code>NexT</code> 主题。而我选择 <code>NexT</code> 主题有两个原因，一是风格简洁，二是文档详细。因此，跟着 <code>NexT</code> 主题官网上的文档一步一步的做就行了，同样也是非常简单。如果仅仅换一下主题，不做自定义的配置，差不多一分钟就能搞定了。至于自定义的配置，可以等有了文章之后再慢慢调整。  </p>
+<p>至此，在本地已经搭建好了一个Hexo博客，我们可以通过 <code>http://localhost:4000/</code> 网址来访问该博客，接下来要做的就是能让更多人访问到这个博客。  </p>
 <h2 id="部署Hexo博客到GitHub上"><a href="#部署Hexo博客到GitHub上" class="headerlink" title="部署Hexo博客到GitHub上"></a>部署Hexo博客到GitHub上</h2>
       
     </div>
