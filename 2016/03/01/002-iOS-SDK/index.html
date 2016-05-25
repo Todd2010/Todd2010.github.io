@@ -108,7 +108,10 @@
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_14.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_15.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_16.png">
-<meta property="og:updated_time" content="2016-05-18T02:41:35.000Z">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_17.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_18.png">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_19.png">
+<meta property="og:updated_time" content="2016-05-25T02:02:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS点燃SDK的地狱之门">
 <meta name="twitter:description" content="本博客目前大约有7000字，全篇读完差不多需要40分钟！未完待续……">
@@ -326,11 +329,11 @@
 <p>在iOS中，不存在真正意义上的第三方动态库和动态框架，只存在苹果自己的动态库和动态框架。比如，UIKit.framework、Foundation.framework、AVFoundation.framework等才是真正意义上的动态框架。这些框架在很多App中都会调用，但是在内存中只有一份拷贝给各个App共享。虽然自从iOS8之后，苹果允许制作第三方的动态框架，但是不同的App如果使用同一份动态框架，在内存中还是会存在多份拷贝，只不过在链接阶段还是链接动态框架的引用而已。  </p>
 <p>为什么苹果在iOS8的时候允许制作第三方动态框架呢？那是因为iOS8推出了Swift语言，而Swift代码只能编译成动态库或动态框架。想深究原因，给出网址，自行查看。<a href="https://github.com/ksm/SwiftInFlux#static-libraries" target="_blank" rel="external">网址1</a>  <a href="https://developer.apple.com/swift/blog/?id=2" target="_blank" rel="external">网址2</a>  这两个链接中的内容主要表达的意思是：目前Swift代码无法编译成静态框架；想要编译成静态框架，静候佳音吧。</p>
 <p>因此，如果你想要把包含Swift语言的代码打包成静态框架，目前来说是无法实现的。    </p>
-<p>Swift的推出还直接导致了CocoaPods 0.36.0版本的延迟发布。在Objective-C的年代，CocoaPods把导入的第三方代码打包生成了一个静态库（libPods.a）嵌入到App中执行。在推出Swift语言之后就有了很多Swift版本的第三方库（如AFNetworking的Swift版本Alamofire），只要你的项目中Pod了含有Swift代码的第三方库，那么在Podfile文件中就必须写上 <code>use_frameworks!</code>，而一旦加上这个Flag，那么CocoaPods就会把所有Pod的第三方库都生成动态框架（Pod_项目名字.framework）嵌入到App中执行。因此，这是一种要么全是静态框架，要么全是动态框架的策略。<a href="https://blog.cocoapods.org/CocoaPods-0.36/" target="_blank" rel="external">想要更多八卦，再来看一篇相关文章</a>    </p>
-<h2 id="静态框架进阶一"><a href="#静态框架进阶一" class="headerlink" title="静态框架进阶一"></a>静态框架进阶一</h2><p>想要搞清楚SDK开发，那还是来点实践吧，Demo有点多，我会尽一切可能阐述清楚。  </p>
+<p>Swift的推出还直接导致了CocoaPods 0.36.0版本的延迟发布。在只有Objective-C的年代，CocoaPods把导入的第三方代码打包成一个静态库（libPods.a）嵌入到App中执行。Swift语言推出之后自然就有了很多Swift版本的第三方库（如AFNetworking的Swift版本Alamofire），只要你的项目中Pod了含有Swift代码的第三方库，那么在Podfile文件中就必须写上 <code>use_frameworks!</code>，而一旦加上这个Flag，那么CocoaPods就会把所有Pod的第三方库都生成动态框架（Pod_项目名字.framework）嵌入到App中执行。因此，这是一种要么全是静态框架，要么全是动态框架的策略。<a href="https://blog.cocoapods.org/CocoaPods-0.36/" target="_blank" rel="external">想要更多八卦，再来看一篇相关文章</a>    </p>
+<h2 id="静态框架进阶一"><a href="#静态框架进阶一" class="headerlink" title="静态框架进阶一"></a>静态框架进阶一</h2><p>想要搞清楚SDK的开发，那还是来点实践吧，Demo有点多，我会尽一切可能阐述清楚。  </p>
 <p>先来制作一个静态框架（BuddhaSDK.Framework，我网名叫燃灯古佛，就以Buddha来命名吧）！    </p>
 <p>Xcode7.3.1 + Objecitve-C  </p>
-<p>从网上能搜到很多关于静态库（xxx.a）的制作教程，其中大多都是Xcode6之前的。因为在Xcode6之前，苹果只提供了<code>Cocoa Touch Static Library</code>模板。这个模板只能制作静态库（xxx.a），如果想要制作静态框架（xxx.framework），还是要费点力气的，不过你可以借用第三方的力量来实现 <a href="https://github.com/kstenerud/iOS-Universal-Framework" target="_blank" rel="external">iOS-Universal-Framework</a>。随着Xcode6的发布，苹果新增了一个<code>Cocoa Touch Framework</code>模板，这也就意味着Xcode6支持框架开发了，同时<code>iOS-Universal-Framework</code>开发者也宣布不再继续维护此项目并建议开发者使用官方模板来开发。     </p>
+<p>从网上能搜到很多关于静态库（xxx.a）的制作教程，其中大多都是Xcode6之前的。因为在Xcode6之前，苹果只提供了<code>Cocoa Touch Static Library</code>模板。这个模板只能制作静态库（xxx.a），如果想要制作静态框架（xxx.framework），还是要费点力气的，不过你可以借用第三方的力量（<a href="https://github.com/kstenerud/iOS-Universal-Framework" target="_blank" rel="external">iOS-Universal-Framework</a>）来实现。随着Xcode6的发布，苹果新增了一个<code>Cocoa Touch Framework</code>模板，这意味着Xcode6支持框架开发了，同时<code>iOS-Universal-Framework</code>开发者也宣布不再继续维护此项目并建议开发者使用官方模板来开发。     </p>
 <p>静态库（xxx.a）和静态框架（xxx.framework）的区别上文已经有所阐述，考虑到方便性、整体性、专业性以及与时俱进，我觉得，哪怕再简单的库，还是建议制作成静态框架来提供给他人使用吧。   </p>
 <p>恩！那就开始了。。。  </p>
 <p>首先新建一个<code>Cocoa Touch Framework</code>模板的工程。</p>
@@ -342,7 +345,7 @@
 <p>对于 <code>BuddhaSDK.h</code> 文件和 <code>Info.plist</code> 文件，确实有不少东西可以讲，下文慢慢分析吧，再扯会犊子！  </p>
 <p>那我们做个什么功能呢，网上大多都是各种log，那我就来个AES加解密和Base64编解码吧，争取在小白的崇山峻岭中占据制高点。如果你不知道什么叫做AES和Base64，那真是极好的，我去拿船桨，咱们友谊的小船轻轻荡起来吧。   </p>
 <p>App中总是会有很多敏感的信息需要在客户端和服务器端之间传输，比如用户的手机号和密码、我们公司针对图片搜索到的答案解析等等，这些都是公司的核心资产，不加个密伪装一下真不好意思在网络上走来走去的。不过，安全问题光靠对数据的加解密肯定是行不通的，需要许许多多的防护措施和前后端的配合。就光对数据的加解密算法来说，很多公司也是需要制作一个静态框架的，有些敏感的信息不光要防着外界的黑客，还得防着公司里别有用心的灰太狼。犊子扯完，回到主题！  </p>
-<p>继续撸会代码吧，新建一个 <code>CanNotSee</code> 的类，继承自 <code>NSObject</code> 类。</p>
+<p>来到Xcode，开始撸代码吧，新建一个 <code>CanNotSee</code> 的类，继承自 <code>NSObject</code> 类。</p>
 <p>在 CanNotSee.h 文件中声明4个方法，如下：  </p>
 <pre><code class="Objective-C">/**
  * base64编码
@@ -459,12 +462,14 @@
 }
 </code></pre>
 <p>Base64编解码的具体实现其实很简单，核心代码两行就能搞定了。  </p>
-<p>AES加解密稍微复杂一点，它分好几种模式，还有几种填充算法以及不同的加密位数等，不过这么多分支在使用上其实差不多，主要就是准备好所需的参数，然后调用系统提供的方法就可以了，本文不做深究。仅扩展一点，AES是一种对称加密算法，这个时候，请你再瞧一下上面的代码，可以看到AES加解密的具体实现几乎没多大区别，这时你的心中是不是有种莫名的顿悟，原来对称加密算法是这个意思呀。哈哈，那就掉坑里了，所谓对称加密，最重要的一点是加解密的算法中使用的是同一个的秘钥，跟代码写的对不对称无关。在上面的代码中，<code>@&quot;abcdefghigklmnop&quot;</code> 就是秘钥。因此，前后端的秘钥如果有更改，必须要周知相关人员。  </p>
-<p>其实，Base64和AES算法主要是对NSData的操作，最好的写法是对NSData进行分类（Categroy），这点下文会继续分析，并且还能挖到Categroy在静态框架的一个小坑。  </p>
+<p>AES加解密稍微复杂一点，它分好几种模式，还有几种填充算法以及不同的加密位数等，不过这么多分支在使用上其实差不多，主要就是准备好所需的参数，然后调用系统提供的方法就可以了，本文不做深究。仅扩展一点，AES是一种对称加密算法，这个时候，请你再瞧一下上面的代码，可以看到AES加解密的具体实现几乎没多大区别，这时你心中是不是有种莫名的顿悟，原来对称加密算法是这个意思呀。哈哈，那就掉坑里了。所谓对称加密，最重要一点就是加解密的算法中使用的是同一个秘钥，跟代码写的对不对称无关。在上面的代码中，<code>@&quot;abcdefghigklmnop&quot;</code> 就是秘钥。因此，前后端的秘钥如果有更改，必须要周知相关人员。  </p>
+<p>其实，Base64和AES算法主要是对NSData的操作，最好的写法是对NSData进行分类（Categroy），这点下文会继续分析，并且还能挖到Categroy在静态框架中的几个小坑。  </p>
 <p>恩，到这里，编解码和加解密的功能都实现了，我们的目的是给框架使用者提供若干个接口，但是不能让他们看到具体的实现细节。  </p>
-<p>回到 <code>BuddhaSDK.h</code> 文件，忽略其他东西，在最后一行有这么一句话：<br><code>In this header, you should import all the public headers of your framework</code><br><code>using statements like #import &lt;BuddhaSDK/PublicHeader.h&gt;</code><br>显而易见，那就在这句话的下面写上：<br><code>#import &lt;BuddhaSDK/CanNotSee.h&gt;</code><br>这样，在 <code>CanNotSee.h</code> 里的4个方法的声明接口就能够被暴露出来了。  </p>
-<p>不过，难道这样就好了吗？是不是总觉得哪里不对劲。我怎么能确保 <code>CanNotSee.m</code> 这个文件确确实实在最后生成静态框架中被隐藏起来了呢，而且，难道只有系统生成的 <code>BuddhaSDK.h</code> 文件才能够被暴露出来的吗？肯定有个地方能让我们指定哪些文件可以暴露，哪些文件可以隐藏。  </p>
-<p>恩，直觉真是靠谱！点击 工程文件 -&gt; TARGETS - &gt; Build Phases，展开 <code>Headers</code>，能看到三个分组，分别是 <code>Public</code>，<code>Private</code>，<code>Project</code>。   </p>
+<p>回到 <code>BuddhaSDK.h</code> 文件，忽略其他东西，在最后一行有这么一句话：   </p>
+<pre><code>In this header, you should import all the public headers of your framework using statements like #import &lt;BuddhaSDK/PublicHeader.h&gt;
+</code></pre><p>显而易见，那就在这句话的下面写上：<br><code>#import &lt;BuddhaSDK/CanNotSee.h&gt;</code><br>这样，在 <code>CanNotSee.h</code> 里的4个方法的声明接口就能够被暴露出来了。  </p>
+<p>不过，难道这样就好了吗？是不是总觉得哪里不对劲。我怎么能确保 <code>CanNotSee.m</code> 这个文件确确实实在最后生成的静态框架中被隐藏起来了呢，而且，难道只有系统生成的 <code>BuddhaSDK.h</code> 文件才能够被暴露出来吗？肯定有个地方能让我们指定哪些文件可以暴露，哪些文件可以隐藏。  </p>
+<p>恩，直觉真是靠谱！点击 <code>工程文件 -&gt; TARGETS - &gt; Build Phases</code>，展开 <code>Headers</code>，能看到三个分组，分别是 <code>Public</code>、<code>Private</code>、<code>Project</code>。   </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_Build%20Phases.png" alt="iOS_SDK_Tutorial_Build Phases.png"></p>
 <p>这三组的意思苹果也给出了相应的解释：  </p>
 <blockquote>
@@ -473,9 +478,9 @@
 <p>Project: The interface is for use only by implementation files in the current project. A project header is not included in the target, except in object code. The symbols are not visible to clients at all, only to you.     </p>
 </blockquote>
 <p>从这个解释里可以看出，Private对于使用框架的人来说是没什么关系的，制作框架的时候也几乎不会把文件放在Private组之下。因此，该组可以忽略。剩下Public和Project组的作用也就很明显了，Public用来暴露那些你想要让框架使用者看到的代码文件，而不想暴露的代码文件全部都放在Project组。  </p>
-<p>在本项目中，确保 <code>BuddhaSDK.h</code> 和 <code>CanNotSee.h</code> 文件是在Public组中的，其他所有代码文件全都拉到Project中（其实就是 <code>CanNotSee.m</code> 文件）。  </p>
+<p>在本项目中，确保 <code>BuddhaSDK.h</code> 和 <code>CanNotSee.h</code> 文件是在Public组中的，其他所有代码文件全都拉到Project中去（其实就是 <code>CanNotSee.m</code> 文件）。  </p>
 <p>OK，貌似该做的都做了，那就 <code>Command + R</code> 运行起来呗，可是键盘怎么按都没有反应，那就只能键盘 <code>Command + B</code> 或点击Xcode上的运行箭头，这下有反应了，而且 <code>BuddhaSDK.framework</code> 文件居然就这么变黑了。先暂缓激动，刚才为什么键盘按 <code>Command + R</code> 没反应呢？那是因为，咱们做的是框架，不是一个可执行的App或者命令行程序，框架只有编译的过程，没有链接和运行的过程。再次声明一下，静态和动态体现在该框架被嵌入到其他App中运行之前的链接阶段。因此，也可以推断出，框架在编译的时候肯定会有参数来指定最后生成的东西是静态框架还是动态框架，以便于让其他App能够判断出框架是否需要加载进内存。  </p>
-<p>那么，这个编译的参数是什么呢？点击 工程文件 -&gt; TARGETS - &gt; Build Settings，在搜索框中输入 <code>mach</code> ：    </p>
+<p>那么，这个编译的参数是什么呢？点击 <code>工程文件 -&gt; TARGETS - &gt; Build Settings</code>，在搜索框中输入 <code>mach</code> ：    </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_04.png" alt="iOS_SDK_Tutorial_05.png">   </p>
 <p>这个 <code>Mach-O Type</code> 就是我们要寻找的编译参数。而这个 <code>Dynamic Library</code> 默认指定最后生成的是动态框架。点击 <code>Dynamic Library</code>，还能看到 <code>Executable</code>，<code>Bundle</code>，<code>Static Library</code>，<code>Relocatable Object File</code>。对于这五个参数，苹果也给出了解释。  </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_05.png" alt="iOS_SDK_Tutorial_06.png">  </p>
@@ -484,7 +489,7 @@
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_07.png" alt="iOS_SDK_Tutorial_07.png">     </p>
 <p>针对这个静态框架，有几处可以说道说道。  </p>
 <p>首先，可以看到，framework本质上就是一种Bundle，而Bundle就是一个内部结构按照标准规则组织的特殊目录。在 <code>BuddhaSDK.framework</code> 目录下的 <code>Header</code> 文件夹里可以看到暴露出来的 <code>BuddhaSDK.h</code> 文件，而其他需要隐藏的文件就被编译到了 <code>BuddhaSDK</code> 这个没有后缀名的文件中去了，这是一个二进制文件（在命令行中通过 <code>file</code> 命令来查看该文件的类型，返回结果是 <code>current ar archive random library</code>），我猜测它应该就是静态库的一种变形吧。   </p>
-<p>其次，在上图的最左边，有两个文件夹，分别是 <code>Debug-iphonesimulator</code> 和 <code>Release-iphonesimulator</code>，而 <code>Release-iphonesimulator</code> 文件夹里什么也没有。那是因为我们在编译的时候只编译了 <code>Debug</code> 环境下的Framework，在开发阶段编译这个就够了，但是在给别人用的时候，如果你的Framework中有些逻辑是区分 <code>Debug</code> 和 <code>Release</code> 环境的，比如 <code>Debug</code> 的时候有Log，<code>Release</code> 的时候没有Log；再比如 <code>Debug</code> 的时候网络请求是 <code>xxx.qa.google.com</code> 网址，<code>Release</code> 的时候网络请求是 <code>xxx.online.google.com</code> 网址。那么，就需要编译一个 <code>Release</code> 环境的Framework。如果没有任何区别，那给人家 <code>Debug</code> 环境下的Framework也是可以的。而编译 <code>Release</code> 环境的Framework只需要跟着下图设置就可以了。  </p>
+<p>其次，在上图的最左边，有两个文件夹，分别是 <code>Debug-iphonesimulator</code> 和 <code>Release-iphonesimulator</code>，而 <code>Release-iphonesimulator</code> 文件夹里什么也没有。那是因为我们在编译的时候只编译了 <code>Debug</code> 环境下的Framework，在开发阶段编译这个就够了，但是在给别人用的时候，如果你的Framework中有些逻辑是区分 <code>Debug</code> 和 <code>Release</code> 环境的，比如 <code>Debug</code> 的时候有Log，<code>Release</code> 的时候没有Log；再比如 <code>Debug</code> 的时候网络请求是 <code>xxx.qa.google.com</code> 网址，<code>Release</code> 的时候网络请求是 <code>xxx.online.google.com</code> 网址。那么，就需要编译一个 <code>Release</code> 环境的Framework。如果没有任何区别，那非得给人家 <code>Debug</code> 环境下的Framework也是可以的。而编译 <code>Release</code> 环境的Framework只需要跟着下图设置就可以了。  </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_08.png" alt="iOS_SDK_Tutorial_08.png">  </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_09.png" alt="iOS_SDK_Tutorial_09.png">    </p>
 <p>键盘 <code>Command + Shift + K</code> 清理一下工程，<code>Command + B</code> 重新编译一下。这回可以看到 <code>Release-iphonesimulator</code> 文件夹里有了我们想要的东西，而 <code>Debug-iphonesimulator</code> 文件夹里就什么都没有了。     </p>
@@ -535,11 +540,11 @@
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_10.png" alt="iOS_SDK_Tutorial_10.png">  </p>
 <p>我们完成了对Base64和AES算法的封装，暴露出了想要给他人使用的接口，隐藏了所有的实现细节。  </p>
 <p>见证奇迹成功，美好的事物就这么发生了！  </p>
-<p>到目前为止，除了我非得搞Base64和AES算法看上去可能略微有点小复杂，其他都非常简单。如果你项目中想要做的静态框架跟上文所做的东西差不多，那么仅仅掌握这些知识，其实基本上也差不多了。  </p>
-<p>如果你还有点时间，并且怀着好奇心和探索精神，那咱们下篇再继续扯会。  </p>
+<p>到目前为止，除了我非得搞Base64和AES算法看上去可能略微有点小复杂，其他都非常简单。如果你项目中想要做的静态框架跟上文所做的东西差不多简单，那么仅仅掌握这些知识也就差不多了。  </p>
+<p>如果你还有点时间，并且怀着好奇心和探索精神，那咱们再继续扯会。  </p>
 <hr>
 <h2 id="静态框架进阶二"><a href="#静态框架进阶二" class="headerlink" title="静态框架进阶二"></a>静态框架进阶二</h2><p>在这个部分，请拿起铁锨，咱们挖两个坑，跳下去感受感受！      </p>
-<h3 id="坑一"><a href="#坑一" class="headerlink" title="坑一"></a>坑一</h3><p>在咱们的静态框架 <code>BuddhaSDK.framework</code> 中，Base64和AES算法的具体实现都隐藏在一个叫做 <code>CanNotSee</code> 的类中。然而，在某一天，发生了一件非常不幸的事情，有个睁眼瞎非得在 <code>TestSDKDemo</code> 这个工程里新建一个叫做 <code>CanNotSee</code> 的同名类，仅仅是同名，它们里面写的是完全不同的代码。接下来咱们可以模拟一下睁眼瞎。  </p>
+<h3 id="坑一"><a href="#坑一" class="headerlink" title="坑一"></a>坑一</h3><p>在咱们的静态框架 <code>BuddhaSDK.framework</code> 中，Base64和AES算法的具体实现都隐藏在一个叫做 <code>CanNotSee.m</code> 的实现类中。然而，在某一天，发生了一件非常不幸的事情，有个睁眼瞎非得在 <code>TestSDKDemo</code> 这个工程里新建一个叫做 <code>CanNotSee</code> 的同名类，仅仅是同名，它们里面写的是完全不同的代码。接下来咱们可以模拟一下睁眼瞎。  </p>
 <p>新建一个 <code>CanNotSee</code> 的类，继承自 <code>NSObject</code>。  </p>
 <p><code>CanNotSee.h</code> 中代码如下：  </p>
 <pre><code class="Objective-C">@interface CanNotSee : NSObject
@@ -578,12 +583,12 @@
 </code></pre>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_11.png" alt="iOS_SDK_Tutorial_11.png"></p>
 <p>代码写完，没有报错。<code>Command + B</code> 编译一下，没有任何问题，<code>Command + R</code> 再运行一下，崩了！  </p>
-<p>这尼玛是咋滴了（故作呆萌状），添加全局的异常断点，然后再运行一下，看看到底是出了什么幺蛾子。   </p>
+<p>这尼玛是咋滴了（故作呆萌状）？让我们来添加全局的异常断点，然后再运行一下，看看到底是出了什么幺蛾子。   </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_12.png" alt="iOS_SDK_Tutorial_12.png">   </p>
-<p>聚焦到最下面的输入输出控制台，Xcode说在 <code>CanNotSee</code> 类中找不到 <code>encodeWithBase64:</code> 这个方法。从这个错误中可以看出，不管  <code>BuddhaSDK.framework</code> 中有没有 <code>CanNotSee</code> 类，<code>TestSDKDemo</code> 这个工程在运行的时候首先调用的还是自家的 <code>CanNotSee</code> 类中的方法，哪怕在我们都没有引入 <code>CanNotSee.h</code> 文件的情况下（在 <code>ViewController.m</code> 中引入的是 <code>BuddhaSDK/BuddhaSDK.h</code>，相当于只是仅仅引入了 <code>BuddhaSDK.framework</code> 中的 <code>CanNotSee.h</code> 头文件）。因此，最后的结论就是，在同一个目标工程里面显然是不允许存在两个同名的类。  </p>
-<p>对于这个结论，还有两个重要的点需要补充说明。  </p>
-<p>首先，在咱们的测试工程中，同名文件的问题可能你会觉得根本没人会这么做。当然咱们的测试工程文件那么少，你一眼就能看到。还有，如果你只是在你公司内部的项目中做一个类似对加解密的简单封装并且你对整个工程都有一个非常清晰的掌控，你可能也会注意到同名文件的问题。而如果你要做的Framework是给公司其他项目组使用甚至给其他公司使用，为了减少沟通成本，也为了不让别人觉得你low，那么你就必须要将自己Framework中的每一个类都取一个将来尽量不会产生冲突的名字。其实，这就涉及到了Objective-C命名空间的问题，很不幸的是，Objective-C是没有命名空间这个概念的，而为了避免类名冲突，Objective-C采用的是前缀的方法（可以粗略的理解为命名空间的一种解决办法）。就比如苹果自带框架的前缀，如 <code>Foundation</code> 框架的 <code>NS</code>； <code>UIKit</code> 框架的 <code>UI</code>； <code>AVFoundation</code> 框架的 <code>AV</code>等等。因此，在交付Framework给他人使用的时候，最好能有相应的文档来说明一下Framework的前缀。那么，在咱们的 <code>BuddhaSDK</code> 工程中就需要更改一下了，加入我们自己的前缀 <code>ABC</code> 吧。可是，如果你的项目在实现过程中从来就没有过前缀，然后项目也非常大了，这时候突然需要为你的项目进行SDK化，那怎么办呢？比如，就我当下的项目，拍照搜题和老师答疑，代码文件有100多个，这时候需要把这些文件都做成SDK，如果把每一个类都加上前缀，那不是要了我的亲命吗？可我还是个宝宝，美好的世界还没怎么看看呢。这里再留个悬念吧，后文本宝宝慢慢的再续上，这是一个终极大坑，也是咱们主题下的地狱之门！  </p>
-<p>其次，还有一个概念前文提到，但是没有举过例子，这边再次强化一下。一般来说，如果一个项目中有两个同名的文件，首先在新建的时候就会提示项目中已经存在同名文件，问你是取消还是替换，如下图（项目中已经有了 <code>ViewController</code> 类，我又新建了一个 <code>ViewController</code> 类）。还有，哪怕你是从外部直接拉了一个同名文件到项目中，Xcode都不需要编译就会立刻报错。而如果有两个同名文件，一个在Framework中，一个不在Framework中，Xcode不但不会报错，还能通过编译过程。这是为什么呢？其实这点上文已经讲过，这是因为Framework是一个已经编译好的Buddle，因此Framework在嵌入到App之后，Xcode不会对其进行语法语义之类的分析，也不会对其再次编译，只有在链接和运行的时候才会去骚动那些Framework。   </p>
+<p>聚焦到最下面的输入输出控制台，Xcode说在 <code>CanNotSee</code> 类中找不到 <code>encodeWithBase64:</code> 这个方法。从这个错误中可以看出，不管  <code>BuddhaSDK.framework</code> 中有没有 <code>CanNotSee</code> 类，<code>TestSDKDemo</code> 这个工程在运行的时候首先调用的还是自家的 <code>CanNotSee</code> 类中的方法，哪怕在我们都没有引入自家 <code>CanNotSee.h</code> 文件的情况下（在 <code>ViewController.m</code> 中引入的是 <code>BuddhaSDK/BuddhaSDK.h</code>，相当于只是引入了 <code>BuddhaSDK.framework</code> 中的 <code>CanNotSee.h</code> 头文件）。因此，最后的结论就是，在同一个目标工程里面显然是不允许存在两个同名的类。  </p>
+<p>对于这个结论，还有两点需要突出补充说明一下。  </p>
+<p>首先，在咱们的测试工程中，可能你会觉得同名问题根本没人会这么做。当然咱们的测试工程文件那么少，你一眼就能看到。还有，如果你只是在你公司内部的项目中做一个类似对加解密的简单封装并且你对整个工程都有一个非常清晰的掌控，你可能也会注意到同名文件的问题。而如果你要做的Framework是给公司其他项目组使用甚至给其他公司使用，为了减少沟通成本，也为了不让别人觉得你low，那么你就必须要将自己Framework中的每一个类都取一个将来尽量不会产生冲突的名字。其实，这就涉及到了Objective-C命名空间的问题，很不幸的是，Objective-C是没有命名空间这个概念的，而为了避免类名冲突，Objective-C采用的是前缀的方法（可以粗略的理解为这是对命名空间的一种弥补办法）。就比如苹果自带框架的前缀，如 <code>Foundation</code> 框架的 <code>NS</code>； <code>UIKit</code> 框架的 <code>UI</code>； <code>AVFoundation</code> 框架的 <code>AV</code>等等。因此，在交付Framework给他人使用的时候，最好能有相应的文档来说明一下Framework的前缀。那么，在咱们的 <code>BuddhaSDK</code> 工程中就需要更改一下了，加入我们自己的前缀 <code>ABC</code> 吧。可是，如果你的项目在实现过程中从来就没有过想过前缀的问题，并且项目也非常大了，这时候突然需要为你的项目进行SDK化，那怎么办呢？比如，就我当下的项目，拍照搜题和老师答疑，代码文件有100多个，这时候需要把这些文件都做成SDK，如果把每一个类都加上前缀，那不是要了我的亲命吗？可我还是个宝宝，美好的世界还没怎么看看呢。这里再留个悬念吧，后文本宝宝慢慢的再续上，这是一个终极大坑，也是咱们主题下的地狱之门！  </p>
+<p>其次，还有一个概念前文提到，但是没有举过例子，这边再强化一下。一般来说，如果一个项目中有两个同名的文件，首先在新建的时候就会提示项目中已经存在同名文件，问你是取消还是替换，如下图（项目中已经有了 <code>ViewController</code> 类，我又新建了一个 <code>ViewController</code> 类）。还有，哪怕你是从外部直接拉了一个同名文件到项目中，Xcode都不需要编译就会立刻报错。而如果有两个同名文件，一个在Framework中，一个不在Framework中，Xcode不但不会报错，还能通过编译过程，这是为什么呢？其实这点上文已经讲过，这是因为Framework是一个已经编译好的Buddle，因此Framework在嵌入到App之后，Xcode不会对其进行语法语义之类的分析，也不会对其再次编译，只有在链接和运行的时候才会去骚动那些Framework。   </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_13.png" alt="iOS_SDK_Tutorial_13.png">    </p>
 <p>在上面的测试项目中，为了更快速的引出不能有同名文件的结论，我故意让两个 <code>CanNotSee</code> 类中的代码完全不一样，从而在运行的时候直接崩溃报错。而如果两个 <code>CanNotSee.h</code> 头文件中的内容完全一致，两个 <code>CanNotSee.m</code> 文件中的内容仅仅有略微的差别，比如不在Framework中的 <code>CanNotSee.m</code> 文件中AES加解密秘钥不是 <code>@&quot;abcdefghigklmnop&quot;</code>，那么在运行的时候是不会崩溃的，但是加解密的结果就是不对，一旦跳进了这种坑，那你就多买点泡面和睡袋在公司以泪洗面吧！  </p>
 <p>到这里，咱们已经从第一个坑中爬出来了，这是个可大可小的坑，接下来就再看一个不大不小的坑吧！  </p>
@@ -725,7 +730,7 @@
 <p>然后来到工程的 <code>Build Phases</code> 的 <code>Headers</code> ，把 <code>NSData+ABCCanNotSee.h</code> 头文件拉到 <code>Public</code> 组下，把 <code>NSData+ABCCanNotSee.m</code> 实现文件拉到 <code>Project</code> 组下。如下图：    </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_15.png" alt="iOS_SDK_Tutorial_15.png">    </p>
 <p>最后清理工程，重新编译生成带有 <code>NSData</code> 分类功能的Framework <code>ABCBuddhaSDK.framework</code>。   </p>
-<p>再次来到 <code>TestSDKDemo</code> Xcode工程中，把原来的Framework删了，把刚编译好的 <code>ABCBuddhaSDK.framework</code> 添加到工程中，并且在 <code>ViewController.m</code> 中输入如下代码：   </p>
+<p>再次来到 <code>TestSDKDemo</code> Xcode工程中，把原来的Framework删了，把刚编译好的 <code>ABCBuddhaSDK.framework</code> 添加到工程中，并且在 <code>ViewController.m</code> 中输入如下代码（原来的代码你想保存的话可以注释掉）：   </p>
 <pre><code class="Objective-C">#import &quot;ABCBuddhaSDK/ABCBuddhaSDK.h&quot;
 
 @interface ViewController ()
@@ -759,9 +764,26 @@
 </code></pre>
 <p><code>Command + R</code> 运行，你猜结果是什么？要是不崩溃，那我上面那些就都是废话了。可是，这又是为什么呢？先来看看到底崩在哪里了！  </p>
 <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_16.png" alt="iOS_SDK_Tutorial_16.png">    </p>
-<p>几乎是同样的错误，方法不存在！可是这次就真的很疑惑了，没有同名文件，<code>NSData+ABCCanNotSee</code> 头文件里也存在 <code>- base64EncodedString</code> 这个方法，系统怎么就找不到这个方法呢？而且，不用分来就没问题，一用分类就出错了。   </p>
+<p>几乎是同样的错误，方法不存在！可是这次就真的很疑惑了，没有同名文件，<code>NSData+ABCCanNotSee</code> 头文件里也存在 <code>- base64EncodedString</code> 这个方法，系统怎么就找不到这个方法呢？而且，不用分类就没问题，一用分类就出错了。   </p>
 <p>显然，应该很容易猜到，问题肯定出在分类上！  </p>
-<p>通过 <code>iOS</code> <code>Framework</code> <code>Catergory</code> 三个单词稍作查询，就能查到<a href="https://developer.apple.com/library/mac/qa/qa1490/_index.html" target="_blank" rel="external">苹果官方的解释</a>。在这篇文章中，苹果给出了产生原因和解决办法的详细说明，我简单的转述一下。    </p>
+<p>通过 <code>iOS</code> <code>Framework</code> <code>Catergory</code> 三个单词稍作查询，就能查到 <a href="https://developer.apple.com/library/mac/qa/qa1490/_index.html" target="_blank" rel="external">苹果官方的解释</a> 以及 <a href="http://stackoverflow.com/questions/2567498/objective-c-categories-in-static-library/22264650#22264650" target="_blank" rel="external">stackoverflow上的这篇文章</a> 。这两个网页上给出了产生原因和解决办法的详细说明，我下面结合起来尽可能用简洁的语言转述一下。  </p>
+<p>首先介绍一下相关的背景知识。  </p>
+<p>对于静态库的编译，编译器的工作大体来说分为两步：首先把每一个源代码文件（比如 <code>.c</code>、<code>.cpp</code>、<code>.m</code> 等为后缀的代码文件）翻译成目标文件（<code>.o</code>为后缀的二进制文件），然后把所有的目标文件放在一起打个包（<code>.a</code> 文件，<code>a</code> 就是 <code>archive</code> 的意思，与之匹配的命令叫做 <code>ar</code>），仅此而已。  </p>
+<p>无论一个源代码文件中有多少个类，每一个源代码文件都只对应一个目标文件。目标文件中包含链接符号、代码和静态数据。代码和静态数据都很好理解，下面着重分析下链接符号。  </p>
+<p>当把一个静态库嵌入到其他App中并开始执行的时候，链接器首先会去检查在App中引用到了静态库中的哪些类，然后生成一张链接符号的表格，最后根据这张表格检查是否有不存在的类并把所需的类设置为【可用】。因此，只有那些起作用的目标文件（被标记为【可用】的类）才能在运行时被真正加载进内存，比如，你的静态库中有50个目标文件，但是App中只引用到了其中的20个目标文件，那么其余30个就会在链接之后给抛弃掉（设置为【不可用】）。  </p>
+<p>关于链接符号，我说的比较抽象，下面举个例子吧。比如App中有一个类 <code>ABC001.m</code> 调用了静态库中的一个类 <code>ABC002.m</code> 中的某些方法，那么在把 <code>ABC001.m</code> 编译成目标文件 <code>ABC001.o</code> 之后，对于目标文件 <code>ABC001.o</code> 来说，它会觉得 <code>ABC002.o</code> 是一个缺失的类并把这个类标记为【未定义的链接符号（undefined symbol）】，在这里尤其需要注意一点，对于Objective-C语言来说，它并没有为类中的每个函数都定义链接符号，它只为每个类创建链接符号。当一大堆目标文件打包成静态库嵌入到App中执行的时候，首先会有一个链接阶段，链接器会扫描每一个目标文件中的【未定义链接符号】并生成一个表格，然后看表格中的类所在的目标文件是否都存在，如果不存在会出现链接错误，从而导致程序无法顺利执行。    </p>
+<p>基于上面的理论，关于Category代码崩溃问题就很好解释了。由于编译器对于【未定义链接符号】只停留在类这一层，无法检测类中的函数和属性是否存在。因此，虽然 <code>TestSDKDemo</code> 中的 <code>ViewController</code> 类使用到了 <code>NSData</code> 分类中的方法，但是 <code>ViewController.o</code> 中的【未定义链接符号】只会记录下 <code>NSData</code> 这个类是缺失的，然而 <code>NSData</code> 作为系统类当然是存在的，因此，在 <code>ViewController.o</code> 中就不会有对于 <code>NSData</code> 这个类的【未定义链接符号】。所以在链接阶段结束的时候，<code>NSData+ABCCanNotSee.o</code> 这个目标文件就被彻底罢免、永不录用了。  </p>
+<p>如果按照这个逻辑，那为什么在App中直接新建一个Category就不会出现这种找不到方法的崩溃问题呢？这就得归功于Objective-C语言大量使用运行时特性(runtime-feature)所产生的副作用了，这种特性虽然十分重要，但是本文不过多介绍，实在是因为讲起来又得几天几夜了，既然网上的资料也多的很，还请自行查看阅读。回到问题本身，上文讲到，在链接阶段结束之后，静态库中用不到的目标文件会被彻底的抛弃掉，因此，在我们的项目中，<code>TestSDKDemo</code> 在运行的时候，会去找 <code>NSData</code> 中 <code>base64EncodedString</code> 方法，可是 <code>NSData+ABCCanNotSee.o</code> 已经被彻底抛弃掉了，App中找不到这个方法，从而导致了崩溃。然而对于App来说，在链接的时候不会标记任何自己的类是【不可用】的，因此，一旦App在运行时使用到了某个Category，运行时特性会找到那个对应的方法顺利执行下去。  </p>
+<p>说到这里，不知道您是否又有疑惑了？只要让App在链接阶段不抛弃掉任何静态库中的目标文件，那不就什么问题都没有了吗？苹果为什么要多此一举呢？如果找不到理由，那肯定是苹果歧视静态库或者静态框架！不幸的是，我找到了一个理由，苹果这么做是为了缩小App的大小，因为一旦静态库库中目标文件被链接器标记为【不可用】，那么这个目标文件就不会被打包到最后的App中去。这么做还影响到了同名问题，在很上面，我们讲过如果有两个同名文件，一个是App自己建立的，一个是静态库建立的，如果把两个文件都标记为【可用】，那在在链接阶段由于有重复文件肯定就会报错了（下文会给出例子）。可实际上，链接器不但没有报错，还能让App顺利运行起来，那是因为在链接阶段前期，苹果为了减小App大小，已经把静态库中的所有同名文件都给标记为【不可用】了，App运行之后对所有对同名文件的调用，都只会调用App自己的。  </p>
+<p>那静态库中如果存在Category，如何强制把这个Category标记为【可用】呢？有4种解决办法，如下：  </p>
+<p>1、<code>-ObjC</code> ：来到工程 <code>TestSDKDemo</code>，如下图所示，在 <code>Other Linker Flags</code> 中添加 <code>-ObjC</code>。  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_17.png" alt="iOS_SDK_Tutorial_17.png">  </p>
+<p><code>-ObjC</code>这个链接标记的意思是，在链接阶段，静态库中只要包含Objective-C代码的文件都设置为【可用】状态。这下重新运行 <code>TestSDKDemo</code> 工程，一切就都正常了，如下图。  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_18.png" alt="iOS_SDK_Tutorial_18.png">  </p>
+<p>这虽然是苹果官方唯一推荐的办法，但是苹果自己也说了，这样的设置可能会导致App变大，因为如果静态库中有些类确实是【不可用】的，但是最终也会全部打包到App中去。  </p>
+<p>既然 <code>-ObjC</code> 的意思已经知道了，那么下面就可以验证一下上文提到的同名问题在链接阶段是否会报错的结论。首先从上图中可以看到，在 <code>ABCBuddhaSDK.framework</code> 中有一个 <code>ABCCanNotSee</code> 类，我们在工程文件 <code>TestSDKDemo</code> 也新建一个 <code>ABCCanNotSee</code> 类，在里面随便写点代码，然后运行，看看会有什么事情发生（请注意，这时候 <code>-ObjC</code> 链接标记已经添加上了），如下图。  </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_19.png" alt="iOS_SDK_Tutorial_19.png">   </p>
+<p>很明显，确实是直接报错了，从错误信息中可以明确的看到在链接阶段有2个重复的链接符号。   </p>
 <hr>
 
       
