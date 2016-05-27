@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_17.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_18.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_19.png">
-<meta property="og:updated_time" content="2016-05-27T04:10:42.000Z">
+<meta property="og:updated_time" content="2016-05-27T04:13:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS点燃SDK的地狱之门">
 <meta name="twitter:description" content="文章目前大约有11000字，全篇读完差不多需要70分钟！未完待续……">
@@ -791,7 +791,33 @@
 <p>我看到网上很有多文章都充斥着对于 <code>-all_load</code> 这个链接标记的滥用，其实只要理解它的意思，就知道 <code>-all_load</code> 的具体使用场景了。  </p>
 <p>3、<code>-force_load</code> ：在 <code>Other Linker Flags</code> 中也可以添加 <code>-all_load $(PROJECT_DIR)/TestSDKDemo/ABCBuddhaSDK.framework/ABCBuddhaSDK</code> 来解决静态库中Category的崩溃问题。  </p>
 <p><code>-force_load</code> 这个链接标记需要在其后面添加你想要强制加载哪个具体的静态库或者静态框架，一旦被指定强制加载，那么这个静态库或者静态框架中的所有目标文件都被设置为【可用】了，包括非Objective-C语言的目标文件。</p>
-<p>而 <code>-all_load</code> 与 <code>-force_load</code> 区别就是前者加载所有静态库或静态框架，后者只加载指定的静态库或静态框架。  </p>
+<p>而 <code>-all_load</code> 与 <code>-force_load</code> 区别就是前者加载所有静态库或静态框架，后者只加载指定的静态库或静态框架。    </p>
+<p>4、第四种解决办法需要写几行代码，下面先给出解决办法，再解释其原理。  </p>
+<p>在 <code>ABCBuddhaSDK.framework</code> 项目的 <code>NSData+ABCCanNotSee.h</code> 文件中添加一个 <code>ImportNSDataCategory</code> 类，如下：  </p>
+<pre><code>@interface ImportNSDataCategory : NSObject
+@end
+</code></pre><p>在 <code>NSData+ABCCanNotSee.m</code> 文件中添加对这个类的实现，如下：  </p>
+<pre><code>@implementation ImportNSDataCategory
+@end
+</code></pre><p>请注意，<code>ImportNSDataCategory</code> 类的定于与实现是写在 <code>NSData+ABCCanNotSee.h</code> 和 <code>NSData+ABCCanNotSee.m</code> 中的。</p>
+<p>然后 <code>Command + Shift + K</code> 清理下工程，<code>Command + B</code> 再次重新编译。  </p>
+<p>来到 <code>TestSDKDemo</code> 工程，删掉原来的 <code>ABCBuddhaSDK.framework</code>，把刚最新生成的  <code>ABCBuddhaSDK.framework</code> 嵌入到 <code>TestSDKDemo</code> 工程中来。  </p>
+<p>在 <code>ViewController.m</code> 文件的最下面加入一个方法，如下：      </p>
+<pre><code>- (void)importCategories {
+// pragma 仅仅是用来消除警告，如果不加上下面三行pragma代码，会出现变量未被使用的警告。
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored &quot;-Wunused-variable&quot;
+    ImportNSDataCategory *importNSDataCategory = [ImportNSDataCategory new];
+#pragma clang diagnostic pop
+}
+</code></pre><p>删掉 <code>Other Linker Flags</code> 中的所有东西，然后重新运行，App一切正常了。   </p>
+<p>为什么这么做可以解决问题，基于上面的那么多文字，我再多说肯定要遭你烦了。就解释一句吧，一个源代码文件对应一个目标文件，不管这个源代码文件中有多少个类，最后只会生成一个目标文件。  </p>
+<p>采用这种办法对比上面三种办法的优势在于最精准的加载所需要的目标文件，能最大程度的缩小App的体积。当然劣势也显而易见，需要你在每个分类中都要写上一些代码，然后还要记得调用空方法确保包含分类的目标文件能被加载到内存中去。  </p>
+<p>稍微说个题外话吧，在网上确实能查到采用这种办法来解决静态库中Category问题，但是大多数只说了一半，这些不完全的办法主要来自于GitHub上的一个开源工程（<a href="https://github.com/NimbusKit/basics#avoid-requiring-the--all_load-and--force_load-flags" target="_blank" rel="external">https://github.com/NimbusKit/basics</a>），由于他们缺少在外部调用 <code>ImportNSDataCategory</code> 这个类的过程，因此最终还是会导致崩溃。不过，在这个开源工程中有一个宏命令可以借鉴过来快速生成 <code>ImportNSDataCategory</code> 的定义与实现，宏命令如下：  </p>
+<pre><code>#ifndef NI_FIX_CATEGORY_BUG
+# define NI_FIX_CATEGORY_BUG(name) @interface NI_FIX_CATEGORY_BUG_##name : NSObject @end \
+                                   @implementation NI_FIX_CATEGORY_BUG_##name @end
+</code></pre><p>呜呜呜~~~至此，四种方法全部介绍完毕了，选择哪个自己看着办吧。 </p>
 <hr>
 
       
