@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_17.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_18.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_SDK_Tutorial_19.png">
-<meta property="og:updated_time" content="2016-05-27T04:13:02.000Z">
+<meta property="og:updated_time" content="2016-05-27T06:53:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS点燃SDK的地狱之门">
 <meta name="twitter:description" content="文章目前大约有11000字，全篇读完差不多需要70分钟！未完待续……">
@@ -811,13 +811,15 @@
 #pragma clang diagnostic pop
 }
 </code></pre><p>删掉 <code>Other Linker Flags</code> 中的所有东西，然后重新运行，App一切正常了。   </p>
-<p>为什么这么做可以解决问题，基于上面的那么多文字，我再多说肯定要遭你烦了。就解释一句吧，一个源代码文件对应一个目标文件，不管这个源代码文件中有多少个类，最后只会生成一个目标文件。  </p>
-<p>采用这种办法对比上面三种办法的优势在于最精准的加载所需要的目标文件，能最大程度的缩小App的体积。当然劣势也显而易见，需要你在每个分类中都要写上一些代码，然后还要记得调用空方法确保包含分类的目标文件能被加载到内存中去。  </p>
+<p>为什么这么做可以解决问题，基于上面的那么多文字，我再多说肯定要遭你烦了。就解释一句吧，一个源代码文件对应一个目标文件，不管这个源代码文件中有多少个类，最后都只会生成一个目标文件。  </p>
+<p>对比与上面三种办法，采用这种办法的优势在于最精准的加载所需要的目标文件，能最大程度的缩小App的体积。当然劣势也显而易见，需要你在每个分类中都要写上一些代码，然后还要记得调用那个空类来确保包含分类的目标文件能被加载到内存中去。  </p>
 <p>稍微说个题外话吧，在网上确实能查到采用这种办法来解决静态库中Category问题，但是大多数只说了一半，这些不完全的办法主要来自于GitHub上的一个开源工程（<a href="https://github.com/NimbusKit/basics#avoid-requiring-the--all_load-and--force_load-flags" target="_blank" rel="external">https://github.com/NimbusKit/basics</a>），由于他们缺少在外部调用 <code>ImportNSDataCategory</code> 这个类的过程，因此最终还是会导致崩溃。不过，在这个开源工程中有一个宏命令可以借鉴过来快速生成 <code>ImportNSDataCategory</code> 的定义与实现，宏命令如下：  </p>
 <pre><code>#ifndef NI_FIX_CATEGORY_BUG
 # define NI_FIX_CATEGORY_BUG(name) @interface NI_FIX_CATEGORY_BUG_##name : NSObject @end \
                                    @implementation NI_FIX_CATEGORY_BUG_##name @end
-</code></pre><p>呜呜呜~~~至此，四种方法全部介绍完毕了，选择哪个自己看着办吧。 </p>
+</code></pre><p>呜~~~至此，四种方法全部介绍完毕了，选择哪个自己看着办吧。 </p>
+<p>关于静态库中有Category会导致App崩溃的问题我已经说完了。不过还有一个跟Category的小概率抽风问题我这边也顺带多两句嘴，这种问题跟分类在不在静态库中无关。上面讲过同名类的问题，下面讲下不同的分类中同名方法的问题。  </p>
+<p>如果你的代码中有多个对同一个类的分类，分类中有相同的方法声明，比如说有两个对 <code>NSData</code> 的分类，一个是 <code>NSData+ABCCanNotSee</code> 类，另一个是 <code>NSData+ABCCanNotSeeAgain</code> 类，但是这两个类中都有一个叫做 <code>- (NSString *)base64EncodedString</code> 的同名方法，如果两个同名方法的实现相同倒也罢了，如果实现不同，那程序最后仍能顺利执行，但是你也不知道系统最终会掉用哪个分类的哪个方法。因此，如果非要斤斤计较，分类方法名之前也需要加上前缀。  </p>
 <hr>
 
       
