@@ -84,44 +84,17 @@
 
 
 
-<meta name="description" content="title: 一点小笔记        
-手动在代码中加入警告：#warning XXX  
-
-Command + s 快捷键可以直接把模拟器当前屏幕显示的内容保存到电脑桌面上。   
-
-git commit --amend 可以对上一次的提交信息做修改（一般用来修改commit信息）  
-
-通过storyboard创建的UIViewController是无法实现继承关系的。  
-
-从iOS9开">
+<meta name="description">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Buddha's Temple">
+<meta property="og:title" content="Some iOS Notes">
 <meta property="og:url" content="http://todd2010.github.io/2016/07/25/005-Some-Notes/index.html">
 <meta property="og:site_name" content="Buddha's Temple">
-<meta property="og:description" content="title: 一点小笔记        
-手动在代码中加入警告：#warning XXX  
-
-Command + s 快捷键可以直接把模拟器当前屏幕显示的内容保存到电脑桌面上。   
-
-git commit --amend 可以对上一次的提交信息做修改（一般用来修改commit信息）  
-
-通过storyboard创建的UIViewController是无法实现继承关系的。  
-
-从iOS9开">
+<meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png">
-<meta property="og:updated_time" content="2016-08-02T02:09:19.000Z">
+<meta property="og:updated_time" content="2016-08-02T02:19:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Buddha's Temple">
-<meta name="twitter:description" content="title: 一点小笔记        
-手动在代码中加入警告：#warning XXX  
-
-Command + s 快捷键可以直接把模拟器当前屏幕显示的内容保存到电脑桌面上。   
-
-git commit --amend 可以对上一次的提交信息做修改（一般用来修改commit信息）  
-
-通过storyboard创建的UIViewController是无法实现继承关系的。  
-
-从iOS9开">
+<meta name="twitter:title" content="Some iOS Notes">
+<meta name="twitter:description">
 <meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png">
 
 
@@ -140,7 +113,7 @@ git commit --amend 可以对上一次的提交信息做修改（一般用来修�
   };
 </script>
 
-  <title>  | Buddha's Temple </title>
+  <title> Some iOS Notes | Buddha's Temple </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -269,7 +242,7 @@ git commit --amend 可以对上一次的提交信息做修改（一般用来修�
             
             
               
-                
+                Some iOS Notes
               
             
           </h1>
@@ -309,8 +282,8 @@ git commit --amend 可以对上一次的提交信息做修改（一般用来修�
       
 
       
-        <hr>
-<h2 id="title-一点小笔记"><a href="#title-一点小笔记" class="headerlink" title="title: 一点小笔记    "></a>title: 一点小笔记    </h2><p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png" alt="iOS_Notes_01.png">    </p>
+        <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png" alt="iOS_Notes_01.png">   </p>
+<a id="more"></a>    
 <p>手动在代码中加入警告：<code>#warning XXX</code>  </p>
 <hr>
 <p><code>Command</code> + <code>s</code> 快捷键可以直接把模拟器当前屏幕显示的内容保存到电脑桌面上。   </p>
@@ -319,62 +292,168 @@ git commit --amend 可以对上一次的提交信息做修改（一般用来修�
 <hr>
 <p>通过storyboard创建的UIViewController是无法实现继承关系的。  </p>
 <hr>
-<p>从iOS9开始，当程序启动完毕那一刻，所有要显示的窗口必须要有根控制器，否则就会崩溃并报如下错误。  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Application windows are expected to have a root view controller at the end of application launch  </span><br><span class="line">```      </span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line">// 下面这段代码让窗口延迟2秒之后再显示出来就能保证程序不会崩溃。因为在程序启动完毕那一刻，没有要显示的窗口。</span><br><span class="line">dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    [self.window makeKeyAndVisible];</span><br><span class="line">&#125;);</span><br><span class="line">```   </span><br><span class="line"></span><br><span class="line">---  </span><br><span class="line"></span><br><span class="line">UIWindow的显示不需要借助任何其他控件。  </span><br><span class="line">初始化一个UIWindow，然后设置其hidden属性为NO，这个UIWindow就能够显示出来。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">UITabBarController中UITabBar上的图片跟文字是由子控制器的 `tabBarItem.image`、`tabBarItem.selectedImage` 和 `tabBarItem.title` 来决定的。</span><br></pre></td></tr></table></figure>
-<p>UITabBarController *rootTabBarController = [[UITabBarController alloc] init];</p>
-<p>UITableViewController *childTableViewController = [[UITableViewController alloc] init];<br>childTableViewController.tabBarItem.title = @”首页”;<br>childTableViewController.tabBarItem.image = [UIImage imageNamed:@”tabBar_icon”];<br>childTableViewController.tabBarItem.selectedImage = [UIImage imageNamed:@”tabBar_icon_selected”];<br>[rootTabBarController addChildViewController:childTableViewController];<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---     </span><br><span class="line"></span><br><span class="line">凡是系统提供的方法或者属性后面带有 `UI_APPEARANCE_SELECTOR` 标识说明, 就可以通过appearance对象来统一设置。</span><br></pre></td></tr></table></figure></p>
-<p>NSMutableDictionary <em>tabBarTitleAttrributesForNormal = [NSMutableDictionary dictionary];<br>tabBarTitleAttrributesForNormal[NSFontAttributeName] = [UIFont systemFontOfSize:13];<br>tabBarTitleAttrributesForNormal[NSForegroundColorAttributeName] = [UIColor grayColor];<br>NSMutableDictionary </em>tabBarTitleAttrributesForSelected = [NSMutableDictionary dictionary];<br>tabBarTitleAttrributesForSelected[NSForegroundColorAttributeName] = [UIColor grayColor];</p>
-<p>UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];<br>[appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForNormal forState:UIControlStateNormal];<br>[appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForSelected forState:UIControlStateSelected];<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">如果控件已经显示出来，再通过appearance对象来统一设置，是无效的。必须重新刷新控件才能起作用。</span><br></pre></td></tr></table></figure></p>
-<p>// 可以通过如下代码来重新刷新控制器的view以及所有子view<br>[self.view removeFromSuperview];<br>[[UIApplication sharedApplication].keyWindow addSubView:self.view];</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">提取App中图片资源的小工具: [iOS-Images-Extractor](https://github.com/devcxm/iOS-Images-Extractor)</span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">Objective－C有个方便的随机数函数arc4random_uniform(x)，可以用来直接产生0～(x-1)范围内的随机数，省去了通过arc4random()函数再取模的运算。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">R、G、B三基色的值都相同就是灰色，值越小灰度越深。</span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">Log宏&amp;&amp;Color宏</span><br></pre></td></tr></table></figure>
-<p>// Log</p>
-<p>#ifdef DEBUG</p>
-<p>#define ZXLog(…) NSLog(<strong>VA_ARGS</strong>)</p>
-<p>#else</p>
-<p>#define ZXLog(…) </p>
-<p>#endif</p>
-<p>// Color</p>
-<p>#define ZXColorA(R, G, B, A) [UIColor colorWithRed:(R)/255.0 green:(G)/255.0 blue:(B)/255.0 alpha:(A)/255.0]</p>
-<p>#define ZXColor(R, G, B) ZXColorA((R), (G), (B), 255)</p>
-<p>#define ZXRandomColor ZXColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">全局宏不但能定义在pch文件中，还能定义在 `Build Setting` -&gt; `Preprocessor Macros` 中。   </span><br><span class="line">注意点：定义在 `Build Setting` -&gt; `Preprocessor Macros` 中的宏名字不能都是小写字母。</span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">只要在UITabBarViewController中添加一个子控制器，就能在UITabBar上添加一个UITabBarItem。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">UIButton的懒加载：如果不设置UIButton的title，UIButton中的titleLabel是不会被创建的。  </span><br><span class="line">同理，如果不设置UIButton的image，UIButton中的imageView也是不会被创建的。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"> </span><br><span class="line">`[UIImage imageNamed:nil]` 这行代码会产生 `CUICatalog: Invalid asset name supplied: (null)` 的警告。   </span><br><span class="line">`[UIImage imageNamed:@&quot;&quot;]` 这行代码会产生 `CUICatalog: Invalid asset name supplied: ` 的警告。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">判断字符串是否有内容：`if (string.length)`     </span><br><span class="line">判断数组是否有内容：`if (array.count)`     </span><br><span class="line">判断字典是否有内容：`if (dictionary.count)`   </span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">通过懒加载方式可以确保一个对象只会被创建一次。  </span><br><span class="line">对于同一个控件对象来说，如果被父控件添加多次(addSubView:)，并不会被重复添加，当第二次或者第N次被添加到父控件上去时，只会让这个控件摆在父控件的最前面。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">判断一个对象的类型：  </span><br><span class="line">`if (unkonwnView.class != NSClassFromString(@&quot;UIButton&quot;))`    </span><br><span class="line">`if ([NSStringFromClass(unkonwnView.class) isEqualToString:@&quot;UIButton&quot;])`</span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">通过重写 `-layoutSubviews` 方法来布局子控件（一般用来布局子控件的Frame）。    </span><br><span class="line">在 `-layoutSubviews` 方法中，首先要调用 `[super layoutSubviews]` 方法确保执行父类的layoutSubviews方法，然后再做一些操作才能覆盖掉之前的操作。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">如何替换掉UITabBarViewController中的只读tabBar属性？    </span><br><span class="line">由于UITabBarViewController中的tabBar属性是只读属性，所以采用 `self.tabBar = [[HFTabBar alloc] init];` 方法是行不通的。     </span><br><span class="line">可以采用KVC方式替换：`[UITabBarViewController setValue:[[XXTabBar alloc] init] forKeyPath:@&quot;tabBar&quot;];`     </span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">导航控制器(UINavigationController)的导航栏上内容(UINavigationItem)是由导航控制器中栈顶控制器的导航项(UINavigationItem)来决定的。     </span><br><span class="line">UITabBarController底部的UITabBar中每一个UITabBarButton的内容是由子控制器的UITabBarItem来决定的。  </span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">通过 `[[UIImageView alloc] initWithImage:[UIImage imageNamed:@&quot;imageName&quot;]];` 这种方式创建的UIImageView的尺寸(frame.size)是与传入图片的大小一致的。    </span><br><span class="line">通过 `[[UIImageView alloc] init];` 这种方式创建的UIImageView的尺寸(frame.size)是(0, 0)。想要达到上面方式的效果，可以在添加完图片之后调用 `sizeToFit` 方法。    </span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">UIButton一些注意点：   </span><br><span class="line">设置文字应使用 `setTitle:forState:` 方法。   </span><br><span class="line">设置图片应使用 `setImage:forState:` 方法。  </span><br><span class="line">设置背景图片应使用 `setBackgroundImage:forState:` 方法。  </span><br><span class="line"></span><br><span class="line">取出UIButton中的文字应使用 `titleForState:` 或 `currentTitle` 方法。   </span><br><span class="line">取出UIButton中的图片应使用 `imageForState:` 或 `currentImage` 方法。   </span><br><span class="line">取出UIButton中的背景图片应使用 `backgroundImageForState:` 或 `currentBackgroundImage` 方法。   </span><br><span class="line"></span><br><span class="line">设置UIButton的大小等于其内容的大小可使用 `sizeToFit` 方法。    </span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">设置当前控制器的导航栏标题应使用 `self.navigationItem.title = @&quot;Title&quot;`，不应该使用 `self.title = @&quot;Title&quot;`。</span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">通过UINavigationController push某个控制器(UIViewController *testViewController)时隐藏底部的UITabBar，设置 `testViewController.hidesBottomBarWhenPushed = YES` 即可。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">导航栏会自动放大导航栏上的按钮点击范围。</span><br><span class="line"></span><br><span class="line">---  </span><br><span class="line"></span><br><span class="line">统一所有导航栏上左边的“返回”按钮，可以自定义一个 UINavigationController，然后重写 `- pushViewController:animated:` 方法。</span><br></pre></td></tr></table></figure></p>
-<p>/*</p>
-<ul>
-<li><p>拦截所有需要Push的子控制器，然后在非RootViewController的子控制器的导航栏左上角添加自定义的“返回”按钮<br>*/</p>
-<ul>
-<li><p>(void)pushViewController:(UIViewController <em>)viewController animated:(BOOL)animated {<br>if (self.childViewControllers.count &gt; 0) {<br>   // 自定义导航栏左上角返回按钮<br>   UIButton </em>backButton = [UIButton buttonWithType:UIButtonTypeCustom];<br>   [backButton setTitle:@”返回” forState:UIControlStateNormal];<br>   [backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];<br>   [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];<br>   [backButton setImage:[UIImage imageNamed:@”imageName”] forState:UIControlStateNormal];<br>   [backButton setImage:[UIImage imageNamed:@”imageHighlightedName”] forState:UIControlStateHighlighted];<br>   // 下面两行代码的位置不能互换，因为首先要计算出按钮的frame，才能对其内边距进行处理。<br>   [backButton sizeToFit];<br>   backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);<br>   [backButton addTarget:self action:@selector(onClickBackButton:) forControlEvents:UIControlEventTouchUpInside];</p>
-<p>   viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];<br>}</p>
-<p>// 等子控制器的“返回”按钮设置好之后，再执行Push操作<br>[super pushViewController:viewController animated:animated];<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>(void)onClickBackButton:(UIButton *)sender {<br>  [self popViewControllerAnimated:YES];<br>}</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">如果自定义了导航栏上左边的返回按钮，会导致右滑返回手势失效。可通过如下代码解决：</span><br></pre></td></tr></table></figure>
-<p>@interface HFNavigationController () <uigesturerecognizerdelegate></uigesturerecognizerdelegate></p>
-<p>@end</p>
-<p>@implementation HFNavigationController</p>
-<ul>
-<li><p>(void)viewDidLoad {<br>  [super viewDidLoad];</p>
-<p>  self.interactivePopGestureRecognizer.delegate = self;<br>}</p>
-</li>
-</ul>
-<p>#pragma mark - UIGestureRecognizerDelegate</p>
-<p>// 手势识别器会调用这个代理方法来决定手势是否有效</p>
-<ul>
-<li><p>(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {<br>  // 如果当前子控制器为rootViewController，则不需要右滑返回<br>  if (self.childViewControllers.count == 1) return NO;</p>
-<p>  return YES;<br>}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">通过以下代码给导航栏设置一个与原生导航栏几乎一样的背景图片，可以覆盖掉Push时候导航栏的颜色渐变效果。   </span><br><span class="line">`[self.navigationBar setBackgroundImage:[UIImage imageNamed:@&quot;navigationbarBackgroundWhite&quot;] forBarMetrics:UIBarMetricsDefault];`  </span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">UIScrollView的 `bounds.origin` 跟 `contentOffset` 的值是一样的。    </span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">UIScrollView的 `contentInset` 属性值会对 `contentOffset` 产生影响，比如设置一个UIScrollView的 `contentInset` 属性值为 `UIEdgeInsetsMake(64, 0, 0, 0)`，那么当把UIScrollView往下拉并松手的时候，等待UIScrollView滑动静止，这时，UIScrollView上方就有64高度的内边距是无法被自动弹回去了。此时的 `contentOffset.y` 值就是-64。</span><br><span class="line"></span><br><span class="line">---  </span><br><span class="line"></span><br><span class="line">如果一个UIScrollView所在的控制器是导航控制器UINavigationController的子控制器，那么这个UIScrollView就会自动存在20（隐藏导航栏）或者64（显示导航栏）的顶部内边距(contentInset)。    </span><br><span class="line">  </span><br><span class="line">如果这个子控制器中有多个UIScrollView，那这种效果也只会作用在第一个UIScrollView身上。    </span><br><span class="line"></span><br><span class="line">如果不想要这种效果，可以设置这个子控制器的 `automaticallyAdjustsScrollViewInsets` 属性为 `NO` 即可。    </span><br><span class="line"></span><br><span class="line">UINavigationBar和UITabBar的半透明穿透效果就是使用了设置内边距(contentInset)的方式来实现的。    </span><br><span class="line">如果当前控制器中即有UINavigationBar又有UITabBar，那么UIScrollView的 `contentInset` 系统默认为 `UIEdgeInsetsMake(64, 0, 49, 0)`。  </span><br><span class="line">如果当前控制器中只有UINavigationBar，那么UIScrollView的 `contentInset` 系统默认为 `UIEdgeInsetsMake(64, 0, 0, 0)`。   </span><br><span class="line">如果当前控制器中只有UITabBar，那么UIScrollView的 `contentInset` 系统默认为 `UIEdgeInsetsMake(0, 0, 0, 0)`。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">---    </span><br><span class="line"></span><br><span class="line">在storyboard或者xib中，一旦设置UIButton的image属性，那么这个UIButton的Type会自动从 `System` 变成 `Custom` 。   </span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">在storyboard或者xib中，想要让UILabel中的文字换行，只需要快捷键 `option` + `Enter` 。  </span><br><span class="line">在storyboard或者xib中，通过 `\n` 是无法达到换行效果的。  </span><br><span class="line">在代码中，通过 `\n` 才可以达到换行的效果。</span><br><span class="line"></span><br><span class="line">---   </span><br><span class="line"></span><br><span class="line">iOS7以前，状态栏的Style设置是通过如下代码来实现的。</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>// UIStatusBarStyleLightContent<br>[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">从iOS7开始，对于状态栏的Style，由当前控制器来决定。</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>(UIStatusBarStyle)preferredStatusBarStyle {<br>  // return UIStatusBarStyleLightContent;<br>  return UIStatusBarStyleDefault;<br>}<br>```  </li>
-</ul>
-<p>上面第一种方式相对于第二种方式有两点麻烦之处：<br>如果当一个控制器进入到另一个控制器之后需要改变状态栏的Style，那么当返回到上一个控制器时，状态栏的Style又要重新改变回去。<br>此外，想要让第一种方式生效，还必须在 <code>info.plist</code> 中设置 <code>View controller-based status bar appearance</code> 为 <code>NO</code>。  </p>
+<p>从iOS9开始，当程序启动完毕那一刻，所有要显示的窗口必须要有根控制器，否则就会崩溃并报如下错误。    </p>
+<pre><code>Application windows are expected to have a root view controller at the end of application launch
+</code></pre><pre><code>// 下面这段代码让窗口延迟2秒之后再显示出来就能保证程序不会崩溃。因为在程序启动完毕那一刻，没有要显示的窗口。
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    [self.window makeKeyAndVisible];
+});
+</code></pre><hr>
+<p>UIWindow的显示不需要借助任何其他控件。<br>初始化一个UIWindow，然后设置其hidden属性为NO，这个UIWindow就能够显示出来。</p>
 <hr>
-<p>总是未完待续。。。</p>
+<p>UITabBarController中UITabBar上的图片跟文字是由子控制器的 <code>tabBarItem.image</code>、<code>tabBarItem.selectedImage</code> 和 <code>tabBarItem.title</code> 来决定的。    </p>
+<pre><code>UITabBarController *rootTabBarController = [[UITabBarController alloc] init];
+
+UITableViewController *childTableViewController = [[UITableViewController alloc] init];
+childTableViewController.tabBarItem.title = @&quot;首页&quot;;
+childTableViewController.tabBarItem.image = [UIImage imageNamed:@&quot;tabBar_icon&quot;];
+childTableViewController.tabBarItem.selectedImage = [UIImage imageNamed:@&quot;tabBar_icon_selected&quot;];
+[rootTabBarController addChildViewController:childTableViewController];
+</code></pre><hr>
+<p>凡是系统提供的方法或者属性后面带有 <code>UI_APPEARANCE_SELECTOR</code> 标识说明, 就可以通过appearance对象来统一设置。  </p>
+<pre><code>NSMutableDictionary *tabBarTitleAttrributesForNormal = [NSMutableDictionary dictionary];
+tabBarTitleAttrributesForNormal[NSFontAttributeName] = [UIFont systemFontOfSize:13];
+tabBarTitleAttrributesForNormal[NSForegroundColorAttributeName] = [UIColor grayColor];
+NSMutableDictionary *tabBarTitleAttrributesForSelected = [NSMutableDictionary dictionary];
+tabBarTitleAttrributesForSelected[NSForegroundColorAttributeName] = [UIColor grayColor];
+
+UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
+[appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForNormal forState:UIControlStateNormal];
+[appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForSelected forState:UIControlStateSelected];
+</code></pre><p>如果控件已经显示出来，再通过appearance对象来统一设置，是无效的。必须重新刷新控件才能起作用。  </p>
+<pre><code>// 可以通过如下代码来重新刷新控制器的view以及所有子view
+[self.view removeFromSuperview];
+[[UIApplication sharedApplication].keyWindow addSubView:self.view];
+</code></pre><hr>
+<p>提取App中图片资源的小工具: <a href="https://github.com/devcxm/iOS-Images-Extractor" target="_blank" rel="external">iOS-Images-Extractor</a>   </p>
+<hr>
+<p>Objective－C有个方便的随机数函数arc4random_uniform(x)，可以用来直接产生0～(x-1)范围内的随机数，省去了通过arc4random()函数再取模的运算。  </p>
+<hr>
+<p>R、G、B三基色的值都相同就是灰色，值越小灰度越深。  </p>
+<hr>
+<p>Log宏&amp;&amp;Color宏    </p>
+<pre><code>// Log
+#ifdef DEBUG
+#define ZXLog(...) NSLog(__VA_ARGS__)
+#else
+#define ZXLog(...) 
+#endif
+
+// Color
+#define ZXColorA(R, G, B, A) [UIColor colorWithRed:(R)/255.0 green:(G)/255.0 blue:(B)/255.0 alpha:(A)/255.0]
+#define ZXColor(R, G, B) ZXColorA((R), (G), (B), 255)
+#define ZXRandomColor ZXColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+</code></pre><hr>
+<p>全局宏不但能定义在pch文件中，还能定义在 <code>Build Setting</code> -&gt; <code>Preprocessor Macros</code> 中。<br>注意点：定义在 <code>Build Setting</code> -&gt; <code>Preprocessor Macros</code> 中的宏名字不能都是小写字母。  </p>
+<hr>
+<p>只要在UITabBarViewController中添加一个子控制器，就能在UITabBar上添加一个UITabBarItem。  </p>
+<hr>
+<p>UIButton的懒加载：如果不设置UIButton的title，UIButton中的titleLabel是不会被创建的。<br>同理，如果不设置UIButton的image，UIButton中的imageView也是不会被创建的。  </p>
+<hr>
+<p><code>[UIImage imageNamed:nil]</code> 这行代码会产生 <code>CUICatalog: Invalid asset name supplied: (null)</code> 的警告。<br><code>[UIImage imageNamed:@&quot;&quot;]</code> 这行代码会产生 <code>CUICatalog: Invalid asset name supplied:</code> 的警告。  </p>
+<hr>
+<p>判断字符串是否有内容：<code>if (string.length)</code><br>判断数组是否有内容：<code>if (array.count)</code><br>判断字典是否有内容：<code>if (dictionary.count)</code>     </p>
+<hr>
+<p>通过懒加载方式可以确保一个对象只会被创建一次。<br>对于同一个控件对象来说，如果被父控件添加多次(addSubView:)，并不会被重复添加，当第二次或者第N次被添加到父控件上去时，只会让这个控件摆在父控件的最前面。  </p>
+<hr>
+<p>判断一个对象的类型：<br><code>if (unkonwnView.class != NSClassFromString(@&quot;UIButton&quot;))</code><br><code>if ([NSStringFromClass(unkonwnView.class) isEqualToString:@&quot;UIButton&quot;])</code>  </p>
+<hr>
+<p>通过重写 <code>-layoutSubviews</code> 方法来布局子控件（一般用来布局子控件的Frame）。<br>在 <code>-layoutSubviews</code> 方法中，首先要调用 <code>[super layoutSubviews]</code> 方法确保执行父类的layoutSubviews方法，然后再做一些操作才能覆盖掉之前的操作。  </p>
+<hr>
+<p>如何替换掉UITabBarViewController中的只读tabBar属性？<br>由于UITabBarViewController中的tabBar属性是只读属性，所以采用 <code>self.tabBar = [[HFTabBar alloc] init];</code> 方法是行不通的。<br>可以采用KVC方式替换：<code>[UITabBarViewController setValue:[[XXTabBar alloc] init] forKeyPath:@&quot;tabBar&quot;];</code>       </p>
+<hr>
+<p>导航控制器(UINavigationController)的导航栏上内容(UINavigationItem)是由导航控制器中栈顶控制器的导航项(UINavigationItem)来决定的。<br>UITabBarController底部的UITabBar中每一个UITabBarButton的内容是由子控制器的UITabBarItem来决定的。    </p>
+<hr>
+<p>通过 <code>[[UIImageView alloc] initWithImage:[UIImage imageNamed:@&quot;imageName&quot;]];</code> 这种方式创建的UIImageView的尺寸(frame.size)是与传入图片的大小一致的。<br>通过 <code>[[UIImageView alloc] init];</code> 这种方式创建的UIImageView的尺寸(frame.size)是(0, 0)。想要达到上面方式的效果，可以在添加完图片之后调用 <code>sizeToFit</code> 方法。      </p>
+<hr>
+<p>UIButton一些注意点：<br>设置文字应使用 <code>setTitle:forState:</code> 方法。<br>设置图片应使用 <code>setImage:forState:</code> 方法。<br>设置背景图片应使用 <code>setBackgroundImage:forState:</code> 方法。    </p>
+<p>取出UIButton中的文字应使用 <code>titleForState:</code> 或 <code>currentTitle</code> 方法。<br>取出UIButton中的图片应使用 <code>imageForState:</code> 或 <code>currentImage</code> 方法。<br>取出UIButton中的背景图片应使用 <code>backgroundImageForState:</code> 或 <code>currentBackgroundImage</code> 方法。     </p>
+<p>设置UIButton的大小等于其内容的大小可使用 <code>sizeToFit</code> 方法。      </p>
+<hr>
+<p>设置当前控制器的导航栏标题应使用 <code>self.navigationItem.title = @&quot;Title&quot;</code>，不应该使用 <code>self.title = @&quot;Title&quot;</code>。  </p>
+<hr>
+<p>通过UINavigationController push某个控制器(UIViewController *testViewController)时隐藏底部的UITabBar，设置 <code>testViewController.hidesBottomBarWhenPushed = YES</code> 即可。  </p>
+<hr>
+<p>导航栏会自动放大导航栏上的按钮点击范围。  </p>
+<hr>
+<p>统一所有导航栏上左边的“返回”按钮，可以自定义一个 UINavigationController，然后重写 <code>- pushViewController:animated:</code> 方法。    </p>
+<pre><code>/*
+ * 拦截所有需要Push的子控制器，然后在非RootViewController的子控制器的导航栏左上角添加自定义的“返回”按钮
+ */
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if (self.childViewControllers.count &gt; 0) {
+        // 自定义导航栏左上角返回按钮
+        UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [backButton setTitle:@&quot;返回&quot; forState:UIControlStateNormal];
+        [backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+        [backButton setImage:[UIImage imageNamed:@&quot;imageName&quot;] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@&quot;imageHighlightedName&quot;] forState:UIControlStateHighlighted];
+        // 下面两行代码的位置不能互换，因为首先要计算出按钮的frame，才能对其内边距进行处理。
+        [backButton sizeToFit];
+        backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+        [backButton addTarget:self action:@selector(onClickBackButton:) forControlEvents:UIControlEventTouchUpInside];
+
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    }
+
+    // 等子控制器的“返回”按钮设置好之后，再执行Push操作
+    [super pushViewController:viewController animated:animated];
+}
+
+- (void)onClickBackButton:(UIButton *)sender {
+    [self popViewControllerAnimated:YES];
+}
+</code></pre><hr>
+<p>如果自定义了导航栏上左边的返回按钮，会导致右滑返回手势失效。可通过如下代码解决：     </p>
+<pre><code>@interface HFNavigationController () &lt;UIGestureRecognizerDelegate&gt;
+
+@end
+
+@implementation HFNavigationController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.interactivePopGestureRecognizer.delegate = self;
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+// 手势识别器会调用这个代理方法来决定手势是否有效
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {  
+    // 如果当前子控制器为rootViewController，则不需要右滑返回
+    if (self.childViewControllers.count == 1) return NO;
+
+    return YES;
+}
+</code></pre><hr>
+<p>通过以下代码给导航栏设置一个与原生导航栏几乎一样的背景图片，可以覆盖掉Push时候导航栏的颜色渐变效果。<br><code>[self.navigationBar setBackgroundImage:[UIImage imageNamed:@&quot;navigationbarBackgroundWhite&quot;] forBarMetrics:UIBarMetricsDefault];</code>    </p>
+<hr>
+<p>UIScrollView的 <code>bounds.origin</code> 跟 <code>contentOffset</code> 的值是一样的。      </p>
+<hr>
+<p>UIScrollView的 <code>contentInset</code> 属性值会对 <code>contentOffset</code> 产生影响，比如设置一个UIScrollView的 <code>contentInset</code> 属性值为 <code>UIEdgeInsetsMake(64, 0, 0, 0)</code>，那么当把UIScrollView往下拉并松手的时候，等待UIScrollView滑动静止，这时，UIScrollView上方就有64高度的内边距是无法被自动弹回去了。此时的 <code>contentOffset.y</code> 值就是-64。  </p>
+<hr>
+<p>如果一个UIScrollView所在的控制器是导航控制器UINavigationController的子控制器，那么这个UIScrollView就会自动存在20（隐藏导航栏）或者64（显示导航栏）的顶部内边距(contentInset)。      </p>
+<p>如果这个子控制器中有多个UIScrollView，那这种效果也只会作用在第一个UIScrollView身上。      </p>
+<p>如果不想要这种效果，可以设置这个子控制器的 <code>automaticallyAdjustsScrollViewInsets</code> 属性为 <code>NO</code> 即可。      </p>
+<p>UINavigationBar和UITabBar的半透明穿透效果就是使用了设置内边距(contentInset)的方式来实现的。<br>如果当前控制器中即有UINavigationBar又有UITabBar，那么UIScrollView的 <code>contentInset</code> 系统默认为 <code>UIEdgeInsetsMake(64, 0, 49, 0)</code>。<br>如果当前控制器中只有UINavigationBar，那么UIScrollView的 <code>contentInset</code> 系统默认为 <code>UIEdgeInsetsMake(64, 0, 0, 0)</code>。<br>如果当前控制器中只有UITabBar，那么UIScrollView的 <code>contentInset</code> 系统默认为 <code>UIEdgeInsetsMake(0, 0, 0, 0)</code>。    </p>
+<hr>
+<p>在storyboard或者xib中，一旦设置UIButton的image属性，那么这个UIButton的Type会自动从 <code>System</code> 变成 <code>Custom</code> 。     </p>
+<hr>
+<p>在storyboard或者xib中，想要让UILabel中的文字换行，只需要快捷键 <code>option</code> + <code>Enter</code> 。<br>在storyboard或者xib中，通过 <code>\n</code> 是无法达到换行效果的。<br>在代码中，通过 <code>\n</code> 才可以达到换行的效果。  </p>
+<hr>
+<p>iOS7以前，状态栏的Style设置是通过如下代码来实现的。         </p>
+<pre><code>// UIStatusBarStyleLightContent
+[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+</code></pre><p>从iOS7开始，对于状态栏的Style，由当前控制器来决定。     </p>
+<pre><code>- (UIStatusBarStyle)preferredStatusBarStyle { 
+    // return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;  
+}
+</code></pre><p>上面第一种方式相对于第二种方式有两点麻烦之处：<br>如果当一个控制器进入到另一个控制器之后需要改变状态栏的Style，那么当返回到上一个控制器时，状态栏的Style又要重新改变回去。<br>此外，想要让第一种方式生效，还必须在 <code>info.plist</code> 中设置 <code>View controller-based status bar appearance</code> 为 <code>NO</code>。    </p>
+<hr>
+<p>总是未完待续。。。  </p>
 <hr>
 
       
@@ -549,7 +628,7 @@ git commit --amend 可以对上一次的提交信息做修改（一般用来修�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#title-一点小笔记"><span class="nav-number">1.</span> <span class="nav-text">title: 一点小笔记    </span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
