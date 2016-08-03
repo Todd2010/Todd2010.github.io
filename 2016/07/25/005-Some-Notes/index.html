@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png">
-<meta property="og:updated_time" content="2016-08-02T02:19:26.000Z">
+<meta property="og:updated_time" content="2016-08-03T03:14:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Some iOS Notes">
 <meta name="twitter:description">
@@ -286,11 +286,11 @@
 <a id="more"></a>    
 <p>手动在代码中加入警告：<code>#warning XXX</code>  </p>
 <hr>
-<p><code>Command</code> + <code>s</code> 快捷键可以直接把模拟器当前屏幕显示的内容保存到电脑桌面上。   </p>
+<p><code>Command</code> + <code>s</code> 快捷键可以直接把模拟器当前屏幕正在显示的内容保存到桌面上。   </p>
 <hr>
 <p><code>git commit --amend</code> 可以对上一次的提交信息做修改（一般用来修改commit信息）  </p>
 <hr>
-<p>通过storyboard创建的UIViewController是无法实现继承关系的。  </p>
+<p>通过storyboard或Xib创建的UIView是无法实现继承关系的。  </p>
 <hr>
 <p>从iOS9开始，当程序启动完毕那一刻，所有要显示的窗口必须要有根控制器，否则就会崩溃并报如下错误。    </p>
 <pre><code>Application windows are expected to have a root view controller at the end of application launch
@@ -317,6 +317,7 @@ tabBarTitleAttrributesForNormal[NSForegroundColorAttributeName] = [UIColor grayC
 NSMutableDictionary *tabBarTitleAttrributesForSelected = [NSMutableDictionary dictionary];
 tabBarTitleAttrributesForSelected[NSForegroundColorAttributeName] = [UIColor grayColor];
 
+// 统一设置UITabBarItem上的Normal状态和Selected状态下的文字大小和颜色
 UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
 [appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForNormal forState:UIControlStateNormal];
 [appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForSelected forState:UIControlStateSelected];
@@ -334,19 +335,19 @@ UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
 <p>Log宏&amp;&amp;Color宏    </p>
 <pre><code>// Log
 #ifdef DEBUG
-#define ZXLog(...) NSLog(__VA_ARGS__)
+#define HFLog(...) NSLog(__VA_ARGS__)
 #else
-#define ZXLog(...) 
+#define HFLog(...) 
 #endif
 
 // Color
-#define ZXColorA(R, G, B, A) [UIColor colorWithRed:(R)/255.0 green:(G)/255.0 blue:(B)/255.0 alpha:(A)/255.0]
-#define ZXColor(R, G, B) ZXColorA((R), (G), (B), 255)
-#define ZXRandomColor ZXColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+#define HFColorA(R, G, B, A) [UIColor colorWithRed:(R)/255.0 green:(G)/255.0 blue:(B)/255.0 alpha:(A)/255.0]
+#define HFColor(R, G, B) HFColorA((R), (G), (B), 255)
+#define HFRandomColor HFColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 </code></pre><hr>
-<p>全局宏不但能定义在pch文件中，还能定义在 <code>Build Setting</code> -&gt; <code>Preprocessor Macros</code> 中。<br>注意点：定义在 <code>Build Setting</code> -&gt; <code>Preprocessor Macros</code> 中的宏名字不能都是小写字母。  </p>
+<p>全局宏不但能定义在pch文件中，还能定义在 <code>Build Setting</code> -&gt; <code>Preprocessor Macros</code> 中。<br>注意：定义在 <code>Build Setting</code> -&gt; <code>Preprocessor Macros</code> 中的宏名字不能都是小写字母。  </p>
 <hr>
-<p>只要在UITabBarViewController中添加一个子控制器，就能在UITabBar上添加一个UITabBarItem。  </p>
+<p>只要在UITabBarController中添加一个子控制器，就能在UITabBar上添加一个UITabBarItem。  </p>
 <hr>
 <p>UIButton的懒加载：如果不设置UIButton的title，UIButton中的titleLabel是不会被创建的。<br>同理，如果不设置UIButton的image，UIButton中的imageView也是不会被创建的。  </p>
 <hr>
@@ -354,15 +355,15 @@ UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
 <hr>
 <p>判断字符串是否有内容：<code>if (string.length)</code><br>判断数组是否有内容：<code>if (array.count)</code><br>判断字典是否有内容：<code>if (dictionary.count)</code>     </p>
 <hr>
-<p>通过懒加载方式可以确保一个对象只会被创建一次。<br>对于同一个控件对象来说，如果被父控件添加多次(addSubView:)，并不会被重复添加，当第二次或者第N次被添加到父控件上去时，只会让这个控件摆在父控件的最前面。  </p>
+<p>通过懒加载方式可以确保一个对象在当前控制器的生命周期内只会被创建一次。<br>对于同一个控件对象来说，如果被父控件添加多次(addSubView:)，并不会被重复添加，当第二次或者第N次被添加到父控件上去时，只会让这个控件摆在父控件的最前面。  </p>
 <hr>
 <p>判断一个对象的类型：<br><code>if (unkonwnView.class != NSClassFromString(@&quot;UIButton&quot;))</code><br><code>if ([NSStringFromClass(unkonwnView.class) isEqualToString:@&quot;UIButton&quot;])</code>  </p>
 <hr>
-<p>通过重写 <code>-layoutSubviews</code> 方法来布局子控件（一般用来布局子控件的Frame）。<br>在 <code>-layoutSubviews</code> 方法中，首先要调用 <code>[super layoutSubviews]</code> 方法确保执行父类的layoutSubviews方法，然后再做一些操作才能覆盖掉之前的操作。  </p>
+<p>通过重写 <code>-layoutSubviews</code> 方法来布局子控件（一般用来布局子控件的Frame）。<br>在 <code>-layoutSubviews</code> 方法中，首先要调用 <code>[super layoutSubviews]</code> 方法确保执行了父类的 <code>-layoutSubviews</code> 方法，然后再做一些操作才能覆盖掉之前的操作。  </p>
 <hr>
-<p>如何替换掉UITabBarViewController中的只读tabBar属性？<br>由于UITabBarViewController中的tabBar属性是只读属性，所以采用 <code>self.tabBar = [[HFTabBar alloc] init];</code> 方法是行不通的。<br>可以采用KVC方式替换：<code>[UITabBarViewController setValue:[[XXTabBar alloc] init] forKeyPath:@&quot;tabBar&quot;];</code>       </p>
+<p>如何替换掉UITabBarController中的只读tabBar属性？<br>由于UITabBarController中的tabBar属性是只读属性，所以采用 <code>self.tabBar = [[HFTabBar alloc] init];</code> 方法是行不通的。<br>可以采用KVC方式替换：<code>[UITabBarController setValue:[[HFTabBar alloc] init] forKeyPath:@&quot;tabBar&quot;];</code>       </p>
 <hr>
-<p>导航控制器(UINavigationController)的导航栏上内容(UINavigationItem)是由导航控制器中栈顶控制器的导航项(UINavigationItem)来决定的。<br>UITabBarController底部的UITabBar中每一个UITabBarButton的内容是由子控制器的UITabBarItem来决定的。    </p>
+<p>导航控制器(UINavigationController)的导航栏(UINavigationBar)上内容(UINavigationItem)是由导航控制器中栈顶控制器的导航项(UINavigationItem)来决定的。<br>UITabBarController底部的UITabBar中每一个UITabBarButton的内容是由子控制器的UITabBarItem来决定的。    </p>
 <hr>
 <p>通过 <code>[[UIImageView alloc] initWithImage:[UIImage imageNamed:@&quot;imageName&quot;]];</code> 这种方式创建的UIImageView的尺寸(frame.size)是与传入图片的大小一致的。<br>通过 <code>[[UIImageView alloc] init];</code> 这种方式创建的UIImageView的尺寸(frame.size)是(0, 0)。想要达到上面方式的效果，可以在添加完图片之后调用 <code>sizeToFit</code> 方法。      </p>
 <hr>
@@ -376,10 +377,8 @@ UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
 <hr>
 <p>导航栏会自动放大导航栏上的按钮点击范围。  </p>
 <hr>
-<p>统一所有导航栏上左边的“返回”按钮，可以自定义一个 UINavigationController，然后重写 <code>- pushViewController:animated:</code> 方法。    </p>
-<pre><code>/*
- * 拦截所有需要Push的子控制器，然后在非RootViewController的子控制器的导航栏左上角添加自定义的“返回”按钮
- */
+<p>统一所有导航栏上左边的“返回”按钮，可以自定义一个UINavigationController，然后重写 <code>-pushViewController:animated:</code> 方法。    </p>
+<pre><code>// 拦截所有需要Push的子控制器，然后在非RootViewController的子控制器的导航栏左上角添加自定义的“返回”按钮
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if (self.childViewControllers.count &gt; 0) {
         // 自定义导航栏左上角返回按钮
@@ -428,6 +427,34 @@ UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
     return YES;
 }
 </code></pre><hr>
+<p>导航栏右滑返回手势通过以下打印信息可知，在屏幕边缘的右滑返回手势是通过 <code>UIScreenEdgePanGestureRecognizer</code> 调用 <code>_UINavigationInteractiveTransition</code> 私有类的 <code>handleNavigationTransition:</code> 方法来实现的。<br>而 <code>_UINavigationInteractiveTransition</code> 其实就是 <code>self.interactivePopGestureRecognizer.delegate</code>。      </p>
+<pre><code>UIScreenEdgePanGestureRecognizer
+target= &lt;(action=handleNavigationTransition:, target=&lt;_UINavigationInteractiveTransition&gt;)
+</code></pre><p>如果要实现全屏右滑返回，只需要自定义 <code>UIPanGestureRecognizer</code>，然后调用 <code>_UINavigationInteractiveTransition</code> 私有类的 <code>handleNavigationTransition:</code> 方法。  </p>
+<pre><code>@interface HFNavigationController () &lt;UIGestureRecognizerDelegate&gt;
+@end
+
+@implementation HFNavigationController
+
+- (void)viewDidLoad {
+  UIPanGestureRecognizer *screenPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self.interactivePopGestureRecognizer.delegate 
+action:@selector(handleNavigationTransition:)];
+  [self.view addGestureRecognizer:screenPanGestureRecognizer];
+
+  screenPanGestureRecognizer.delegate = self;  
+  self.interactivePopGestureRecognizer.enable = NO;
+}
+
+// 手势识别器会调用这个代理方法来决定手势是否有效
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    // 如果当前子控制器为rootViewController，则不需要右滑返回
+    if (self.childViewControllers.count == 1) return NO;
+
+    return YES;
+}
+
+@end
+</code></pre><hr>
 <p>通过以下代码给导航栏设置一个与原生导航栏几乎一样的背景图片，可以覆盖掉Push时候导航栏的颜色渐变效果。<br><code>[self.navigationBar setBackgroundImage:[UIImage imageNamed:@&quot;navigationbarBackgroundWhite&quot;] forBarMetrics:UIBarMetricsDefault];</code>    </p>
 <hr>
 <p>UIScrollView的 <code>bounds.origin</code> 跟 <code>contentOffset</code> 的值是一样的。      </p>
@@ -452,6 +479,8 @@ UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
     return UIStatusBarStyleDefault;  
 }
 </code></pre><p>上面第一种方式相对于第二种方式有两点麻烦之处：<br>如果当一个控制器进入到另一个控制器之后需要改变状态栏的Style，那么当返回到上一个控制器时，状态栏的Style又要重新改变回去。<br>此外，想要让第一种方式生效，还必须在 <code>info.plist</code> 中设置 <code>View controller-based status bar appearance</code> 为 <code>NO</code>。    </p>
+<hr>
+<p>修改UITextField的光标颜色使用 <code>textField.tintColor</code>。    </p>
 <hr>
 <p>总是未完待续。。。  </p>
 <hr>
