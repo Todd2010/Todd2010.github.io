@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png">
-<meta property="og:updated_time" content="2016-08-03T03:14:57.000Z">
+<meta property="og:updated_time" content="2016-08-04T08:13:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Some iOS Notes">
 <meta name="twitter:description">
@@ -480,7 +480,141 @@ action:@selector(handleNavigationTransition:)];
 }
 </code></pre><p>上面第一种方式相对于第二种方式有两点麻烦之处：<br>如果当一个控制器进入到另一个控制器之后需要改变状态栏的Style，那么当返回到上一个控制器时，状态栏的Style又要重新改变回去。<br>此外，想要让第一种方式生效，还必须在 <code>info.plist</code> 中设置 <code>View controller-based status bar appearance</code> 为 <code>NO</code>。    </p>
 <hr>
-<p>修改UITextField的光标颜色使用 <code>textField.tintColor</code>。    </p>
+<p>修改UITextField的光标颜色使用 <code>textField.tintColor</code>。      </p>
+<hr>
+<p>简单的图文混排（左边文字+中间图片+右边文字）：  </p>
+<pre><code>NSMutableAttributedString *totalAttributedString = [[NSMutableAttributedString alloc] init];
+
+//左边文字
+NSString *leftString = @&quot;左边文字&quot;;
+NSMutableDictionary *leftAttributes = [NSMutableDictionary dictionary];
+leftAttributes[NSForegroundColorAttributeName] = [UIColor blueColor];
+leftAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:15];
+NSAttributedString *leftAttributedString = [[NSAttributedString alloc] initWithString:leftString attributes:leftAttributes];
+
+// 右边文字
+NSString *rightString = @&quot;右边文字&quot;;
+NSMutableDictionary *rightAttributes = [NSMutableDictionary dictionary];
+rightAttributes[NSForegroundColorAttributeName] = [UIColor redColor];
+rightAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:15];
+NSAttributedString *rightAttributedString = [[NSAttributedString alloc] initWithString:rightString attributes:rightAttributes];
+
+// 中间图片
+NSTextAttachment *middleTextAttachment = [[NSTextAttachment alloc] init];
+middleTextAttachment.image = [UIImage imageNamed:@&quot;xxx&quot;];
+middleTextAttachment.bounds = CGRectMake(0, 0, 20, 20);
+NSAttributedString *middleAttributedString = [NSAttributedString attributedStringWithAttachment:middleTextAttachment];
+
+[totalAttributedString appendAttributedString:leftAttributedString];
+[totalAttributedString appendAttributedString:middleAttributedString];
+[totalAttributedString appendAttributedString:rightAttributedString];
+
+UILabel *testLabel = [[UILabel alloc] init];
+testLabel.frame = CGRectMake(100, 100, 0, 0);
+testLabel.attributedText = totalAttributedString;
+[testLabel sizeToFit];
+</code></pre><hr>
+<p>设置UITextField的占位文字placeholder颜色的三种方法：  </p>
+<pre><code>// 通过设置UITextField类中的attributedPlaceholder属性
+UITextField *testTextField;
+testTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholder 
+attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+</code></pre><pre><code>// 通过子类化UITextField并重写UITextField类中的方法 -drawPlaceholderInRect:
+- (void)drawPlaceholderInRect:(CGRect)rect {
+    [self.placeholder drawAtPoint:CGPointMake(0, (rect.size.height - self.font.lineHeight) * 0.5) 
+    withAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+}
+</code></pre><pre><code>UITextField *testTextField;  
+[testTextField setValue:[UIColor whiteColor] forKeyPath:@&quot;placeholderLabel.textColor&quot;];
+</code></pre><hr>
+<p>给UITextField封装placeholderColor属性(给UITextField写一个分类)：   </p>
+<pre><code>#import &quot;UITextField+placeholderColor.h&quot;
+
+static NSString * const HFPlaceholderColorKey = @&quot;placeholderLabel.textColor&quot;;
+
+@implementation UITextField (placeholderColor)
+
+- (void)setPlaceholderColor:(UIColor *)placeholderColor {
+    NSString *tempPlaceholder = self.placeholder;
+    self.placeholder = @&quot; &quot;;
+    self.placeholder = tempPlaceholder;
+
+    if (placeholderColor == nil) {
+        placeholderColor = [UIColor colorWithRed:0 green:0 blue:0.0980392 alpha:0.22];
+    }
+
+    [self setValue:placeholderColor forKeyPath:HFPlaceholderColorKey];
+}
+
+- (UIColor *)placeholderColor {
+    return [self valueForKeyPath:HFPlaceholderColorKey];
+}
+
+@end
+</code></pre><hr>
+<p>在storyboard或者xib中给UIScrollView添加约束：  </p>
+<ul>
+<li><p>UIScrollView上下垂直滚动：  </p>
+<ul>
+<li>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；   </li>
+<li>设置子控件UIView的高度为固定值（这个值就是UIScrollView的contentSize.height）；  </li>
+<li>设置子控件UIView水平居中。  </li>
+</ul>
+</li>
+<li><p>UIScrollView左右水平滚动：  </p>
+<ul>
+<li>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；  </li>
+<li>设置子控件UIView的宽度为固定值（这个值就是UIScrollView的contentSize.width）；    </li>
+<li>设置子控件UIView垂直居中。   </li>
+</ul>
+</li>
+<li><p>UIScrollView所有方向滚动：    </p>
+<ul>
+<li>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；   </li>
+<li>设置子控件UIView的宽度和高度为固定值；   </li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>通过以下代码可以获取一个类的所有成员变量：   </p>
+<pre><code>unsigned int count;
+Ivar *ivarList = class_copyIvarList([UITextField class], &amp;count);
+for (int i = 0; i &lt; count; i++) {
+    Ivar ivar = ivarList[i];
+    NSLog(@&quot;%s&quot;, ivar_getName(ivar));
+}
+free(ivarList);
+</code></pre><hr>
+<p>在枚举类型中，通常可以看到一些左移 <code>&lt;&lt;</code> 运算符，这表明这些枚举值可以组合使用。    </p>
+<pre><code>// 这边截取了UIControlEvents中一部分关于UITextField的枚举值
+typedef NS_OPTIONS(NSUInteger, UIControlEvents) {
+    UIControlEventEditingDidBegin      = 1 &lt;&lt; 16,     // UITextField
+    UIControlEventEditingChanged       = 1 &lt;&lt; 17,
+    UIControlEventEditingDidEnd        = 1 &lt;&lt; 18,
+    UIControlEventEditingDidEndOnExit  = 1 &lt;&lt; 19,     // &apos;return key&apos; ending editing
+};
+
+// 当testTextField开始编辑或者结束编辑的时候，都会调用 editing: 方法
+UITextField *testTextField;
+[testTextField addTarget:self  action:@selector(editing:) 
+        forControlEvents:UIControlEventEditingDidBegin |  UIControlEventEditingDidEnd];
+</code></pre><p>通过位运算符 <code>|</code> 和 <code>&amp;</code> 可实现枚举值的组合与分解。    </p>
+<pre><code>NSInteger a = 1 &lt;&lt; 0;
+NSInteger b = 1 &lt;&lt; 1;
+NSInteger c = 1 &lt;&lt; 2;
+
+NSInteger mixedValue = a | b;
+
+NSLog(@&quot;%ld, %ld, %ld&quot;, mixedValue &amp; a, mixedValue &amp; b, mixedValue &amp; c);  // 1, 2, 0
+</code></pre><hr>
+<p>UITextField的四种样式：    </p>
+<pre><code>typedef NS_ENUM(NSInteger, UITextBorderStyle) {
+    UITextBorderStyleNone,
+    UITextBorderStyleLine,
+    UITextBorderStyleBezel,
+    UITextBorderStyleRoundedRect
+};
+</code></pre><p>通过storyboard或xib创建的UITextField默认样式是UITextBorderStyleRoundedRect。<br>通过代码创建的UITextField默认样式是UITextBorderStyleNone。   </p>
 <hr>
 <p>总是未完待续。。。  </p>
 <hr>
