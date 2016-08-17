@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png">
-<meta property="og:updated_time" content="2016-08-17T09:38:45.000Z">
+<meta property="og:updated_time" content="2016-08-17T09:44:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Some iOS Notes">
 <meta name="twitter:description">
@@ -293,39 +293,44 @@
 <p>通过storyboard或Xib创建的UIView是无法实现继承关系的。  </p>
 <hr>
 <p>从iOS9开始，当程序启动完毕那一刻，所有要显示的窗口必须要有根控制器，否则就会导致崩溃并报如下错误。    </p>
-<pre><code>Application windows are expected to have a root view controller at the end of application launch
-</code></pre><pre><code>// 下面这段代码让窗口延迟2秒之后再显示出来（没有根控制器）就能保证程序不会崩溃。因为在程序启动完毕那一刻，没有要显示的窗口。
-dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    [self.window makeKeyAndVisible];
+<pre><code class="ObjC">Application windows are expected to have a root view controller at the end of application launch
+</code></pre>
+<pre><code class="ObjC"><span class="comment">// 下面这段代码让窗口延迟2秒之后再显示出来（没有根控制器）就能保证程序不会崩溃。因为在程序启动完毕那一刻，没有要显示的窗口。</span>
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">2.0</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^{
+    [<span class="keyword">self</span>.window makeKeyAndVisible];
 });
-</code></pre><hr>
+</code></pre>
+<hr>
 <p>UIWindow的显示不需要借助任何其他控件。<br>初始化一个UIWindow，然后设置其hidden属性为NO，这个UIWindow就能够显示出来。</p>
 <hr>
 <p>UITabBarController中UITabBar上的图片跟文字是由子控制器的 <code>tabBarItem.image</code>、<code>tabBarItem.selectedImage</code> 和 <code>tabBarItem.title</code> 来决定的。    </p>
-<pre><code>UITabBarController *rootTabBarController = [[UITabBarController alloc] init];
+<pre><code class="ObjC"><span class="built_in">UITabBarController</span> *rootTabBarController = [[<span class="built_in">UITabBarController</span> alloc] init];
 
-UITableViewController *childTableViewController = [[UITableViewController alloc] init];
-childTableViewController.tabBarItem.title = @&quot;首页&quot;;
-childTableViewController.tabBarItem.image = [UIImage imageNamed:@&quot;tabBar_icon&quot;];
-childTableViewController.tabBarItem.selectedImage = [UIImage imageNamed:@&quot;tabBar_icon_selected&quot;];
+<span class="built_in">UITableViewController</span> *childTableViewController = [[<span class="built_in">UITableViewController</span> alloc] init];
+childTableViewController.tabBarItem.title = <span class="string">@"首页"</span>;
+childTableViewController.tabBarItem.image = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"tabBar_icon"</span>];
+childTableViewController.tabBarItem.selectedImage = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"tabBar_icon_selected"</span>];
 [rootTabBarController addChildViewController:childTableViewController];
-</code></pre><hr>
+</code></pre>
+<hr>
 <p>凡是系统提供的方法或者属性后面带有 <code>UI_APPEARANCE_SELECTOR</code> 标识说明, 就可以通过appearance对象来统一设置。  </p>
-<pre><code>NSMutableDictionary *tabBarTitleAttrributesForNormal = [NSMutableDictionary dictionary];
-tabBarTitleAttrributesForNormal[NSFontAttributeName] = [UIFont systemFontOfSize:13];
-tabBarTitleAttrributesForNormal[NSForegroundColorAttributeName] = [UIColor grayColor];
-NSMutableDictionary *tabBarTitleAttrributesForSelected = [NSMutableDictionary dictionary];
-tabBarTitleAttrributesForSelected[NSForegroundColorAttributeName] = [UIColor grayColor];
+<pre><code class="ObjC"><span class="built_in">NSMutableDictionary</span> *tabBarTitleAttrributesForNormal = [<span class="built_in">NSMutableDictionary</span> dictionary];
+tabBarTitleAttrributesForNormal[<span class="built_in">NSFontAttributeName</span>] = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">13</span>];
+tabBarTitleAttrributesForNormal[<span class="built_in">NSForegroundColorAttributeName</span>] = [<span class="built_in">UIColor</span> grayColor];
+<span class="built_in">NSMutableDictionary</span> *tabBarTitleAttrributesForSelected = [<span class="built_in">NSMutableDictionary</span> dictionary];
+tabBarTitleAttrributesForSelected[<span class="built_in">NSForegroundColorAttributeName</span>] = [<span class="built_in">UIColor</span> grayColor];
 
-// 统一设置UITabBarItem上Normal状态和Selected状态下的文字大小和颜色
-UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
-[appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForNormal forState:UIControlStateNormal];
-[appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForSelected forState:UIControlStateSelected];
-</code></pre><p>如果控件已经显示出来，再通过appearance对象来统一设置，是无效的。必须重新刷新控件才能起作用。  </p>
-<pre><code>// 可以通过如下代码来重新刷新控制器的view以及所有子view
-[self.view removeFromSuperview];
-[[UIApplication sharedApplication].keyWindow addSubView:self.view];
-</code></pre><hr>
+<span class="comment">// 统一设置UITabBarItem上Normal状态和Selected状态下的文字大小和颜色</span>
+<span class="built_in">UITabBarItem</span> *appearanceTabBarItem = [<span class="built_in">UITabBarItem</span> appearance];
+[appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForNormal forState:<span class="built_in">UIControlStateNormal</span>];
+[appearanceTabBarItem setTitleTextAttributes:tabBarTitleAttrributesForSelected forState:<span class="built_in">UIControlStateSelected</span>];
+</code></pre>
+<p>如果控件已经显示出来，再通过appearance对象来统一设置，是无效的。必须重新刷新控件才能起作用。  </p>
+<pre><code class="ObjC"><span class="comment">// 可以通过如下代码来重新刷新控制器的view以及所有子view</span>
+[<span class="keyword">self</span>.view removeFromSuperview];
+[[<span class="built_in">UIApplication</span> sharedApplication].keyWindow addSubView:<span class="keyword">self</span>.view];
+</code></pre>
+<hr>
 <p>提取App中图片资源的小工具: <a href="https://github.com/devcxm/iOS-Images-Extractor" target="_blank" rel="external">iOS-Images-Extractor</a>   </p>
 <hr>
 <p>随机数函数arc4random_uniform(x)，可以用来直接产生0～(x-1)范围内的随机数，省去了通过arc4random()函数再取模的运算。  </p>
@@ -333,18 +338,19 @@ UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
 <p>R、G、B三基色的值都相同就是灰色，值越小灰度越深。  </p>
 <hr>
 <p>Log宏&amp;&amp;Color宏    </p>
-<pre><code>// Log
-#ifdef DEBUG
-#define HFLog(...) NSLog(__VA_ARGS__)
-#else
-#define HFLog(...) 
-#endif
+<pre><code class="ObjC"><span class="comment">// Log</span>
+<span class="meta">#ifdef DEBUG</span>
+<span class="meta">#define HFLog(...) NSLog(__VA_ARGS__)</span>
+<span class="meta">#else</span>
+<span class="meta">#define HFLog(...) </span>
+<span class="meta">#endif</span>
 
-// Color
-#define HFColorA(R, G, B, A) [UIColor colorWithRed:(R)/255.0 green:(G)/255.0 blue:(B)/255.0 alpha:(A)/255.0]
-#define HFColor(R, G, B) HFColorA((R), (G), (B), 255)
-#define HFRandomColor HFColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
-</code></pre><hr>
+<span class="comment">// Color</span>
+<span class="meta">#define HFColorA(R, G, B, A) [UIColor colorWithRed:(R)/255.0 green:(G)/255.0 blue:(B)/255.0 alpha:(A)/255.0]</span>
+<span class="meta">#define HFColor(R, G, B) HFColorA((R), (G), (B), 255)</span>
+<span class="meta">#define HFRandomColor HFColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))</span>
+</code></pre>
+<hr>
 <p>全局宏不但能定义在pch文件中，还能定义在 <code>Build Setting</code> -&gt; <code>Preprocessor Macros</code> 中。<br>注意：定义在 <code>Build Setting</code> -&gt; <code>Preprocessor Macros</code> 中的宏名字不能都是小写字母。  </p>
 <hr>
 <p>只要在UITabBarController中添加一个子控制器，就能在UITabBar上添加一个UITabBarItem。  </p>
@@ -378,83 +384,87 @@ UITabBarItem *appearanceTabBarItem = [UITabBarItem appearance];
 <p>导航栏会自动放大导航栏上的按钮点击范围。  </p>
 <hr>
 <p>统一所有导航栏上左边的“返回”按钮，可以自定义一个UINavigationController，然后重写 <code>- pushViewController:animated:</code> 方法。    </p>
-<pre><code>// 拦截所有需要Push的子控制器，然后在非RootViewController的子控制器的导航栏左上角添加自定义的“返回”按钮
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    if (self.childViewControllers.count &gt; 0) {
-        // 自定义导航栏左上角返回按钮
-        UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [backButton setTitle:@&quot;返回&quot; forState:UIControlStateNormal];
-        [backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
-        [backButton setImage:[UIImage imageNamed:@&quot;imageName&quot;] forState:UIControlStateNormal];
-        [backButton setImage:[UIImage imageNamed:@&quot;imageHighlightedName&quot;] forState:UIControlStateHighlighted];
-        // 下面两行代码的位置不能互换，因为首先要计算出按钮的frame，才能对其内边距进行处理。
+<pre><code class="ObjC"><span class="comment">// 拦截所有需要Push的子控制器，然后在非RootViewController的子控制器的导航栏左上角添加自定义的“返回”按钮</span>
+- (<span class="keyword">void</span>)pushViewController:(<span class="built_in">UIViewController</span> *)viewController animated:(<span class="built_in">BOOL</span>)animated {
+    <span class="keyword">if</span> (<span class="keyword">self</span>.childViewControllers.count &gt; <span class="number">0</span>) {
+        <span class="comment">// 自定义导航栏左上角返回按钮</span>
+        <span class="built_in">UIButton</span> *backButton = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+        [backButton setTitle:<span class="string">@"返回"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+        [backButton setTitleColor:[<span class="built_in">UIColor</span> blackColor] forState:<span class="built_in">UIControlStateNormal</span>];
+        [backButton setTitleColor:[<span class="built_in">UIColor</span> redColor] forState:<span class="built_in">UIControlStateHighlighted</span>];
+        [backButton setImage:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@"imageName"</span>] forState:<span class="built_in">UIControlStateNormal</span>];
+        [backButton setImage:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@"imageHighlightedName"</span>] forState:<span class="built_in">UIControlStateHighlighted</span>];
+        <span class="comment">// 下面两行代码的位置不能互换，因为首先要计算出按钮的frame，才能对其内边距进行处理。</span>
         [backButton sizeToFit];
-        backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
-        [backButton addTarget:self action:@selector(onClickBackButton:) forControlEvents:UIControlEventTouchUpInside];
+        backButton.contentEdgeInsets = <span class="built_in">UIEdgeInsetsMake</span>(<span class="number">0</span>, <span class="number">-20</span>, <span class="number">0</span>, <span class="number">0</span>);
+        [backButton addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(onClickBackButton:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
 
-        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+        viewController.navigationItem.leftBarButtonItem = [[<span class="built_in">UIBarButtonItem</span> alloc] initWithCustomView:backButton];
     }
 
-    // 等子控制器的“返回”按钮设置好之后，再执行Push操作
-    [super pushViewController:viewController animated:animated];
+    <span class="comment">// 等子控制器的“返回”按钮设置好之后，再执行Push操作</span>
+    [<span class="keyword">super</span> pushViewController:viewController animated:animated];
 }
 
-- (void)onClickBackButton:(UIButton *)sender {
-    [self popViewControllerAnimated:YES];
+- (<span class="keyword">void</span>)onClickBackButton:(<span class="built_in">UIButton</span> *)sender {
+    [<span class="keyword">self</span> popViewControllerAnimated:<span class="literal">YES</span>];
 }
-</code></pre><hr>
+</code></pre>
+<hr>
 <p>如果自定义了导航栏上左边的返回按钮，会导致右滑返回手势失效。可通过如下代码解决：     </p>
-<pre><code>@interface HFNavigationController () &lt;UIGestureRecognizerDelegate&gt;
+<pre><code class="ObjC"><span class="class"><span class="keyword">@interface</span> <span class="title">HFNavigationController</span> () &lt;<span class="title">UIGestureRecognizerDelegate</span>&gt;</span>
 
-@end
+<span class="keyword">@end</span>
 
-@implementation HFNavigationController
+<span class="class"><span class="keyword">@implementation</span> <span class="title">HFNavigationController</span></span>
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
 
-    self.interactivePopGestureRecognizer.delegate = self;
+    <span class="keyword">self</span>.interactivePopGestureRecognizer.delegate = <span class="keyword">self</span>;
 }
 
-#pragma mark - UIGestureRecognizerDelegate
+<span class="meta">#pragma mark - UIGestureRecognizerDelegate</span>
 
-// 手势识别器会调用这个代理方法来决定手势是否有效
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {  
-    // 如果当前子控制器为rootViewController，则不需要右滑返回
-    if (self.childViewControllers.count == 1) return NO;
+<span class="comment">// 手势识别器会调用这个代理方法来决定手势是否有效</span>
+- (<span class="built_in">BOOL</span>)gestureRecognizerShouldBegin:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer {  
+    <span class="comment">// 如果当前子控制器为rootViewController，则不需要右滑返回</span>
+    <span class="keyword">if</span> (<span class="keyword">self</span>.childViewControllers.count == <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">NO</span>;
 
-    return YES;
+    <span class="keyword">return</span> <span class="literal">YES</span>;
 }
-</code></pre><hr>
+</code></pre>
+<hr>
 <p>导航栏右滑返回手势通过以下打印信息可知，在屏幕边缘的右滑返回手势是通过 <code>UIScreenEdgePanGestureRecognizer</code> 调用 <code>_UINavigationInteractiveTransition</code> 私有类的 <code>handleNavigationTransition:</code> 方法来实现的。<br>而 <code>_UINavigationInteractiveTransition</code> 其实就是 <code>self.interactivePopGestureRecognizer.delegate</code>。      </p>
-<pre><code>UIScreenEdgePanGestureRecognizer
-target= &lt;(action=handleNavigationTransition:, target=&lt;_UINavigationInteractiveTransition&gt;)
-</code></pre><p>如果要实现全屏右滑返回，只需要自定义 <code>UIPanGestureRecognizer</code>，然后调用 <code>_UINavigationInteractiveTransition</code> 私有类的 <code>handleNavigationTransition:</code> 方法。  </p>
-<pre><code>@interface HFNavigationController () &lt;UIGestureRecognizerDelegate&gt;
-@end
+<pre><code class="ObjC"><span class="built_in">UIScreenEdgePanGestureRecognizer</span>
+target= &lt;(action=handleNavigationTransition:, target=&lt;_<span class="built_in">UINavigationInteractiveTransition</span>&gt;)
+</code></pre>
+<p>如果要实现全屏右滑返回，只需要自定义 <code>UIPanGestureRecognizer</code>，然后调用 <code>_UINavigationInteractiveTransition</code> 私有类的 <code>handleNavigationTransition:</code> 方法。  </p>
+<pre><code class="ObjC"><span class="class"><span class="keyword">@interface</span> <span class="title">HFNavigationController</span> () &lt;<span class="title">UIGestureRecognizerDelegate</span>&gt;</span>
+<span class="keyword">@end</span>
 
-@implementation HFNavigationController
+<span class="class"><span class="keyword">@implementation</span> <span class="title">HFNavigationController</span></span>
 
-- (void)viewDidLoad {
-  UIPanGestureRecognizer *screenPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self.interactivePopGestureRecognizer.delegate 
-action:@selector(handleNavigationTransition:)];
-  [self.view addGestureRecognizer:screenPanGestureRecognizer];
+- (<span class="keyword">void</span>)viewDidLoad {
+  <span class="built_in">UIPanGestureRecognizer</span> *screenPanGestureRecognizer = [[<span class="built_in">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span>.interactivePopGestureRecognizer.delegate 
+action:<span class="keyword">@selector</span>(handleNavigationTransition:)];
+  [<span class="keyword">self</span>.view addGestureRecognizer:screenPanGestureRecognizer];
 
-  screenPanGestureRecognizer.delegate = self;  
-  self.interactivePopGestureRecognizer.enable = NO;
+  screenPanGestureRecognizer.delegate = <span class="keyword">self</span>;  
+  <span class="keyword">self</span>.interactivePopGestureRecognizer.enable = <span class="literal">NO</span>;
 }
 
-// 手势识别器会调用这个代理方法来决定手势是否有效
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    // 如果当前子控制器为rootViewController，则不需要右滑返回
-    if (self.childViewControllers.count == 1) return NO;
+<span class="comment">// 手势识别器会调用这个代理方法来决定手势是否有效</span>
+- (<span class="built_in">BOOL</span>)gestureRecognizerShouldBegin:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer {
+    <span class="comment">// 如果当前子控制器为rootViewController，则不需要右滑返回</span>
+    <span class="keyword">if</span> (<span class="keyword">self</span>.childViewControllers.count == <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">NO</span>;
 
-    return YES;
+    <span class="keyword">return</span> <span class="literal">YES</span>;
 }
 
-@end
-</code></pre><hr>
+<span class="keyword">@end</span>
+</code></pre>
+<hr>
 <p>通过以下代码给导航栏设置一个与原生导航栏几乎一样的背景图片，可以覆盖掉Push时候导航栏的颜色渐变效果。<br><code>[self.navigationBar setBackgroundImage:[UIImage imageNamed:@&quot;navigationbarBackgroundWhite&quot;] forBarMetrics:UIBarMetricsDefault];</code>    </p>
 <hr>
 <p>UIScrollView的 <code>bounds.origin</code> 跟 <code>contentOffset</code> 的值是一样的。      </p>
@@ -471,165 +481,179 @@ action:@selector(handleNavigationTransition:)];
 <p>在storyboard或者xib中，想要让UILabel中的文字换行，只需要快捷键 <code>option</code> + <code>Enter</code> 。<br>在storyboard或者xib中，通过 <code>\n</code> 是无法达到换行效果的。<br>在代码中，通过 <code>\n</code> 才可以达到换行的效果。  </p>
 <hr>
 <p>iOS7以前，状态栏的Style设置是通过如下代码来实现的。         </p>
-<pre><code>// UIStatusBarStyleLightContent
-[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-</code></pre><p>从iOS7开始，对于状态栏的Style，由当前控制器来决定。     </p>
-<pre><code>- (UIStatusBarStyle)preferredStatusBarStyle { 
-    // return UIStatusBarStyleLightContent;
-    return UIStatusBarStyleDefault;  
+<pre><code class="ObjC"><span class="comment">// UIStatusBarStyleLightContent</span>
+[[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarStyle:<span class="built_in">UIStatusBarStyleDefault</span>];
+</code></pre>
+<p>从iOS7开始，对于状态栏的Style，由当前控制器来决定。     </p>
+<pre><code class="ObjC">- (<span class="built_in">UIStatusBarStyle</span>)preferredStatusBarStyle { 
+    <span class="comment">// return UIStatusBarStyleLightContent;</span>
+    <span class="keyword">return</span> <span class="built_in">UIStatusBarStyleDefault</span>;  
 }
-</code></pre><p>上面第一种方式相对于第二种方式有两点麻烦之处：<br>如果当一个控制器进入到另一个控制器之后需要改变状态栏的Style，那么当返回到上一个控制器时，状态栏的Style又要重新改变回去。<br>此外，想要让第一种方式生效，还必须在 <code>info.plist</code> 中设置 <code>View controller-based status bar appearance</code> 为 <code>NO</code>。    </p>
+</code></pre>
+<p>上面第一种方式相对于第二种方式有两点麻烦之处：<br>如果当一个控制器进入到另一个控制器之后需要改变状态栏的Style，那么当返回到上一个控制器时，状态栏的Style又要重新改变回去。<br>此外，想要让第一种方式生效，还必须在 <code>info.plist</code> 中设置 <code>View controller-based status bar appearance</code> 为 <code>NO</code>。    </p>
 <hr>
 <p>修改UITextField的光标颜色使用 <code>textField.tintColor</code>。      </p>
 <hr>
 <p>简单的图文混排（左边文字+中间图片+右边文字）：  </p>
-<pre><code>NSMutableAttributedString *totalAttributedString = [[NSMutableAttributedString alloc] init];
+<pre><code class="ObjC"><span class="built_in">NSMutableAttributedString</span> *totalAttributedString = [[<span class="built_in">NSMutableAttributedString</span> alloc] init];
 
-//左边文字
-NSString *leftString = @&quot;左边文字&quot;;
-NSMutableDictionary *leftAttributes = [NSMutableDictionary dictionary];
-leftAttributes[NSForegroundColorAttributeName] = [UIColor blueColor];
-leftAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:15];
-NSAttributedString *leftAttributedString = [[NSAttributedString alloc] initWithString:leftString attributes:leftAttributes];
+<span class="comment">//左边文字</span>
+<span class="built_in">NSString</span> *leftString = <span class="string">@"左边文字"</span>;
+<span class="built_in">NSMutableDictionary</span> *leftAttributes = [<span class="built_in">NSMutableDictionary</span> dictionary];
+leftAttributes[<span class="built_in">NSForegroundColorAttributeName</span>] = [<span class="built_in">UIColor</span> blueColor];
+leftAttributes[<span class="built_in">NSFontAttributeName</span>] = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">15</span>];
+<span class="built_in">NSAttributedString</span> *leftAttributedString = [[<span class="built_in">NSAttributedString</span> alloc] initWithString:leftString attributes:leftAttributes];
 
-// 右边文字
-NSString *rightString = @&quot;右边文字&quot;;
-NSMutableDictionary *rightAttributes = [NSMutableDictionary dictionary];
-rightAttributes[NSForegroundColorAttributeName] = [UIColor redColor];
-rightAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:15];
-NSAttributedString *rightAttributedString = [[NSAttributedString alloc] initWithString:rightString attributes:rightAttributes];
+<span class="comment">// 右边文字</span>
+<span class="built_in">NSString</span> *rightString = <span class="string">@"右边文字"</span>;
+<span class="built_in">NSMutableDictionary</span> *rightAttributes = [<span class="built_in">NSMutableDictionary</span> dictionary];
+rightAttributes[<span class="built_in">NSForegroundColorAttributeName</span>] = [<span class="built_in">UIColor</span> redColor];
+rightAttributes[<span class="built_in">NSFontAttributeName</span>] = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">15</span>];
+<span class="built_in">NSAttributedString</span> *rightAttributedString = [[<span class="built_in">NSAttributedString</span> alloc] initWithString:rightString attributes:rightAttributes];
 
-// 中间图片
-NSTextAttachment *middleTextAttachment = [[NSTextAttachment alloc] init];
-middleTextAttachment.image = [UIImage imageNamed:@&quot;xxx&quot;];
-middleTextAttachment.bounds = CGRectMake(0, 0, 20, 20);
-NSAttributedString *middleAttributedString = [NSAttributedString attributedStringWithAttachment:middleTextAttachment];
+<span class="comment">// 中间图片</span>
+<span class="built_in">NSTextAttachment</span> *middleTextAttachment = [[<span class="built_in">NSTextAttachment</span> alloc] init];
+middleTextAttachment.image = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"xxx"</span>];
+middleTextAttachment.bounds = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">20</span>, <span class="number">20</span>);
+<span class="built_in">NSAttributedString</span> *middleAttributedString = [<span class="built_in">NSAttributedString</span> attributedStringWithAttachment:middleTextAttachment];
 
 [totalAttributedString appendAttributedString:leftAttributedString];
 [totalAttributedString appendAttributedString:middleAttributedString];
 [totalAttributedString appendAttributedString:rightAttributedString];
 
-UILabel *testLabel = [[UILabel alloc] init];
-testLabel.frame = CGRectMake(100, 100, 0, 0);
+<span class="built_in">UILabel</span> *testLabel = [[<span class="built_in">UILabel</span> alloc] init];
+testLabel.frame = <span class="built_in">CGRectMake</span>(<span class="number">100</span>, <span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>);
 testLabel.attributedText = totalAttributedString;
 [testLabel sizeToFit];
-</code></pre><hr>
+</code></pre>
+<hr>
 <p>设置UITextField的占位文字placeholder颜色的三种方法：  </p>
-<pre><code>// 通过设置UITextField类中的attributedPlaceholder属性
-UITextField *testTextField;
-testTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholder 
-attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-</code></pre><pre><code>// 通过子类化UITextField并重写UITextField类中的方法 -drawPlaceholderInRect:
-- (void)drawPlaceholderInRect:(CGRect)rect {
-    [self.placeholder drawAtPoint:CGPointMake(0, (rect.size.height - self.font.lineHeight) * 0.5) 
-    withAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+<pre><code class="ObjC"><span class="comment">// 通过设置UITextField类中的attributedPlaceholder属性</span>
+<span class="built_in">UITextField</span> *testTextField;
+testTextField.attributedPlaceholder = [[<span class="built_in">NSAttributedString</span> alloc] initWithString:<span class="keyword">self</span>.placeholder 
+attributes:@{<span class="built_in">NSForegroundColorAttributeName</span> : [<span class="built_in">UIColor</span> whiteColor]}];
+</code></pre>
+<pre><code class="ObjC"><span class="comment">// 通过子类化UITextField并重写UITextField类中的方法 -drawPlaceholderInRect:</span>
+- (<span class="keyword">void</span>)drawPlaceholderInRect:(<span class="built_in">CGRect</span>)rect {
+    [<span class="keyword">self</span>.placeholder drawAtPoint:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, (rect.size.height - <span class="keyword">self</span>.font.lineHeight) * <span class="number">0.5</span>) 
+    withAttributes:@{<span class="built_in">NSForegroundColorAttributeName</span> : [<span class="built_in">UIColor</span> whiteColor]}];
 }
-</code></pre><pre><code>UITextField *testTextField;  
-[testTextField setValue:[UIColor whiteColor] forKeyPath:@&quot;placeholderLabel.textColor&quot;];
-</code></pre><hr>
+</code></pre>
+<pre><code class="ObjC"><span class="built_in">UITextField</span> *testTextField;  
+[testTextField setValue:[<span class="built_in">UIColor</span> whiteColor] forKeyPath:<span class="string">@"placeholderLabel.textColor"</span>];
+</code></pre>
+<hr>
 <p>给UITextField封装placeholderColor属性(给UITextField写一个分类)：   </p>
-<pre><code>#import &quot;UITextField+placeholderColor.h&quot;
+<pre><code class="ObjC"><span class="meta">#import <span class="meta-string">"UITextField+placeholderColor.h"</span></span>
 
-static NSString * const HFPlaceholderColorKey = @&quot;placeholderLabel.textColor&quot;;
+<span class="keyword">static</span> <span class="built_in">NSString</span> * <span class="keyword">const</span> HFPlaceholderColorKey = <span class="string">@"placeholderLabel.textColor"</span>;
 
-@implementation UITextField (placeholderColor)
+<span class="class"><span class="keyword">@implementation</span> <span class="title">UITextField</span> (<span class="title">placeholderColor</span>)</span>
 
-- (void)setPlaceholderColor:(UIColor *)placeholderColor {
-    NSString *tempPlaceholder = self.placeholder;
-    self.placeholder = @&quot; &quot;;
-    self.placeholder = tempPlaceholder;
+- (<span class="keyword">void</span>)setPlaceholderColor:(<span class="built_in">UIColor</span> *)placeholderColor {
+    <span class="built_in">NSString</span> *tempPlaceholder = <span class="keyword">self</span>.placeholder;
+    <span class="keyword">self</span>.placeholder = <span class="string">@" "</span>;
+    <span class="keyword">self</span>.placeholder = tempPlaceholder;
 
-    if (placeholderColor == nil) {
-        placeholderColor = [UIColor colorWithRed:0 green:0 blue:0.0980392 alpha:0.22];
+    <span class="keyword">if</span> (placeholderColor == <span class="literal">nil</span>) {
+        placeholderColor = [<span class="built_in">UIColor</span> colorWithRed:<span class="number">0</span> green:<span class="number">0</span> blue:<span class="number">0.0980392</span> alpha:<span class="number">0.22</span>];
     }
 
-    [self setValue:placeholderColor forKeyPath:HFPlaceholderColorKey];
+    [<span class="keyword">self</span> setValue:placeholderColor forKeyPath:HFPlaceholderColorKey];
 }
 
-- (UIColor *)placeholderColor {
-    return [self valueForKeyPath:HFPlaceholderColorKey];
+- (<span class="built_in">UIColor</span> *)placeholderColor {
+    <span class="keyword">return</span> [<span class="keyword">self</span> valueForKeyPath:HFPlaceholderColorKey];
 }
 
-@end
-</code></pre><hr>
+<span class="keyword">@end</span>
+</code></pre>
+<hr>
 <p>获取某个类的所有成员变量，比如通过以下代码可以获取UITextField类中的所有成员变量：   </p>
-<pre><code>unsigned int count;
-Ivar *ivarList = class_copyIvarList([UITextField class], &amp;count);
-for (int i = 0; i &lt; count; i++) {
+<pre><code class="ObjC"><span class="keyword">unsigned</span> <span class="keyword">int</span> count;
+Ivar *ivarList = class_copyIvarList([<span class="built_in">UITextField</span> class], &amp;count);
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) {
     Ivar ivar = ivarList[i];
-    NSLog(@&quot;%s&quot;, ivar_getName(ivar));
+    <span class="built_in">NSLog</span>(<span class="string">@"%s"</span>, ivar_getName(ivar));
 }
 free(ivarList);
-</code></pre><hr>
+</code></pre>
+<hr>
 <p>在枚举类型中，通常可以看到一些左移 <code>&lt;&lt;</code> 运算符，这表明这些枚举值可以组合使用。    </p>
-<pre><code>// 这边截取了UIControlEvents中一部分关于UITextField的枚举值
-typedef NS_OPTIONS(NSUInteger, UIControlEvents) {
-    UIControlEventEditingDidBegin      = 1 &lt;&lt; 16,     // UITextField
-    UIControlEventEditingChanged       = 1 &lt;&lt; 17,
-    UIControlEventEditingDidEnd        = 1 &lt;&lt; 18,
-    UIControlEventEditingDidEndOnExit  = 1 &lt;&lt; 19,     // &apos;return key&apos; ending editing
+<pre><code class="ObjC"><span class="comment">// 这边截取了UIControlEvents中一部分关于UITextField的枚举值</span>
+<span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">UIControlEvents</span>) {
+    <span class="built_in">UIControlEventEditingDidBegin</span>      = <span class="number">1</span> &lt;&lt; <span class="number">16</span>,     <span class="comment">// UITextField</span>
+    <span class="built_in">UIControlEventEditingChanged</span>       = <span class="number">1</span> &lt;&lt; <span class="number">17</span>,
+    <span class="built_in">UIControlEventEditingDidEnd</span>        = <span class="number">1</span> &lt;&lt; <span class="number">18</span>,
+    <span class="built_in">UIControlEventEditingDidEndOnExit</span>  = <span class="number">1</span> &lt;&lt; <span class="number">19</span>,     <span class="comment">// 'return key' ending editing</span>
 };
 
-// 当testTextField开始编辑或者结束编辑的时候，都会调用 editing: 方法
-UITextField *testTextField;
-[testTextField addTarget:self action:@selector(editing:) forControlEvents:UIControlEventEditingDidBegin |  UIControlEventEditingDidEnd];
-</code></pre><p>原理：通过位运算符 <code>|</code> 和 <code>&amp;</code> 实现枚举值的组合与分解。    </p>
-<pre><code>NSInteger a = 1 &lt;&lt; 0;
-NSInteger b = 1 &lt;&lt; 1;
-NSInteger c = 1 &lt;&lt; 2;
+<span class="comment">// 当testTextField开始编辑或者结束编辑的时候，都会调用 editing: 方法</span>
+<span class="built_in">UITextField</span> *testTextField;
+[testTextField addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(editing:) forControlEvents:<span class="built_in">UIControlEventEditingDidBegin</span> |  <span class="built_in">UIControlEventEditingDidEnd</span>];
+</code></pre>
+<p>原理：通过位运算符 <code>|</code> 和 <code>&amp;</code> 实现枚举值的组合与分解。    </p>
+<pre><code class="ObjC"><span class="built_in">NSInteger</span> a = <span class="number">1</span> &lt;&lt; <span class="number">0</span>;
+<span class="built_in">NSInteger</span> b = <span class="number">1</span> &lt;&lt; <span class="number">1</span>;
+<span class="built_in">NSInteger</span> c = <span class="number">1</span> &lt;&lt; <span class="number">2</span>;
 
-NSInteger mixedValue = a | b;
+<span class="built_in">NSInteger</span> mixedValue = a | b;
 
-NSLog(@&quot;%ld, %ld, %ld&quot;, mixedValue &amp; a, mixedValue &amp; b, mixedValue &amp; c);  // 1, 2, 0
-</code></pre><hr>
+<span class="built_in">NSLog</span>(<span class="string">@"%ld, %ld, %ld"</span>, mixedValue &amp; a, mixedValue &amp; b, mixedValue &amp; c);  <span class="comment">// 1, 2, 0</span>
+</code></pre>
+<hr>
 <p>UITextField的四种样式：    </p>
-<pre><code>typedef NS_ENUM(NSInteger, UITextBorderStyle) {
-    UITextBorderStyleNone,
-    UITextBorderStyleLine,
-    UITextBorderStyleBezel,
-    UITextBorderStyleRoundedRect
+<pre><code class="ObjC"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UITextBorderStyle</span>) {
+    <span class="built_in">UITextBorderStyleNone</span>,
+    <span class="built_in">UITextBorderStyleLine</span>,
+    <span class="built_in">UITextBorderStyleBezel</span>,
+    <span class="built_in">UITextBorderStyleRoundedRect</span>
 };
-</code></pre><p>通过storyboard或xib创建的UITextField默认样式是UITextBorderStyleRoundedRect。<br>通过代码创建的UITextField默认样式是UITextBorderStyleNone。   </p>
+</code></pre>
+<p>通过storyboard或xib创建的UITextField默认样式是UITextBorderStyleRoundedRect。<br>通过代码创建的UITextField默认样式是UITextBorderStyleNone。   </p>
 <hr>
 <p>监听UITextField事件的三种方式：  </p>
 <p>1、 <code>addTarget:action:forControlEvents:</code>      </p>
-<pre><code>// UIControlEventEditingDidBegin  // 开始编辑（成为焦点）
-// UIControlEventEditingChanged  // 正在编辑（改变文字）
-// UIControlEventEditingDidEnd  // 结束编辑（失去焦点）
-// UIControlEventEditingDidEndOnExit  // 确认编辑（点击了return按键）
-UITextField *testTextField;
-[testTextField addTarget:self action:@selector(onActionTextField:) forControlEvents:UIControlEventEditingDidBegin];
-</code></pre><p>2、 <code>[NSNotificationCenter defaultCenter] addObserver:selector:name:object:</code>    </p>
-<pre><code>// UITextViewTextDidBeginEditingNotification
-// UITextViewTextDidChangeNotification
-// UITextViewTextDidEndEditingNotification;
-UITextField *testTextField;
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onActionTextField:)  
-                                             name:UITextViewTextDidBeginEditingNotification
+<pre><code class="ObjC"><span class="comment">// UIControlEventEditingDidBegin  // 开始编辑（成为焦点）</span>
+<span class="comment">// UIControlEventEditingChanged  // 正在编辑（改变文字）</span>
+<span class="comment">// UIControlEventEditingDidEnd  // 结束编辑（失去焦点）</span>
+<span class="comment">// UIControlEventEditingDidEndOnExit  // 确认编辑（点击了return按键）</span>
+<span class="built_in">UITextField</span> *testTextField;
+[testTextField addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(onActionTextField:) forControlEvents:<span class="built_in">UIControlEventEditingDidBegin</span>];
+</code></pre>
+<p>2、 <code>[NSNotificationCenter defaultCenter] addObserver:selector:name:object:</code>    </p>
+<pre><code class="ObjC"><span class="comment">// UITextViewTextDidBeginEditingNotification</span>
+<span class="comment">// UITextViewTextDidChangeNotification</span>
+<span class="comment">// UITextViewTextDidEndEditingNotification;</span>
+<span class="built_in">UITextField</span> *testTextField;
+[[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(onActionTextField:)  
+                                             name:<span class="built_in">UITextViewTextDidBeginEditingNotification</span>
                                            object:testTextField];
 
-// 记得移除监听器：[[NSNotificationCenter defaultCenter] removeObserver:self];
-</code></pre><p>3、 代理 <code>&lt;UITextFieldDelegate&gt;</code>   </p>
-<pre><code>@interface testViewController () &lt;UITextFieldDelegate&gt;
-@end
+<span class="comment">// 记得移除监听器：[[NSNotificationCenter defaultCenter] removeObserver:self];</span>
+</code></pre>
+<p>3、 代理 <code>&lt;UITextFieldDelegate&gt;</code>   </p>
+<pre><code class="ObjC"><span class="class"><span class="keyword">@interface</span> <span class="title">testViewController</span> () &lt;<span class="title">UITextFieldDelegate</span>&gt;</span>
+<span class="keyword">@end</span>
 
-- (void)viewDidLoad {
-    UITextField *testTextField;
-    testTextField.delegate = self;
+- (<span class="keyword">void</span>)viewDidLoad {
+    <span class="built_in">UITextField</span> *testTextField;
+    testTextField.delegate = <span class="keyword">self</span>;
 }
 
-// 实现代理方法  
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
+<span class="comment">// 实现代理方法  </span>
+- (<span class="keyword">void</span>)textFieldDidBeginEditing:(<span class="built_in">UITextField</span> *)textField {
 }
 
-//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;
-//- (void)textFieldDidBeginEditing:(UITextField *)textField;
-//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField;
-//- (void)textFieldDidEndEditing:(UITextField *)textField;
-//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;  // 是否要改变文字
-//- (BOOL)textFieldShouldClear:(UITextField *)textField;  // clear按钮点击是否有用
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField;
-</code></pre><hr>
+<span class="comment">//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;</span>
+<span class="comment">//- (void)textFieldDidBeginEditing:(UITextField *)textField;</span>
+<span class="comment">//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField;</span>
+<span class="comment">//- (void)textFieldDidEndEditing:(UITextField *)textField;</span>
+<span class="comment">//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;  // 是否要改变文字</span>
+<span class="comment">//- (BOOL)textFieldShouldClear:(UITextField *)textField;  // clear按钮点击是否有用</span>
+<span class="comment">//- (BOOL)textFieldShouldReturn:(UITextField *)textField;</span>
+</code></pre>
+<hr>
 <p>在storyboard或者xib中给UIScrollView添加约束：  </p>
 <ul>
 <li><p>UIScrollView上下垂直滚动：  </p>
@@ -657,92 +681,100 @@ UITextField *testTextField;
 <p><code>pod install</code> : 会根据 <code>Podfile.lock</code> 中的版本号来安装第三方库。如果没有 <code>Podfile.lock</code> 文件，则安装最新版本的第三方库。<br><code>pod update</code> : 总是安装最新版本的第三方库。    </p>
 <hr>
 <p>如果在 <code>- viewDidLoad</code> 和 <code>- viewWillAppear:</code> 中延迟设置 <code>tableFooterView</code> 会导致整个UITableView的 <code>contentSize</code> 多出20的高度。<br>在 <code>- viewDidAppear:</code> 中直接设置也会导致同样的问题。<br>因此，如果 <code>tableFooterView</code> 是根据网络请求的数据做UI布局，那么就会出现这种问题。<br>可以通过 <code>reloadData</code> 方法解决这个问题。  </p>
-<pre><code>- (void)viewDidLoad {  // - (void)viewWillAppear:(BOOL)animated { }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1000)];
-        footerView.backgroundColor = [UIColor redColor];
-        self.testTableView.tableFooterView = footerView;
-        [self.testTableView reloadData];
+<pre><code class="ObjC">- (<span class="keyword">void</span>)viewDidLoad {  <span class="comment">// - (void)viewWillAppear:(BOOL)animated { }</span>
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">1.0</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^{
+        <span class="built_in">UIView</span> *footerView = [[<span class="built_in">UIView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1000</span>)];
+        footerView.backgroundColor = [<span class="built_in">UIColor</span> redColor];
+        <span class="keyword">self</span>.testTableView.tableFooterView = footerView;
+        [<span class="keyword">self</span>.testTableView reloadData];
     });
 }
-</code></pre><hr>
+</code></pre>
+<hr>
 <p>沙盒文件目录：   </p>
-<pre><code>- Documents  
+<pre><code class="ObjC">- Documents  
 - Library  
    - Caches  
    - Preferences  
 - tmp
-</code></pre><pre><code>// 获取应用程序沙盒的根目录
-NSHomeDirectory();
+</code></pre>
+<pre><code class="ObjC"><span class="comment">// 获取应用程序沙盒的根目录</span>
+<span class="built_in">NSHomeDirectory</span>();
 
-// 获取 tmp 目录
-NSTemporaryDirectory();
+<span class="comment">// 获取 tmp 目录</span>
+<span class="built_in">NSTemporaryDirectory</span>();
 
-// 获取 Documents 和 Library目录
-[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+<span class="comment">// 获取 Documents 和 Library目录</span>
+[<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
+[<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSLibraryDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
 
-// 获取 Caches 目录
-[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-</code></pre><hr>
+<span class="comment">// 获取 Caches 目录</span>
+[<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
+</code></pre>
+<hr>
 <p>获取文件或文件夹的属性 <code>- attributesOfItemAtPath:error:</code>    </p>
 <ul>
 <li>文件夹属性  </li>
 </ul>
-<pre><code>NSString *appCachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-NSFileManager *fileManager = [NSFileManager defaultManager];
-NSLog(@&quot;%@&quot;, [fileManager attributesOfItemAtPath:appCachesDirectory error:nil]);
-</code></pre><p>结果如下：  </p>
-<pre><code>{
-    NSFileCreationDate = &quot;2016-07-25 08:09:12 +0000&quot;;  // 文件创建日期
-    NSFileExtensionHidden = 0;
-    NSFileGroupOwnerAccountID = 20;
-    NSFileGroupOwnerAccountName = staff;
-    NSFileModificationDate = &quot;2016-08-08 07:38:56 +0000&quot;;  // 文件修改日期
-    NSFileOwnerAccountID = 501;
-    NSFilePosixPermissions = 493;
-    NSFileReferenceCount = 5;
-    NSFileSize = 170;    // 文件夹本身大小（不包括其内容）
-    NSFileSystemFileNumber = 47911067;
-    NSFileSystemNumber = 16777220;
-    NSFileType = NSFileTypeDirectory;  // 指明这是文件夹类型（目录）
+<pre><code class="ObjC"><span class="built_in">NSString</span> *appCachesDirectory = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
+<span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
+<span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [fileManager attributesOfItemAtPath:appCachesDirectory error:<span class="literal">nil</span>]);
+</code></pre>
+<p>结果如下：  </p>
+<pre><code class="ObjC">{
+    <span class="built_in">NSFileCreationDate</span> = <span class="string">"2016-07-25 08:09:12 +0000"</span>;  <span class="comment">// 文件创建日期</span>
+    <span class="built_in">NSFileExtensionHidden</span> = <span class="number">0</span>;
+    <span class="built_in">NSFileGroupOwnerAccountID</span> = <span class="number">20</span>;
+    <span class="built_in">NSFileGroupOwnerAccountName</span> = staff;
+    <span class="built_in">NSFileModificationDate</span> = <span class="string">"2016-08-08 07:38:56 +0000"</span>;  <span class="comment">// 文件修改日期</span>
+    <span class="built_in">NSFileOwnerAccountID</span> = <span class="number">501</span>;
+    <span class="built_in">NSFilePosixPermissions</span> = <span class="number">493</span>;
+    <span class="built_in">NSFileReferenceCount</span> = <span class="number">5</span>;
+    <span class="built_in">NSFileSize</span> = <span class="number">170</span>;    <span class="comment">// 文件夹本身大小（不包括其内容）</span>
+    <span class="built_in">NSFileSystemFileNumber</span> = <span class="number">47911067</span>;
+    <span class="built_in">NSFileSystemNumber</span> = <span class="number">16777220</span>;
+    <span class="built_in">NSFileType</span> = <span class="built_in">NSFileTypeDirectory</span>;  <span class="comment">// 指明这是文件夹类型（目录）</span>
 }
-</code></pre><ul>
+</code></pre>
+<ul>
 <li>文件属性  </li>
 </ul>
-<pre><code>NSString *appCachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-NSString *filePath = [appCachesDirectory stringByAppendingPathComponent:@&quot;image.jpg&quot;];
-NSFileManager *fileManager = [NSFileManager defaultManager];
-NSLog(@&quot;%@&quot;, [fileManager attributesOfItemAtPath:filePath error:nil]);
-</code></pre><p>结果如下：  </p>
-<pre><code>{
-    NSFileCreationDate = &quot;2016-06-06 09:42:59 +0000&quot;;
-    NSFileExtendedAttributes =     {
-        &quot;com.apple.quarantine&quot; = &lt;30303032 3b353735 35343561 333b5361 66617269 2e617070 3b&gt;;
+<pre><code class="ObjC"><span class="built_in">NSString</span> *appCachesDirectory = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
+<span class="built_in">NSString</span> *filePath = [appCachesDirectory stringByAppendingPathComponent:<span class="string">@"image.jpg"</span>];
+<span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
+<span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>]);
+</code></pre>
+<p>结果如下：  </p>
+<pre><code class="ObjC">{
+    <span class="built_in">NSFileCreationDate</span> = <span class="string">"2016-06-06 09:42:59 +0000"</span>;
+    <span class="built_in">NSFileExtendedAttributes</span> =     {
+        <span class="string">"com.apple.quarantine"</span> = &lt;<span class="number">30303032</span> <span class="number">3</span>b353735 <span class="number">35343561</span> <span class="number">333</span>b5361 <span class="number">66617269</span> <span class="number">2e617070</span> <span class="number">3</span>b&gt;;
     };
-    NSFileExtensionHidden = 0;
-    NSFileGroupOwnerAccountID = 20;
-    NSFileGroupOwnerAccountName = staff;
-    NSFileModificationDate = &quot;2016-06-06 09:42:59 +0000&quot;;
-    NSFileOwnerAccountID = 501;
-    NSFilePosixPermissions = 420;
-    NSFileReferenceCount = 1;
-    NSFileSize = 672948;  // 文件大小（字节B）
-    NSFileSystemFileNumber = 48891338;
-    NSFileSystemNumber = 16777220;
-    NSFileType = NSFileTypeRegular;  // 指明这是文件类型
+    <span class="built_in">NSFileExtensionHidden</span> = <span class="number">0</span>;
+    <span class="built_in">NSFileGroupOwnerAccountID</span> = <span class="number">20</span>;
+    <span class="built_in">NSFileGroupOwnerAccountName</span> = staff;
+    <span class="built_in">NSFileModificationDate</span> = <span class="string">"2016-06-06 09:42:59 +0000"</span>;
+    <span class="built_in">NSFileOwnerAccountID</span> = <span class="number">501</span>;
+    <span class="built_in">NSFilePosixPermissions</span> = <span class="number">420</span>;
+    <span class="built_in">NSFileReferenceCount</span> = <span class="number">1</span>;
+    <span class="built_in">NSFileSize</span> = <span class="number">672948</span>;  <span class="comment">// 文件大小（字节B）</span>
+    <span class="built_in">NSFileSystemFileNumber</span> = <span class="number">48891338</span>;
+    <span class="built_in">NSFileSystemNumber</span> = <span class="number">16777220</span>;
+    <span class="built_in">NSFileType</span> = <span class="built_in">NSFileTypeRegular</span>;  <span class="comment">// 指明这是文件类型</span>
 }
-</code></pre><p><code>- attributesOfItemAtPath:error:</code> 方法返回的是一个字典，可以通过这个字典的【键】来获取对应的【值】。<br>对于这个字典，系统还提供了 <code>方法</code> 的方式来获取对应的【值】。  </p>
-<pre><code>NSDictionary *attributes = [fileManager attributesOfItemAtPath:fileDirectory error:nil];
+</code></pre>
+<p><code>- attributesOfItemAtPath:error:</code> 方法返回的是一个字典，可以通过这个字典的【键】来获取对应的【值】。<br>对于这个字典，系统还提供了 <code>方法</code> 的方式来获取对应的【值】。  </p>
+<pre><code class="ObjC"><span class="built_in">NSDictionary</span> *attributes = [fileManager attributesOfItemAtPath:fileDirectory error:<span class="literal">nil</span>];
 
-// 获取文件的大小
-attributes[NSFileSize];  // 键值对
-[attributes fileSize];  // getter方法 也可以通过点语法方式：attributes.fileSize     
+<span class="comment">// 获取文件的大小</span>
+attributes[<span class="built_in">NSFileSize</span>];  <span class="comment">// 键值对</span>
+[attributes fileSize];  <span class="comment">// getter方法 也可以通过点语法方式：attributes.fileSize     </span>
 
-// 获取文件类型
-attributes[NSFileType];  // 键值对  
-[attributes fileType];  // getter方法 也可以通过点语法方式：attributes.fileType
-</code></pre><hr>
+<span class="comment">// 获取文件类型</span>
+attributes[<span class="built_in">NSFileType</span>];  <span class="comment">// 键值对  </span>
+[attributes fileType];  <span class="comment">// getter方法 也可以通过点语法方式：attributes.fileType</span>
+</code></pre>
+<hr>
 <p>获取文件夹内容的两种方式。     </p>
 <p>假设App中 <code>NSHomeDirectory()/Library/Caches</code> 目录结构如下：  </p>
 <pre><code>// 在 /Library/Caches 文件夹下有 AA 和 BB 文件夹以及 201.jpg 图片文件
@@ -757,55 +789,59 @@ attributes[NSFileType];  // 键值对
       102.jpg
 - BB
 201.jpg
-</code></pre><pre><code>NSString *directoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-NSFileManager *fileManager = [NSFileManager defaultManager];
-NSArray *contents = [fileManager contentsOfDirectoryAtPath:directoryPath error:nil];
-NSArray *subpaths = [fileManager subpathsAtPath:directoryPath];
+</code></pre><pre><code class="ObjC"><span class="built_in">NSString</span> *directoryPath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
+<span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
+<span class="built_in">NSArray</span> *contents = [fileManager contentsOfDirectoryAtPath:directoryPath error:<span class="literal">nil</span>];
+<span class="built_in">NSArray</span> *subpaths = [fileManager subpathsAtPath:directoryPath];
 
-NSLog(@&quot;%@ \n\n %@&quot;, contents, subpaths);
-</code></pre><p>结果如下：  </p>
-<pre><code>(
-    &quot;.DS_Store&quot;,
-    &quot;201.jpg&quot;,
+<span class="built_in">NSLog</span>(<span class="string">@"%@ \n\n %@"</span>, contents, subpaths);
+</code></pre>
+<p>结果如下：  </p>
+<pre><code class="ObjC">(
+    <span class="string">".DS_Store"</span>,
+    <span class="string">"201.jpg"</span>,
     AA,
     BB,
 )
 
 (
-    &quot;.DS_Store&quot;,
-    &quot;201.jpg&quot;,
+    <span class="string">".DS_Store"</span>,
+    <span class="string">"201.jpg"</span>,
     AA,
-    &quot;AA/.DS_Store&quot;,
-    &quot;AA/001.jpg&quot;,
-    &quot;AA/002.jpg&quot;,
-    &quot;AA/AB&quot;,
-    &quot;AA/AB/101.jpg&quot;,
-    &quot;AA/AB/102.jpg&quot;,
+    <span class="string">"AA/.DS_Store"</span>,
+    <span class="string">"AA/001.jpg"</span>,
+    <span class="string">"AA/002.jpg"</span>,
+    <span class="string">"AA/AB"</span>,
+    <span class="string">"AA/AB/101.jpg"</span>,
+    <span class="string">"AA/AB/102.jpg"</span>,
     BB,
 )
-</code></pre><p>可以看出 <code>- contentsOfDirectoryAtPath:error:</code> 只能获取当前目录的下一级文件和文件夹。<br><code>- subpathsAtPath:</code> 能获取当前目录下的所有文件和文件夹。  </p>
+</code></pre>
+<p>可以看出 <code>- contentsOfDirectoryAtPath:error:</code> 只能获取当前目录的下一级文件和文件夹。<br><code>- subpathsAtPath:</code> 能获取当前目录下的所有文件和文件夹。  </p>
 <p>对于 <code>.DS_Store</code> 文件，可以根据具体情况来决定是否需要过滤掉。  </p>
 <hr>
 <p>SDWebImage下载的图片缓存在 <code>NSHomeDirectory()/Library/Caches/default/com.hackemist.SDWebImageCache.default</code> 目录下。   </p>
 <p>获取所有通过SDWebImage下载的缓存图片的大小和数量。   </p>
-<pre><code>#import &lt;SDImageCache.h&gt;
+<pre><code class="ObjC"><span class="meta">#import <span class="meta-string">&lt;SDImageCache.h&gt;</span></span>
 
-// 大小（字节B）
+<span class="comment">// 大小（字节B）</span>
 [[SDImageCache sharedImageCache] getSize];
 
-// 数量
+<span class="comment">// 数量</span>
 [[SDImageCache sharedImageCache] getDiskCount];
-</code></pre><p>SDWebImage中 <code>- getSize</code> 方法的实现如下：  </p>
-<pre><code>// self.diskCachePath为 NSHomeDirectory()/Library/Caches/default/com.hackemist.SDWebImageCache.default
-// _fileManager 为 [NSFileManager defaultManager]
-NSDirectoryEnumerator *fileEnumerator = [_fileManager enumeratorAtPath:self.diskCachePath];
-for (NSString *fileName in fileEnumerator) {
-    NSString *filePath = [self.diskCachePath stringByAppendingPathComponent:fileName];
-    NSDictionary *attrs = [_fileManager attributesOfItemAtPath:filePath error:nil];
+</code></pre>
+<p>SDWebImage中 <code>- getSize</code> 方法的实现如下：  </p>
+<pre><code class="ObjC"><span class="comment">// self.diskCachePath为 NSHomeDirectory()/Library/Caches/default/com.hackemist.SDWebImageCache.default</span>
+<span class="comment">// _fileManager 为 [NSFileManager defaultManager]</span>
+<span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [_fileManager enumeratorAtPath:<span class="keyword">self</span>.diskCachePath];
+<span class="keyword">for</span> (<span class="built_in">NSString</span> *fileName <span class="keyword">in</span> fileEnumerator) {
+    <span class="built_in">NSString</span> *filePath = [<span class="keyword">self</span>.diskCachePath stringByAppendingPathComponent:fileName];
+    <span class="built_in">NSDictionary</span> *attrs = [_fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>];
     size += [attrs fileSize];
 }
-</code></pre><p>SDWebImage中 <code>- getDiskCount</code> 方法的实现如下：  </p>
-<pre><code class="Objective-C">NSDirectoryEnumerator *fileEnumerator = [_fileManager enumeratorAtPath:self.diskCachePath];
+</code></pre>
+<p>SDWebImage中 <code>- getDiskCount</code> 方法的实现如下：  </p>
+<pre><code class="ObjC"><span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [_fileManager enumeratorAtPath:<span class="keyword">self</span>.diskCachePath];
 count = [[fileEnumerator allObjects] count];
 </code></pre>
 <hr>
