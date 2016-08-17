@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png">
-<meta property="og:updated_time" content="2016-08-17T08:58:16.000Z">
+<meta property="og:updated_time" content="2016-08-17T09:38:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Some iOS Notes">
 <meta name="twitter:description">
@@ -805,14 +805,16 @@ for (NSString *fileName in fileEnumerator) {
     size += [attrs fileSize];
 }
 </code></pre><p>SDWebImage中 <code>- getDiskCount</code> 方法的实现如下：  </p>
-<pre><code>NSDirectoryEnumerator *fileEnumerator = [_fileManager enumeratorAtPath:self.diskCachePath];
+<pre><code class="Objective-C">NSDirectoryEnumerator *fileEnumerator = [_fileManager enumeratorAtPath:self.diskCachePath];
 count = [[fileEnumerator allObjects] count];
-</code></pre><hr>
+</code></pre>
+<hr>
 <p>判断某个文件或文件夹是否存在。   </p>
-<pre><code>NSFileManager *fileManager = [NSFileManager defaultManager];
-BOOL isFileExist = [fileManager fileExistsAtPath:@&quot;/Users/Todd/Desktop/xxx.png&quot;];
-BOOL isDirectoryExist = [fileManager fileExistsAtPath:@&quot;/Users/Todd/Desktop&quot;];
-</code></pre><hr>
+<pre><code class="ObjC"><span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
+<span class="built_in">BOOL</span> isFileExist = [fileManager fileExistsAtPath:<span class="string">@"/Users/Todd/Desktop/xxx.png"</span>];
+<span class="built_in">BOOL</span> isDirectoryExist = [fileManager fileExistsAtPath:<span class="string">@"/Users/Todd/Desktop"</span>];
+</code></pre>
+<hr>
 <p>总是未完待续。。。  </p>
 <hr>
 
