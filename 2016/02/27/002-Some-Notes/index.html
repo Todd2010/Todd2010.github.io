@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png">
-<meta property="og:updated_time" content="2016-02-27T02:10:00.000Z">
+<meta property="og:updated_time" content="2016-08-17T10:16:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="乱七八糟的iOS工具箱">
 <meta name="twitter:description">
@@ -296,9 +296,8 @@
 <p>通过storyboard或Xib创建的UIView是无法实现继承关系的。  </p>
 <hr>
 <p>从iOS9开始，当程序启动完毕那一刻，所有要显示的窗口必须要有根控制器，否则就会导致崩溃并报如下错误。    </p>
-<pre><code class="ObjC">Application windows are expected to have a root view controller at the end of application launch
-</code></pre>
-<pre><code class="ObjC"><span class="comment">// 下面这段代码让窗口延迟2秒之后再显示出来（没有根控制器）就能保证程序不会崩溃。因为在程序启动完毕那一刻，没有要显示的窗口。</span>
+<pre><code>Application windows are expected to have a root view controller at the end of application launch
+</code></pre><pre><code class="ObjC"><span class="comment">// 下面这段代码让窗口延迟2秒之后再显示出来（没有根控制器）就能保证程序不会崩溃。因为在程序启动完毕那一刻，没有要显示的窗口。</span>
 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">2.0</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^{
     [<span class="keyword">self</span>.window makeKeyAndVisible];
 });
@@ -340,7 +339,7 @@ tabBarTitleAttrributesForSelected[<span class="built_in">NSForegroundColorAttrib
 <hr>
 <p>R、G、B三基色的值都相同就是灰色，值越小灰度越深。  </p>
 <hr>
-<p>Log宏&amp;&amp;Color宏    </p>
+<p>Log宏&amp;&amp;Color宏      </p>
 <pre><code class="ObjC"><span class="comment">// Log</span>
 <span class="meta">#ifdef DEBUG</span>
 <span class="meta">#define HFLog(...) NSLog(__VA_ARGS__)</span>
@@ -695,13 +694,12 @@ free(ivarList);
 </code></pre>
 <hr>
 <p>沙盒文件目录：   </p>
-<pre><code class="ObjC">- Documents  
+<pre><code>- Documents  
 - Library  
    - Caches  
    - Preferences  
 - tmp
-</code></pre>
-<pre><code class="ObjC"><span class="comment">// 获取应用程序沙盒的根目录</span>
+</code></pre><pre><code class="ObjC"><span class="comment">// 获取应用程序沙盒的根目录</span>
 <span class="built_in">NSHomeDirectory</span>();
 
 <span class="comment">// 获取 tmp 目录</span>
@@ -724,22 +722,21 @@ free(ivarList);
 <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [fileManager attributesOfItemAtPath:appCachesDirectory error:<span class="literal">nil</span>]);
 </code></pre>
 <p>结果如下：  </p>
-<pre><code class="ObjC">{
-    <span class="built_in">NSFileCreationDate</span> = <span class="string">"2016-07-25 08:09:12 +0000"</span>;  <span class="comment">// 文件创建日期</span>
-    <span class="built_in">NSFileExtensionHidden</span> = <span class="number">0</span>;
-    <span class="built_in">NSFileGroupOwnerAccountID</span> = <span class="number">20</span>;
-    <span class="built_in">NSFileGroupOwnerAccountName</span> = staff;
-    <span class="built_in">NSFileModificationDate</span> = <span class="string">"2016-08-08 07:38:56 +0000"</span>;  <span class="comment">// 文件修改日期</span>
-    <span class="built_in">NSFileOwnerAccountID</span> = <span class="number">501</span>;
-    <span class="built_in">NSFilePosixPermissions</span> = <span class="number">493</span>;
-    <span class="built_in">NSFileReferenceCount</span> = <span class="number">5</span>;
-    <span class="built_in">NSFileSize</span> = <span class="number">170</span>;    <span class="comment">// 文件夹本身大小（不包括其内容）</span>
-    <span class="built_in">NSFileSystemFileNumber</span> = <span class="number">47911067</span>;
-    <span class="built_in">NSFileSystemNumber</span> = <span class="number">16777220</span>;
-    <span class="built_in">NSFileType</span> = <span class="built_in">NSFileTypeDirectory</span>;  <span class="comment">// 指明这是文件夹类型（目录）</span>
+<pre><code>{
+    NSFileCreationDate = &quot;2016-07-25 08:09:12 +0000&quot;;  // 文件创建日期
+    NSFileExtensionHidden = 0;
+    NSFileGroupOwnerAccountID = 20;
+    NSFileGroupOwnerAccountName = staff;
+    NSFileModificationDate = &quot;2016-08-08 07:38:56 +0000&quot;;  // 文件修改日期
+    NSFileOwnerAccountID = 501;
+    NSFilePosixPermissions = 493;
+    NSFileReferenceCount = 5;
+    NSFileSize = 170;    // 文件夹本身大小（不包括其内容）
+    NSFileSystemFileNumber = 47911067;
+    NSFileSystemNumber = 16777220;
+    NSFileType = NSFileTypeDirectory;  // 指明这是文件夹类型（目录）
 }
-</code></pre>
-<ul>
+</code></pre><ul>
 <li>文件属性  </li>
 </ul>
 <pre><code class="ObjC"><span class="built_in">NSString</span> *appCachesDirectory = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
@@ -748,25 +745,24 @@ free(ivarList);
 <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>]);
 </code></pre>
 <p>结果如下：  </p>
-<pre><code class="ObjC">{
-    <span class="built_in">NSFileCreationDate</span> = <span class="string">"2016-06-06 09:42:59 +0000"</span>;
-    <span class="built_in">NSFileExtendedAttributes</span> =     {
-        <span class="string">"com.apple.quarantine"</span> = &lt;<span class="number">30303032</span> <span class="number">3</span>b353735 <span class="number">35343561</span> <span class="number">333</span>b5361 <span class="number">66617269</span> <span class="number">2e617070</span> <span class="number">3</span>b&gt;;
+<pre><code>{
+    NSFileCreationDate = &quot;2016-06-06 09:42:59 +0000&quot;;
+    NSFileExtendedAttributes =     {
+        &quot;com.apple.quarantine&quot; = &lt;30303032 3b353735 35343561 333b5361 66617269 2e617070 3b&gt;;
     };
-    <span class="built_in">NSFileExtensionHidden</span> = <span class="number">0</span>;
-    <span class="built_in">NSFileGroupOwnerAccountID</span> = <span class="number">20</span>;
-    <span class="built_in">NSFileGroupOwnerAccountName</span> = staff;
-    <span class="built_in">NSFileModificationDate</span> = <span class="string">"2016-06-06 09:42:59 +0000"</span>;
-    <span class="built_in">NSFileOwnerAccountID</span> = <span class="number">501</span>;
-    <span class="built_in">NSFilePosixPermissions</span> = <span class="number">420</span>;
-    <span class="built_in">NSFileReferenceCount</span> = <span class="number">1</span>;
-    <span class="built_in">NSFileSize</span> = <span class="number">672948</span>;  <span class="comment">// 文件大小（字节B）</span>
-    <span class="built_in">NSFileSystemFileNumber</span> = <span class="number">48891338</span>;
-    <span class="built_in">NSFileSystemNumber</span> = <span class="number">16777220</span>;
-    <span class="built_in">NSFileType</span> = <span class="built_in">NSFileTypeRegular</span>;  <span class="comment">// 指明这是文件类型</span>
+    NSFileExtensionHidden = 0;
+    NSFileGroupOwnerAccountID = 20;
+    NSFileGroupOwnerAccountName = staff;
+    NSFileModificationDate = &quot;2016-06-06 09:42:59 +0000&quot;;
+    NSFileOwnerAccountID = 501;
+    NSFilePosixPermissions = 420;
+    NSFileReferenceCount = 1;
+    NSFileSize = 672948;  // 文件大小（字节B）
+    NSFileSystemFileNumber = 48891338;
+    NSFileSystemNumber = 16777220;
+    NSFileType = NSFileTypeRegular;  // 指明这是文件类型
 }
-</code></pre>
-<p><code>- attributesOfItemAtPath:error:</code> 方法返回的是一个字典，可以通过这个字典的【键】来获取对应的【值】。<br>对于这个字典，系统还提供了 <code>方法</code> 的方式来获取对应的【值】。  </p>
+</code></pre><p><code>- attributesOfItemAtPath:error:</code> 方法返回的是一个字典，可以通过这个字典的【键】来获取对应的【值】。<br>对于这个字典，系统还提供了 <code>方法</code> 的方式来获取对应的【值】。  </p>
 <pre><code class="ObjC"><span class="built_in">NSDictionary</span> *attributes = [fileManager attributesOfItemAtPath:fileDirectory error:<span class="literal">nil</span>];
 
 <span class="comment">// 获取文件的大小</span>
@@ -800,31 +796,30 @@ attributes[<span class="built_in">NSFileType</span>];  <span class="comment">// 
 <span class="built_in">NSLog</span>(<span class="string">@"%@ \n\n %@"</span>, contents, subpaths);
 </code></pre>
 <p>结果如下：  </p>
-<pre><code class="ObjC">(
-    <span class="string">".DS_Store"</span>,
-    <span class="string">"201.jpg"</span>,
+<pre><code>(
+    &quot;.DS_Store&quot;,
+    &quot;201.jpg&quot;,
     AA,
     BB,
 )
 
 (
-    <span class="string">".DS_Store"</span>,
-    <span class="string">"201.jpg"</span>,
+    &quot;.DS_Store&quot;,
+    &quot;201.jpg&quot;,
     AA,
-    <span class="string">"AA/.DS_Store"</span>,
-    <span class="string">"AA/001.jpg"</span>,
-    <span class="string">"AA/002.jpg"</span>,
-    <span class="string">"AA/AB"</span>,
-    <span class="string">"AA/AB/101.jpg"</span>,
-    <span class="string">"AA/AB/102.jpg"</span>,
+    &quot;AA/.DS_Store&quot;,
+    &quot;AA/001.jpg&quot;,
+    &quot;AA/002.jpg&quot;,
+    &quot;AA/AB&quot;,
+    &quot;AA/AB/101.jpg&quot;,
+    &quot;AA/AB/102.jpg&quot;,
     BB,
 )
-</code></pre>
-<p>可以看出 <code>- contentsOfDirectoryAtPath:error:</code> 只能获取当前目录的下一级文件和文件夹。<br><code>- subpathsAtPath:</code> 能获取当前目录下的所有文件和文件夹。  </p>
+</code></pre><p>可以看出 <code>- contentsOfDirectoryAtPath:error:</code> 只能获取当前目录的下一级文件和文件夹。<br><code>- subpathsAtPath:</code> 能获取当前目录下的所有文件和文件夹。  </p>
 <p>对于 <code>.DS_Store</code> 文件，可以根据具体情况来决定是否需要过滤掉。  </p>
 <hr>
 <p>SDWebImage下载的图片缓存在 <code>NSHomeDirectory()/Library/Caches/default/com.hackemist.SDWebImageCache.default</code> 目录下。   </p>
-<p>获取所有通过SDWebImage下载的缓存图片的大小和数量。   </p>
+<p>获取所有通过SDWebImage下载的缓存图片的大小和数量。     </p>
 <pre><code class="ObjC"><span class="meta">#import <span class="meta-string">&lt;SDImageCache.h&gt;</span></span>
 
 <span class="comment">// 大小（字节B）</span>
