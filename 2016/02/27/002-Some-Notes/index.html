@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/iOS_Notes_01.png">
-<meta property="og:updated_time" content="2016-08-17T10:16:17.000Z">
+<meta property="og:updated_time" content="2016-08-19T03:43:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="乱七八糟的iOS工具箱">
 <meta name="twitter:description">
@@ -545,7 +545,7 @@ attributes:@{<span class="built_in">NSForegroundColorAttributeName</span> : [<sp
 [testTextField setValue:[<span class="built_in">UIColor</span> whiteColor] forKeyPath:<span class="string">@"placeholderLabel.textColor"</span>];
 </code></pre>
 <hr>
-<p>给UITextField封装placeholderColor属性(给UITextField写一个分类)：   </p>
+<p>利用分类给UITextField添加placeholderColor属性，从而方便修改占位文字颜色：   </p>
 <pre><code class="ObjC"><span class="meta">#import <span class="meta-string">"UITextField+placeholderColor.h"</span></span>
 
 <span class="keyword">static</span> <span class="built_in">NSString</span> * <span class="keyword">const</span> HFPlaceholderColorKey = <span class="string">@"placeholderLabel.textColor"</span>;
@@ -656,29 +656,15 @@ free(ivarList);
 <span class="comment">//- (BOOL)textFieldShouldReturn:(UITextField *)textField;</span>
 </code></pre>
 <hr>
-<p>在storyboard或者xib中给UIScrollView添加约束：  </p>
-<ul>
-<li><p>UIScrollView上下垂直滚动：  </p>
-<ul>
-<li>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；   </li>
-<li>设置子控件UIView的高度为固定值（这个值就是UIScrollView的contentSize.height）；  </li>
-<li>设置子控件UIView水平居中。  </li>
-</ul>
+<p>在storyboard或者xib中给UIScrollView添加约束：   </p>
+<ol>
+<li><p>UIScrollView上下垂直滚动：<br>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；<br>设置子控件UIView的高度为固定值（这个值就是UIScrollView的contentSize.height）；<br>设置子控件UIView水平居中。      </p>
 </li>
-<li><p>UIScrollView左右水平滚动：  </p>
-<ul>
-<li>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；  </li>
-<li>设置子控件UIView的宽度为固定值（这个值就是UIScrollView的contentSize.width）；    </li>
-<li>设置子控件UIView垂直居中。   </li>
-</ul>
+<li><p>UIScrollView左右水平滚动：<br>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；<br>设置子控件UIView的宽度为固定值（这个值就是UIScrollView的contentSize.width）；<br>设置子控件UIView垂直居中。      </p>
 </li>
-<li><p>UIScrollView所有方向滚动：    </p>
-<ul>
-<li>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；   </li>
-<li>设置子控件UIView的宽度和高度为固定值；   </li>
-</ul>
+<li><p>UIScrollView所有方向滚动：<br>往UIScrollView中添加唯一的UIView子控件，并设置该子控件上下左右的约束都为0；<br>设置子控件UIView的宽度和高度为固定值；   </p>
 </li>
-</ul>
+</ol>
 <hr>
 <p><code>pod install</code> : 会根据 <code>Podfile.lock</code> 中的版本号来安装第三方库。如果没有 <code>Podfile.lock</code> 文件，则安装最新版本的第三方库。<br><code>pod update</code> : 总是安装最新版本的第三方库。    </p>
 <hr>
@@ -693,7 +679,7 @@ free(ivarList);
 }
 </code></pre>
 <hr>
-<p>沙盒文件目录：   </p>
+<p>沙盒目录：   </p>
 <pre><code>- Documents  
 - Library  
    - Caches  
@@ -714,12 +700,10 @@ free(ivarList);
 </code></pre>
 <hr>
 <p>获取文件或文件夹的属性 <code>- attributesOfItemAtPath:error:</code>    </p>
-<ul>
-<li>文件夹属性  </li>
-</ul>
-<pre><code class="ObjC"><span class="built_in">NSString</span> *appCachesDirectory = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
+<p><strong>文件夹属性</strong>  </p>
+<pre><code class="ObjC"><span class="built_in">NSString</span> *cachesDirectory = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
 <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
-<span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [fileManager attributesOfItemAtPath:appCachesDirectory error:<span class="literal">nil</span>]);
+<span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [fileManager attributesOfItemAtPath:cachesDirectory error:<span class="literal">nil</span>]);
 </code></pre>
 <p>结果如下：  </p>
 <pre><code>{
@@ -736,11 +720,9 @@ free(ivarList);
     NSFileSystemNumber = 16777220;
     NSFileType = NSFileTypeDirectory;  // 指明这是文件夹类型（目录）
 }
-</code></pre><ul>
-<li>文件属性  </li>
-</ul>
-<pre><code class="ObjC"><span class="built_in">NSString</span> *appCachesDirectory = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
-<span class="built_in">NSString</span> *filePath = [appCachesDirectory stringByAppendingPathComponent:<span class="string">@"image.jpg"</span>];
+</code></pre><p><strong>文件属性</strong>  </p>
+<pre><code class="ObjC"><span class="built_in">NSString</span> *cachesDirectory = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
+<span class="built_in">NSString</span> *filePath = [cachesDirectory stringByAppendingPathComponent:<span class="string">@"image.jpg"</span>];
 <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
 <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>]);
 </code></pre>
@@ -788,12 +770,12 @@ attributes[<span class="built_in">NSFileType</span>];  <span class="comment">// 
       102.jpg
 - BB
 201.jpg
-</code></pre><pre><code class="ObjC"><span class="built_in">NSString</span> *directoryPath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
+</code></pre><pre><code class="ObjC"><span class="built_in">NSString</span> *cachesDirectory = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];
 <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
-<span class="built_in">NSArray</span> *contents = [fileManager contentsOfDirectoryAtPath:directoryPath error:<span class="literal">nil</span>];
-<span class="built_in">NSArray</span> *subpaths = [fileManager subpathsAtPath:directoryPath];
+<span class="built_in">NSArray</span> *contentsOfDirectory = [fileManager contentsOfDirectoryAtPath:cachesDirectory error:<span class="literal">nil</span>];
+<span class="built_in">NSArray</span> *subpaths = [fileManager subpathsAtPath:cachesDirectory];
 
-<span class="built_in">NSLog</span>(<span class="string">@"%@ \n\n %@"</span>, contents, subpaths);
+<span class="built_in">NSLog</span>(<span class="string">@"%@ \n\n %@"</span>, contentsOfDirectory, subpaths);
 </code></pre>
 <p>结果如下：  </p>
 <pre><code>(
@@ -828,19 +810,29 @@ attributes[<span class="built_in">NSFileType</span>];  <span class="comment">// 
 <span class="comment">// 数量</span>
 [[SDImageCache sharedImageCache] getDiskCount];
 </code></pre>
-<p>SDWebImage中 <code>- getSize</code> 方法的实现如下：  </p>
-<pre><code class="ObjC"><span class="comment">// self.diskCachePath为 NSHomeDirectory()/Library/Caches/default/com.hackemist.SDWebImageCache.default</span>
-<span class="comment">// _fileManager 为 [NSFileManager defaultManager]</span>
-<span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [_fileManager enumeratorAtPath:<span class="keyword">self</span>.diskCachePath];
-<span class="keyword">for</span> (<span class="built_in">NSString</span> *fileName <span class="keyword">in</span> fileEnumerator) {
-    <span class="built_in">NSString</span> *filePath = [<span class="keyword">self</span>.diskCachePath stringByAppendingPathComponent:fileName];
-    <span class="built_in">NSDictionary</span> *attrs = [_fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>];
-    size += [attrs fileSize];
+<p>SDWebImage中 <code>- getSize</code> 方法的实现如下(略作修改)：  </p>
+<pre><code class="ObjC"><span class="comment">// self.diskCachePath 为 NSHomeDirectory()/Library/Caches/default/com.hackemist.SDWebImageCache.default</span>
+- (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)getSize {
+    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> size = <span class="number">0</span>;
+    <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
+    <span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [fileManager enumeratorAtPath:<span class="keyword">self</span>.diskCachePath];
+    <span class="keyword">for</span> (<span class="built_in">NSString</span> *fileName <span class="keyword">in</span> fileEnumerator) {
+        <span class="built_in">NSString</span> *filePath = [<span class="keyword">self</span>.diskCachePath stringByAppendingPathComponent:fileName];
+        <span class="built_in">NSDictionary</span> *attributes = [fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>];
+        size += [attributes fileSize];
+    }
+    <span class="keyword">return</span> size;
 }
 </code></pre>
-<p>SDWebImage中 <code>- getDiskCount</code> 方法的实现如下：  </p>
-<pre><code class="ObjC"><span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [_fileManager enumeratorAtPath:<span class="keyword">self</span>.diskCachePath];
-count = [[fileEnumerator allObjects] count];
+<p>SDWebImage中 <code>- getDiskCount</code> 方法的实现如下(略作修改)：  </p>
+<pre><code class="ObjC"><span class="comment">// self.diskCachePath 为 NSHomeDirectory()/Library/Caches/default/com.hackemist.SDWebImageCache.default</span>
+- (<span class="built_in">NSUInteger</span>)getDiskCount {
+    <span class="built_in">NSUInteger</span> count = <span class="number">0</span>;
+    <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];
+    <span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [fileManager enumeratorAtPath:<span class="keyword">self</span>.diskCachePath];
+    count = [[fileEnumerator allObjects] count];
+    <span class="keyword">return</span> count;
+}
 </code></pre>
 <hr>
 <p>判断某个文件或文件夹是否存在。   </p>
