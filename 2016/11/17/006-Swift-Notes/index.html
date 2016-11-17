@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-17T12:22:59.000Z">
+<meta property="og:updated_time" content="2016-11-17T14:11:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -423,6 +423,54 @@ print(justStatusMessage)
 <p>如果你声明一个可选常量或者变量但是没有赋值，它会自动被设置为 <code>nil</code>。  </p>
 <hr>
 <p>Swift中的 <code>nil</code> 和Objective-C中 <code>nil</code> 并不一样。在Objective-C中，<code>nil</code> 是一个指向不存在对象的指针；在Swift中，<code>nil</code> 不是指针，它是一个确定的值，用来表示值缺失。任何类型的可选状态都可以被设置为 <code>nil</code>，不只是对象类型。  </p>
+<hr>
+<p>可以使用 <code>if</code> 语句让一个可选类型的常量或变量与 <code>nil</code> 比较是否相等来判断该可选常量或变量是否包含值。<br>如果可选类型有值，它将不等于 <code>nil</code>。并且当确定了一个可选类型确实包含值之后，可以在可选类型的常量或变量名字后面加一个感叹号 <code>!</code> 来获取其中的值，这被称为可选类型的强制解包。   </p>
+<pre><code class="ObjC">let a = Int(<span class="string">"123"</span>)
+<span class="keyword">if</span> a != <span class="literal">nil</span> {
+    print(a!)
+}
+</code></pre>
+<p>使用 <code>!</code> 来获取一个不存在的可选类型会导致运行时错误。因此，在使用 <code>!</code> 来强制解包之前，一定要确定可选类型包含一个非 <code>nil</code> 的值。  </p>
+<hr>
+<p>使用可选绑定来判断可选类型是否包含值，如果包含，就把值赋给一个临时的常量或变量。可选绑定可以用在 <code>if</code> 和 <code>while</code> 语句中。  </p>
+<pre><code class="ObjC"><span class="keyword">if</span> let a = Int(<span class="string">"123"</span>) {
+    print(a)
+}
+</code></pre>
+<hr>
+<p>你可以在一个 <code>if</code> 语句中包含多个可选绑定或多个布尔条件，使用逗号分开就行，只要有任意一个可选绑定的值为 <code>nil</code>，或者任意一个布尔条件的值为 <code>false</code>，则整个 <code>if</code> 语句的条件判断为 false。   </p>
+<hr>
+<p>在 <code>if</code> 条件语句中使用常量或变量来创建一个可选绑定，仅在 <code>if</code> 语句的句中才能获取到该常量或变量的值。<br>相反，在 <code>guard</code> 语句中使用常量或变量来创建一个可选绑定，仅在 <code>guard</code> 语句外且在语句后才能获取到该常量或变量的值。  </p>
+<hr>
+<p>有时候在代码中，在可选类型被第一赋值之后，可以确定该可选类型总会有值，在这种情况下，每次都要判读和解包可选值是非常低效的。这时候可以把该可选类型声明为隐式解包可选类型（implicitly unwrapped aptional），把普通可选类型后的问号（如 <code>String?</code>）改为感叹号（如 <code>String!</code>）来声明一个隐式解包可选类型。   </p>
+<p>一个隐式解包可选类型其实就是一个普通的可选类型，但是可以被当做非可选类型来使用，并不需要每次解包来获得可选值。  </p>
+<pre><code class="ObjC">let optionalString: String? = <span class="string">"Optional String"</span>
+print(optional!)
+
+let implicitlyOptionalString: String! = <span class="string">"Implicitly Optional String"</span>
+print(implicitlyOptionalString)
+</code></pre>
+<p>如果在隐式解包可选类型没有值的时候尝试取值，仍会触发运行时错误。这和在没有值的普通可选类型后面加感叹号是一样的。</p>
+<hr>
+<p>你仍然可以把隐式解包可选类型当做普通的可选类型，用 <code>if</code> 来判断是否有值，用可选绑定来解包可选值。   </p>
+<hr>
+<p>相对于可选类型用值的存在与缺失来表达一个函数是否包含满足条件的值，错误处理可以推断函数调用失败的原因，并传播至程序的其他地方。    </p>
+<hr>
+<p>一个函数可以通过在声明中添加 <code>throws</code> 关键字来抛出错误消息。<br>当一个函数能抛出错误消息是，在调用该函数的时候应该前置 <code>try</code> 关键字来捕获错误消息。  </p>
+<pre><code class="ObjC">func canThrowAnError() throws {
+    <span class="comment">// 这个函数有可能抛出错误</span>
+}
+
+<span class="keyword">do</span> {
+    try canThrowAnError()
+    aFunc()
+} catch xxxError.oneError {
+    oneErrorHandle()
+} catch xxxError.twoError {
+    twoErrorHandle()
+}
+</code></pre>
+<p>一个 <code>do</code> 语句创建了一个新的包含作用域，使得错误能被传播到一个或多个 <code>catch</code> 从句中。  </p>
 <hr>
 
       
