@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-17T14:11:54.000Z">
+<meta property="og:updated_time" content="2016-11-18T07:26:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -454,9 +454,9 @@ print(implicitlyOptionalString)
 <hr>
 <p>你仍然可以把隐式解包可选类型当做普通的可选类型，用 <code>if</code> 来判断是否有值，用可选绑定来解包可选值。   </p>
 <hr>
-<p>相对于可选类型用值的存在与缺失来表达一个函数是否包含满足条件的值，错误处理可以推断函数调用失败的原因，并传播至程序的其他地方。    </p>
+<p>相对于可选类型用值的存在与缺失来表达一个函数是否包含满足条件的值，错误处理可以推断出函数调用失败的原因，并传播至程序的其他地方。    </p>
 <hr>
-<p>一个函数可以通过在声明中添加 <code>throws</code> 关键字来抛出错误消息。<br>当一个函数能抛出错误消息是，在调用该函数的时候应该前置 <code>try</code> 关键字来捕获错误消息。  </p>
+<p>一个函数可以通过在声明中添加 <code>throws</code> 关键字来表明函数有可能会抛出错误消息。<br>当一个函数能抛出错误消息时，在调用该函数的时候应该前置 <code>try</code> 关键字来捕获错误消息。  </p>
 <pre><code class="ObjC">func canThrowAnError() throws {
     <span class="comment">// 这个函数有可能抛出错误</span>
 }
@@ -471,6 +471,99 @@ print(implicitlyOptionalString)
 }
 </code></pre>
 <p>一个 <code>do</code> 语句创建了一个新的包含作用域，使得错误能被传播到一个或多个 <code>catch</code> 从句中。  </p>
+<hr>
+<p>可选类型能够让你判断值是否存在，你可以在代码中优雅的处理值缺失的情况。然而，在某些情况下，如果值缺失或者值并不满足特定的条件，代码就没办法继续执行，这时，你可以在代码中触发一个断言来结束代码运行并通过调试来找到无法继续执行下去的原因。<br>你可以使用断言来保证在运行其他代码之前，某些重要的条件已经被满足。断言会在运行时判断一个逻辑条件是否为true。如果条件判断为true，代码会继续进行；如果条件判断为false，应用程序将被终止。在调试环境下，你可以从Xcode中清楚的看到不合法的状态发生在哪里并以此来检查断言被触发时代码的状态。</p>
+<hr>
+<p>你可以使用全局函数 <code>assert(_:_:file:line:)</code> 函数来实现一个断言。  </p>
+<pre><code class="ObjC"><span class="comment">// assert(_:_:file:line:) 函数在标准库中的定义</span>
+
+<span class="comment">/// To check for invalid usage in Release builds, </span>
+<span class="comment">/// see `precondition(_:_:file:line:)`.</span>
+
+<span class="comment">/// * In playgrounds and `-Onone` builds (the default for Xcode's Debug</span>
+<span class="comment">///   configuration): If `condition` evaluates to `false`, stop program</span>
+<span class="comment">///   execution in a debuggable state after printing `message`.</span>
+
+<span class="comment">/// * In `-O` builds (the default for Xcode's Release configuration), </span>
+<span class="comment">/// `condition` is not evaluated, and there are no effects.</span>
+
+<span class="comment">/// - Parameters:</span>
+<span class="comment">///   - condition: The condition to test. `condition` is only evaluated in</span>
+<span class="comment">///     playgrounds and `-Onone` builds.</span>
+<span class="comment">///   - message: A string to print if `condition` is evaluated to `false`. The</span>
+<span class="comment">///     default is an empty string.</span>
+<span class="comment">///   - file: The file name to print with `message` if the assertion fails. The</span>
+<span class="comment">///     default is the file where `assert(_:_:file:line:)` is called.</span>
+<span class="comment">///   - line: The line number to print along with `message` if the assertion</span>
+<span class="comment">///     fails. The default is the line number where `assert(_:_:file:line:)`</span>
+<span class="comment">///     is called.</span>
+
+public func assert(_ condition: @autoclosure () -&gt; Bool, 
+                     _ message: @autoclosure () -&gt; String = <span class="keyword">default</span>, 
+                          file: StaticString = <span class="meta">#file, </span>
+                          line: <span class="built_in">UInt</span> = <span class="meta">#line)  </span>
+
+let age = <span class="number">-3</span>
+assert(age &gt; <span class="number">0</span>, <span class="string">"A person's age cannot be less than zero"</span>)  <span class="comment">// 不满足条件，断言被触发，应用终止。</span>
+</code></pre>
+<p>当代码使用优化编译的时候，断言将被禁用。例如在Xcode中，使用默认的 Target Release 配置选项来编译时，断言会被禁用。  </p>
+<hr>
+<h3 id="基本运算符"><a href="#基本运算符" class="headerlink" title="基本运算符"></a>基本运算符</h3><hr>
+<p>Swift支持大部分的C语言运算符，且改进了许多特性来减少常规编码错误。如：  </p>
+<ul>
+<li>赋值符 <code>=</code> 不返回值。为了防止把想要判断相等运算符 <code>==</code> 的地方写成赋值运算符导致的错误。   </li>
+<li>算术运算符（<code>+, -, *, /, %</code> 等）不允许值溢出，以此来避免保存变量时由于变量大于或小于其类型所能承载的范围时导致的异常结果。（Swift允许你使用溢出运算符 <code>&amp;</code> 来实现溢出）  </li>
+</ul>
+<hr>
+<p>运算符分为一元、二元和三元运算符：  </p>
+<ul>
+<li>一元运算符操作一个操作数。如 <code>-a</code>，<code>+a</code>，<code>!a</code>，<code>a!</code> 等。   </li>
+<li>二元运算符操作两个操作数。如 <code>+</code>，<code>-</code>，<code>*</code>，<code>/</code>，<code>%</code>，<code>=</code>等。  </li>
+<li>三元运算符操作三个操作数。和C语言一样，Swift只有一个三元运算符，就是三目运算符（<code>a ? b : c</code>）。   </li>
+</ul>
+<hr>
+<p>与C语言和Objective-C不同，Swift的赋值操作并不返回任何值。所以以下代码是错误的：  </p>
+<pre><code class="ObjC"><span class="keyword">if</span> x = y { }  <span class="comment">// 错误代码，因为 x = y 并不返回任何值，而 if 后面需要一个逻辑布尔值。</span>
+</code></pre>
+<p>这个特性使你无法把 <code>==</code> 错写成 <code>=</code>。  </p>
+<hr>
+<p>与C语言和Objective-C不同的是，Swift默认情况下不允许在数值运算中出现溢出情况。但是你可以使用Swift的溢出运算符来实现溢出运算（如 <code>a &amp;+ b</code>）。   </p>
+<hr>
+<p><code>a % b</code>，当 <code>b</code> 为负数时，<code>b</code> 的符号会被忽略。也就是说，<code>a % b</code> 与 <code>a % -b</code> 的结果是一样的。    </p>
+<pre><code class="ObjC"><span class="number">9</span> % <span class="number">4</span>    <span class="comment">// 1</span>
+<span class="number">9</span> % <span class="number">-4</span>   <span class="comment">// 1</span>
+
+<span class="number">-9</span> % <span class="number">4</span>    <span class="comment">// -1</span>
+<span class="number">-9</span> % <span class="number">-4</span>   <span class="comment">// -1</span>
+</code></pre>
+<hr>
+<p>复合赋值运算符（如 <code>+=</code>，<code>-=</code>，<code>*=</code>，<code>/=</code>，<code>%=</code> 等）没有返回值。类似 <code>let b = a += 2</code> 这样的代码是错误的。   </p>
+<hr>
+<p>Swift提供了恒等 <code>===</code> 和不恒等 <code>!==</code> 这两个比较符来判断两个对象是否引用了同一个对象实例。  </p>
+<hr>
+<p>当元组中的值可以比较时，你可以使用比较运算符来比较他们的大小。比如，<code>Int</code> 和 <code>Sting</code> 类型的值可以比较大小，所以类型为 <code>(Int, String)</code> 的元组也可以比较大小。相反，<code>Bool</code> 类型的值无法比较大小（但可以比较是否相等），也意味着存在 <code>Bool</code> 类型的元组也就无法比较大小（但可以比较是否相等）。<br>比较元组大小会按照从左到右、逐值比较的方式，知道发现有两个值不等时停止。如果所有的值都相等，那么这一对元组就称之为相等。   </p>
+<hr>
+<p>Swift的标准库中只支持7个元素以内的元组来比较大小，如果元组中元素超过7个，则需要自己实现比较操作。  </p>
+<hr>
+<p>三目运算符（ <code>a ? b : c</code> ）提供了高效率且便捷的方式来表达二选一的概念。需要注意的是，过度使用三目运算符会使简洁的代码变得难懂，我们应该避免在一个语句中使用多个三目运算符。   </p>
+<hr>
+<p>空和运算符 <code>a ?? b</code> 将对可选类型 <code>a</code> 进行空判断，如果 <code>a</code> 包含值就进行解包，否则就返回一个默认值 <code>b</code>。<br><code>a</code> 必须是可选类型，默认值 <code>b</code> 的类型必须要和 <code>a</code> 存储的值的类型保持一致。   </p>
+<hr>
+<p>空和运算符 <code>a ?? b</code> 其实是对三目运算符 <code>a != nil ? a! : b</code> 的简洁写法。   </p>
+<hr>
+<p>Swift提供了两个方便表达一个区间的运算符：闭区间运算符 <code>a...b</code> 以及 半开区间运算符 <code>a..&lt;b</code>。     </p>
+<p>半开区间运算符的实用性在于当你使用一个从0开始的列表时，可以非常方便的从0遍历到列表的长度。  </p>
+<hr>
+<p>逻辑运算符的操作对象是逻辑布尔值。<br>Swift支持C语言的三个标准逻辑运算符：  </p>
+<ul>
+<li>逻辑非 <code>!a</code>。  </li>
+<li>逻辑与 <code>a &amp;&amp; b</code>。  </li>
+<li>逻辑或 <code>a || b</code>。  </li>
+</ul>
+<p>逻辑与和逻辑或运算符是支持短路计算的。  </p>
+<hr>
+<h3 id="字符串和字符"><a href="#字符串和字符" class="headerlink" title="字符串和字符"></a>字符串和字符</h3><hr>
+<p><code>String</code> 类型是一种快速、现代化的字符串实现。每一个字符串都是由编码无关的 <code>Unicode</code> 字符组成，并支持访问字符的多种 <code>Unicode</code> 表示形式。   </p>
 <hr>
 
       
@@ -645,7 +738,7 @@ print(implicitlyOptionalString)
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li></ol></div>
             
           </div>
         </section>
