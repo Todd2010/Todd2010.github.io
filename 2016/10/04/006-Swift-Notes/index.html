@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-10-04T02:07:00.000Z">
+<meta property="og:updated_time" content="2016-11-22T13:24:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -572,6 +572,131 @@ assert(age &gt; <span class="number">0</span>, <span class="string">"A person's 
 <h3 id="字符串和字符"><a href="#字符串和字符" class="headerlink" title="字符串和字符"></a>字符串和字符</h3><hr>
 <p><code>String</code> 类型是一种快速、现代化的字符串实现。每一个字符串都是由编码无关的 <code>Unicode</code> 字符组成，并支持访问字符的多种 <code>Unicode</code> 表示形式。   </p>
 <hr>
+<p>要创建一个空字符串作为初始值，可以将空的字符串字面量赋值给变量，也可以初始化一个新的 <code>String</code> 实例。   </p>
+<pre><code class="ObjC">var emptyString1 = <span class="string">""</span>          <span class="comment">// 空字符串字面量</span>
+var emptyString2 = String()    <span class="comment">// 初始化方法</span>
+<span class="comment">// emptyString1 与 emptyString2 均为空字符串并相等</span>
+</code></pre>
+<p>可以通过 <code>String</code> 中 <code>isEmpty</code> 属性来判断字符串是否为空：   </p>
+<pre><code class="ObjC"><span class="keyword">if</span> emptyString1.isEmpty { }
+</code></pre>
+<hr>
+<p>Swfit中的 <code>String</code> 类型是值类型。也就是说，如果你创建了一个字符串，那么当其为其他常量或变量进行赋值操作，或在函数中传递时，会进行值拷贝。   </p>
+<p>Swift编译器会优化字符串的使用，使实际的复制只发生在绝对必要的情况下，这意味着把字符串作为值类型的同时可以获得极高的性能。  </p>
+<hr>
+<p>可以通过 <code>for-in</code> 循环遍历字符串的 <code>characters</code> 属性来获取每一个字符的值。   </p>
+<pre><code class="ObjC"><span class="keyword">for</span> character <span class="keyword">in</span> <span class="string">"Todd"</span> { 
+    print(character) 
+}
+</code></pre>
+<hr>
+<p>字符串可以通过传递一个 <code>Character</code> 数组来进行初始化：   </p>
+<pre><code class="ObjC">let catCharacters: [Character] = [<span class="string">"C"</span>, <span class="string">"A"</span>, <span class="string">"T"</span>]
+let catString = String(catCharacters)
+</code></pre>
+<hr>
+<p>字符串可以通过加法运算符 <code>+</code> 来把两个字符串连接在一起：  </p>
+<pre><code class="ObjC">let string1 = <span class="string">"Hello "</span>
+let string2 = <span class="string">"Todd!"</span>
+let string3 = string1 + string2
+</code></pre>
+<p>也可以通过加法赋值运算符 <code>+=</code> 来把一个字符串添加到一个已经存在的字符串变量上：   </p>
+<pre><code class="ObjC">var string4 = <span class="string">"Welcome "</span>
+string4 += <span class="string">"Todd!"</span>
+</code></pre>
+<p>还可以通过 <code>append()</code> 函数将一个字符附加到一个字符串变量的尾部：   </p>
+<pre><code class="ObjC">var string5 = <span class="string">"Chen"</span>
+var character: Character = <span class="string">"g"</span>  
+string5.append(character)
+
+<span class="comment">// 在Swift的标准库中，String 的 append(_:) 函数有两种定义。</span>
+public mutating func append(_ c: Character)
+public mutating func append(_ other: String)
+</code></pre>
+<hr>
+<p><code>Unicode</code> 是一个国际标准，用于文本的编码和表示。它使你能够用标准的格式来表示来自任意语言几乎所有的字符。Swift的 <code>String</code> 和 <code>Character</code> 类型是完全兼容 <code>Unicode</code> 标准的。   </p>
+<hr>
+<p>字符串字面量的特殊字符：  </p>
+<ul>
+<li>转义字符：<code>\0</code>（空字符），<code>\\</code>（反斜线），<code>\t</code>（水平制表符），<code>\n</code>（换行符），<code>\r</code>（回车符），<code>\&quot;</code>（双引号），<code>\&#39;</code>（单引号）。   </li>
+<li><code>Unicode</code> 标量：写成 <code>\u{n}</code>（<code>u</code> 为小写），其中 <code>n</code> 为任意一到八位十六进制数且可用的 <code>Unicode</code> 标量。   </li>
+</ul>
+<hr>
+<p>每一个Swift的 <code>Character</code> 类型都代表一个可扩展的字符群集。一个可扩展的字符群集是一个或多个 <code>Unicode</code> 标量的有序排列。<br>比如，字符 <code>é</code> 可以用单一的 <code>Unicode</code> 标量 <code>\u{00E9}</code> 来表示。也可以用一个标准的字符 <code>e</code>  <code>\u{0065}</code> 加上一个急促重音 <code>\u{0301}</code> 来表示。    </p>
+<hr>
+<p>可以通过访问字符串的 <code>characters</code> 属性的 <code>count</code> 属性来获取字符串中 <code>Character</code> 值的数量。  </p>
+<hr>
+<p>可扩展的字符群集可以由一个或多个 <code>Unicode</code> 标量组合而成，这也就意味着相同字符的不同表示方式可能需要不同数量的内存空间来存储，所以Swift中的字符在一个字符串中并不一定占用相同的内存空间数量。因此在没有获取到可扩展字符群集范围的时候，是无法计算出字符串中字符数量的。当你在处理一个字符串的时候，需要注意到 <code>characters</code> 属性的访问必须要遍历字符串中全部的 <code>Unicode</code> 标量才能确定字符的数量。   </p>
+<hr>
+<p>每一个 <code>String</code> 值都有一个关联的索引类型（<code>String.Index</code>），它对应着字符串中每一个 <code>Character</code> 的位置。<br>字符的不同表示方式可能会占用不同数量的内存空间，所以要知道 <code>Character</code> 的具体位置，就必须从 <code>String</code> 的开头遍历每一个 <code>Unicode</code> 标量直到结尾。因此，Swift的字符串不能用整型做索引。   </p>
+<hr>
+<p>使用 <code>startIndex</code> 属性可以获取一个 <code>String</code> 的第一个 <code>Character</code> 索引。<br>使用 <code>endIndex</code> 属性可以获取一个 <code>String</code> 的最后一个 <code>Character</code> 的后一个位置的索引。  </p>
+<p><code>endIndex</code> 不能作为一个字符串的有效下标。  </p>
+<p>如果 <code>String</code> 是空串，<code>startIndex</code> 与 <code>endIndex</code> 相等且都等于 <code>0</code>。   </p>
+<hr>
+<p>通过调用 <code>String</code> 的 <code>index(before:)</code> 和 <code>index(after:)</code> 函数可以立即得到前面一个或后面一个索引。<br>还可以通过调用 String 的 index(_:offsetBy:) 函数来获取对应偏移量的索引。  </p>
+<p>有了索引之后，可以通过下标语法来获取对应索引位置的 <code>Character</code>。  </p>
+<pre><code class="ObjC">let name = <span class="string">"Todd"</span>
+
+name[name.startIndex]  <span class="comment">// T</span>
+name[name.endIndex]  <span class="comment">// 报错</span>
+
+let aIndex = name.index(after: name.startIndex)
+let bIndex = name.index(before: name.endIndex)
+name[aIndex]  <span class="comment">// o</span>
+name[bIndex]  <span class="comment">// d</span>
+
+let cIndex = name.index(name.startIndex, offsetBy:<span class="number">2</span>)
+name[cIndex]  <span class="comment">// d</span>
+</code></pre>
+<hr>
+<p>使用 <code>characters</code> 属性的 <code>indices</code> 属性会创建一个包含全部索引的范围，用来在一个字符串中访问单个字符。  </p>
+<pre><code class="ObjC"><span class="keyword">for</span> index <span class="keyword">in</span> name.characters.indices {
+   print(name[index])
+}
+</code></pre>
+<hr>
+<p>你可以使用 <code>startIndex</code> 和 <code>endIndex</code> 属性以及 <code>index(before:)</code>、<code>index(after:)</code> 和 <code>index(_:offsetBy:)</code> 函数在任意一个遵循 <code>Collection</code> 协议的类型里面，如上面的 <code>String</code>，也可以使用在 <code>Array</code>、<code>Dictionary</code> 和 <code>Set</code> 中。  </p>
+<hr>
+<p>调用 <code>insert(_:at:)</code> 函数可以在一个字符串的指定索引位置插入一个字符。<br>调用 <code>insert(contentsOf:at:)</code> 函数可以在一个字符串的指定索引位置插入一个字符串。  </p>
+<pre><code class="ObjC">var string = <span class="string">"Hello"</span>
+string.insert(<span class="string">"!"</span>, at: string.endIndex)  <span class="comment">// Hello!</span>
+string.insert(contentsOf: <span class="string">" Todd"</span>.characters, 
+                      at: string.index(before: string.endIndex))  <span class="comment">// Hello Todd!</span>
+</code></pre>
+<hr>
+<p>调用 remove(at:) 函数可以在一个字符串的指定索引位置删除一个字符。<br>调用 removeSubrange(_:) 函数可以在一个字符串的指定索引范围删除一个字符串。  </p>
+<pre><code class="ObjC">var string = <span class="string">"Hello!"</span>
+string.remove(at: string.index(before: string.endIndex))  <span class="comment">// Hello</span>
+
+let range = string.startIndex...string.index(string.startIndex, offsetBy: <span class="number">2</span>)
+string.removeSubrange(range)  <span class="comment">// lo</span>
+</code></pre>
+<hr>
+<p>你可以使用 <code>insert(_:at:)</code>、<code>insert(contentsOf:at:)</code> 函数以及 <code>remove(at:)</code>、<code>removeSubrange(_:)</code> 函数在任意一个遵循 <code>RangeReplaceableCollection</code> 协议的类型里面，如上面的 <code>String</code>，也可以使用在 <code>Array</code>、<code>Dictionary</code> 和 <code>Set</code> 中。   </p>
+<hr>
+<p>字符串/字符可以用等于操作符 <code>==</code> 和不等于操作符 <code>!=</code>。   </p>
+<p>如果两个字符串/字符的可扩展字符群集是标准相等的，那就认为它们是相等的。因此，即使可扩展字符群集是由不同的 <code>Unicode</code> 标量组成，只要它们具有同样的语言意义和外观，就认为他们标准相等。  </p>
+<pre><code class="ObjC">let a = <span class="string">"caf\u{00E9}"</span>
+let b = <span class="string">"caf\u{0065}\u{0301}"</span>
+a == b  <span class="comment">// true</span>
+</code></pre>
+<hr>
+<p>通过调用 <code>hasPrefix(_:)</code> 和 <code>hasSuffix(_:)</code> 函数来检查字符串中是否拥有特定的前缀和后缀。  </p>
+<p><code>hasPrefix(_:)</code> 和 <code>hasSuffix(_:)</code> 函数是在每个字符串中逐个字符比较其可扩展的字符群集是否标准相等。  </p>
+<hr>
+<p>Swift提供了三种方式来访问字符串的 Unicode 表示形式：  </p>
+<ul>
+<li>UTF-8，利用字符串的 <code>utf8</code> 属性进行访问。  </li>
+<li>UTF-16，利用字符串的 <code>utf16</code> 属性访问。  </li>
+<li>UTF-32，也就是 <code>Unicode</code> 标量。利用字符串的 <code>unicodeScalars</code> 属性访问。   </li>
+</ul>
+<hr>
+<h3 id="集合类型"><a href="#集合类型" class="headerlink" title="集合类型"></a>集合类型</h3><hr>
+<p>Swift语言提供了 <code>Array</code>、<code>Dictionary</code> 和 <code>Set</code> 这三种基本的集合类型来存储集合数据。<br>数组 <code>Array</code> 是有序数据的集，字典 <code>Dictionary</code> 无序键值对的集，集合 <code>Set</code> 是无序无重复数据的集。  </p>
+<hr>
+<p><code>Array</code>、<code>Dictionary</code> 和 <code>Set</code> 中存储的数据值类型必须明确。这意味着我们不能把不正确的数据类型放入其中，同时也说明了我们完全可以对取回的值的类型非常自信。  </p>
+<hr>
 
       
     </div>
@@ -745,7 +870,7 @@ assert(age &gt; <span class="number">0</span>, <span class="string">"A person's 
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li></ol></div>
             
           </div>
         </section>
