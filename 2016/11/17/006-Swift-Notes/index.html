@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-18T07:26:09.000Z">
+<meta property="og:updated_time" content="2016-11-22T02:24:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -347,7 +347,7 @@ let b = <span class="built_in">UInt8</span>.min  <span class="comment">// b的�
 <li>在32位平台设备上，<code>UInt</code> 就是 <code>UInt32</code>。  </li>
 <li>在64位平台设备上，<code>UInt</code> 就是 <code>UInt64</code>。  </li>
 </ul>
-<p>尽量不要使用 <code>UInt</code> 和其他整数类型，最好使用 <code>Int</code>，即使你要存储的整数常量或者变量已知是非负的。统一使用 <code>Int</code> 可以提高代码的可复用性，避免不同类型之间的转换，并且可以匹配整数类字面量的类型推断。</p>
+<p>尽量不要使用 <code>UInt</code> 或其他整数类型（如 <code>Int8</code>，<code>Int16</code>，<code>Int32</code>，<code>Int64</code>，<code>UInt8</code>，<code>UInt16</code>，<code>UInt32</code>，<code>UInt64</code> 等），最好使用 <code>Int</code>，即使你要存储的整数常量或者变量已知是非负的。统一使用 <code>Int</code> 可以提高代码的可复用性，避免不同类型之间的转换，并且可以匹配整数类字面量的类型推断。</p>
 <hr>
 <p>Swift提供了两种浮点数类型：  </p>
 <ul>
@@ -361,8 +361,15 @@ let c = <span class="number">1.0123456789012346</span>
 a == b  <span class="comment">// false</span>
 a == c  <span class="comment">// true</span>
 </code></pre>
+<pre><code class="ObjC">let a: Float = <span class="number">1.12345678</span>
+let b: Float = <span class="number">1.1234567</span>
+let c: Float = <span class="number">1.1234568</span>
+
+a == b  <span class="comment">// false</span>
+a == c  <span class="comment">// true</span>
+</code></pre>
 <hr>
-<p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚的知道代码要处理的值的类型。比如代码需要一个 <code>String</code>，你绝对不可能不小心赋值一个 <code>Int</code>。   </p>
+<p>Swift是一门类型安全的语言。类型安全的语言可以让你清楚的知道代码要处理的值的类型。比如代码需要一个 <code>String</code>，你绝不可能一不留神赋值一个 <code>Int</code>。   </p>
 <hr>
 <p>当你在声明常量或者变量的时候赋给它们一个字面量（literal value）即可触发类型推断。  </p>
 <hr>
@@ -388,32 +395,32 @@ let b = <span class="number">10000</span>_0000
 <span class="keyword">if</span> i { }  <span class="comment">// 这行代码不会通过编译，会报错   </span>
 <span class="keyword">if</span> i == <span class="number">1</span> {}  <span class="comment">// 正确写法</span>
 </code></pre>
-<p>这种方式可以避免某些错误并保证这块代码的意图总是清晰的。  </p>
+<p>这种方式可以避免一些错误并保证这块代码的意图总是清晰的。  </p>
 <hr>
-<p>元组把多个值组成成一个复合值。元组内的值可以是任意类型，并不要求是相同类型。  </p>
+<p>元组把多个值组合成一个复合值。元组内的值可以是任意类型，并不要求是相同类型。  </p>
 <pre><code class="ObjC">let http404Error = (<span class="number">404</span>, <span class="string">"Not Found"</span>)
 <span class="comment">// http404Error的类型为 (Int, String)</span>
 </code></pre>
 <p>通过下标来访问元组中的单个元素，下标从0开始。    </p>
 <pre><code class="ObjC">let http404Error = (<span class="number">404</span>, <span class="string">"Not Found"</span>)
-print(http404Error<span class="number">.0</span>)
-print(http404Error<span class="number">.1</span>)
+http404Error<span class="number">.0</span>
+http404Error<span class="number">.1</span>
 </code></pre>
 <hr>
 <p>可以在定义元组的时候给每一个元素命名。   </p>
 <pre><code class="ObjC">let http404Error = (code: <span class="number">404</span>, description: <span class="string">"Not Found"</span>)
-print(http404Error.code)
-print(http404Error.description)
+http404Error.code
+http404Error.description
 </code></pre>
 <hr>
 <p>你可以将一个元组的内容分解成单独的常量或变量，然后再分别使用它们。  </p>
 <pre><code class="ObjC">let (statusCode, statusMessage) = (<span class="number">404</span>, <span class="string">"Not Found"</span>)
-print(statusCode)
-print(statusMessage)
+statusCode
+statusMessage
 </code></pre>
 <p>如果你只需要一部分元组值，分解的时候可以把忽略的部分用下划线 <code>_</code> 标记。  </p>
 <pre><code class="ObjC">let (_, justStatusMessage) = (<span class="number">404</span>, <span class="string">"Not Found"</span>)
-print(justStatusMessage)
+justStatusMessage
 </code></pre>
 <hr>
 <p>使用可选类型来处理值可能缺失的情况。可选类型表示要么有值，为 <code>x</code>；要么没有值，为 <code>nil</code>。</p>
@@ -442,8 +449,8 @@ print(justStatusMessage)
 <hr>
 <p>在 <code>if</code> 条件语句中使用常量或变量来创建一个可选绑定，仅在 <code>if</code> 语句的句中才能获取到该常量或变量的值。<br>相反，在 <code>guard</code> 语句中使用常量或变量来创建一个可选绑定，仅在 <code>guard</code> 语句外且在语句后才能获取到该常量或变量的值。  </p>
 <hr>
-<p>有时候在代码中，在可选类型被第一赋值之后，可以确定该可选类型总会有值，在这种情况下，每次都要判读和解包可选值是非常低效的。这时候可以把该可选类型声明为隐式解包可选类型（implicitly unwrapped aptional），把普通可选类型后的问号（如 <code>String?</code>）改为感叹号（如 <code>String!</code>）来声明一个隐式解包可选类型。   </p>
-<p>一个隐式解包可选类型其实就是一个普通的可选类型，但是可以被当做非可选类型来使用，并不需要每次解包来获得可选值。  </p>
+<p>有时候在代码中，在可选类型被第一次赋值之后，可以确定该可选类型总会有值，在这种情况下，每次都要判断和解包可选值是非常低效的。这时候可以把该可选类型声明为隐式解包可选类型（implicitly unwrapped optional），把普通可选类型后的问号（如 <code>String?</code>）改为感叹号（如 <code>String!</code>）来声明一个隐式解包可选类型。   </p>
+<p>一个隐式解包可选类型其本质还是一个普通的可选类型，但是可以被当做非可选类型来使用，并不需要每次解包来获得可选值。  </p>
 <pre><code class="ObjC">let optionalString: String? = <span class="string">"Optional String"</span>
 print(optional!)
 
@@ -474,7 +481,7 @@ print(implicitlyOptionalString)
 <hr>
 <p>可选类型能够让你判断值是否存在，你可以在代码中优雅的处理值缺失的情况。然而，在某些情况下，如果值缺失或者值并不满足特定的条件，代码就没办法继续执行，这时，你可以在代码中触发一个断言来结束代码运行并通过调试来找到无法继续执行下去的原因。<br>你可以使用断言来保证在运行其他代码之前，某些重要的条件已经被满足。断言会在运行时判断一个逻辑条件是否为true。如果条件判断为true，代码会继续进行；如果条件判断为false，应用程序将被终止。在调试环境下，你可以从Xcode中清楚的看到不合法的状态发生在哪里并以此来检查断言被触发时代码的状态。</p>
 <hr>
-<p>你可以使用全局函数 <code>assert(_:_:file:line:)</code> 函数来实现一个断言。  </p>
+<p>你可以使用全局函数 <code>assert(_:_:file:line:)</code> 来实现一个断言。  </p>
 <pre><code class="ObjC"><span class="comment">// assert(_:_:file:line:) 函数在标准库中的定义</span>
 
 <span class="comment">/// To check for invalid usage in Release builds, </span>
@@ -539,9 +546,9 @@ assert(age &gt; <span class="number">0</span>, <span class="string">"A person's 
 <hr>
 <p>复合赋值运算符（如 <code>+=</code>，<code>-=</code>，<code>*=</code>，<code>/=</code>，<code>%=</code> 等）没有返回值。类似 <code>let b = a += 2</code> 这样的代码是错误的。   </p>
 <hr>
-<p>Swift提供了恒等 <code>===</code> 和不恒等 <code>!==</code> 这两个比较符来判断两个对象是否引用了同一个对象实例。  </p>
+<p>Swift提供了恒等 <code>===</code> 和不恒等 <code>!==</code> 这两个比较符来判断两个常量或变量是否引用了同一个对象实例。  </p>
 <hr>
-<p>当元组中的值可以比较时，你可以使用比较运算符来比较他们的大小。比如，<code>Int</code> 和 <code>Sting</code> 类型的值可以比较大小，所以类型为 <code>(Int, String)</code> 的元组也可以比较大小。相反，<code>Bool</code> 类型的值无法比较大小（但可以比较是否相等），也意味着存在 <code>Bool</code> 类型的元组也就无法比较大小（但可以比较是否相等）。<br>比较元组大小会按照从左到右、逐值比较的方式，知道发现有两个值不等时停止。如果所有的值都相等，那么这一对元组就称之为相等。   </p>
+<p>当元组中的值可以比较时，你可以使用比较运算符来比较他们的大小。比如，<code>Int</code> 和 <code>Sting</code> 类型的值可以比较大小，所以类型为 <code>(Int, String)</code> 的元组也可以比较大小。相反，<code>Bool</code> 类型的值无法比较大小（但可以比较是否相等），也意味着存在 <code>Bool</code> 类型的元组也就无法比较大小（但可以比较是否相等）。<br>比较元组大小会按照从左到右、逐值比较的方式，直到发现有两个值不等时停止。如果所有的值都相等，那么这一对元组就称之为相等。   </p>
 <hr>
 <p>Swift的标准库中只支持7个元素以内的元组来比较大小，如果元组中元素超过7个，则需要自己实现比较操作。  </p>
 <hr>
