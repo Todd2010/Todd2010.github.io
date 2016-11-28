@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-22T13:57:02.000Z">
+<meta property="og:updated_time" content="2016-11-28T12:59:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -699,11 +699,141 @@ a == b  <span class="comment">// true</span>
 <hr>
 <p>在我们不需要改变集合的时候尽量应该创建不可变集合，这样不仅可以有更好的性能优化，还能更加清晰的表达你的意图。  </p>
 <hr>
+<p>数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在一个数组中的不同位置。  </p>
+<hr>
 <p>写Swift数组应该遵循像 <code>Array&lt;Element&gt;</code> 这样的形式，其中 <code>Element</code> 是这个数组中唯一允许存在的数据类型。也可是使用 <code>[Element]</code> 这样的简单语法。在实际编写代码的过程中，推荐使用 <code>[Element]</code> 这种写法。   </p>
 <hr>
-<p>创建一个空数组的两种常见的形式：   </p>
+<p>通过构造函数创建一个空数组：   </p>
 <pre><code class="ObjC">var someInts = [Int]()
-var someInts: [Int] = []
+</code></pre>
+<hr>
+<p>清空数组（置空）：  </p>
+<pre><code class="ObjC">var someInts = [Int]()
+someInts.append(<span class="number">3</span>)
+someInts = []
+</code></pre>
+<hr>
+<p>创建特定大小并有默认值的数组：  </p>
+<pre><code class="ObjC">var threeDoubles = Array(repeating: <span class="number">0.0</span>, count: <span class="number">3</span>)  <span class="comment">// [0.0, 0.0, 0.0]</span>
+</code></pre>
+<p>通过两个数组相加创建一个数组：  </p>
+<pre><code class="ObjC">var oneDouble = [Double]()
+oneDouble.append(<span class="number">1.0</span>)
+
+let twoDoubles = Array(repeating: <span class="number">2.0</span>, count: <span class="number">2</span>)
+
+let threeDoubles = oneDouble + twoDoubles  <span class="comment">// [1.0, 2.0, 2.0]</span>
+</code></pre>
+<p>用数组字面量来创建数组：   </p>
+<pre><code class="ObjC">var shoppingList = [<span class="string">"Eggs"</span>, <span class="string">"Milk"</span>]
+
+<span class="comment">// 如果数组字面量中有多种数据类型，则必须采用类型标注</span>
+var one: [Any] = [<span class="number">1</span>, <span class="number">1.0</span>, <span class="string">"一"</span>]
+</code></pre>
+<hr>
+<p>通过访问数组的 <code>count</code> 属性来获取数组中数据项的数量。  </p>
+<p>通过访问数组的 <code>isEmpty</code> 属性来判断数组是否为空。   </p>
+<hr>
+<p>数组的增删改查：  </p>
+<pre><code class="ObjC">var array = [Int]()
+
+<span class="comment">// 增</span>
+array.append(<span class="number">1</span>)
+array.append(contentsOf: <span class="number">2.</span>.<span class="number">.5</span>)
+array += [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]
+
+<span class="comment">// 删</span>
+array.remove(at: <span class="number">0</span>)  <span class="comment">// 删除第一个</span>
+array.removeFirst()  <span class="comment">// 删除第一个</span>
+array.removeLast()  <span class="comment">// 删除最后一个</span>
+array.removeFirst(<span class="number">2</span>)  <span class="comment">// 删除前两个</span>
+array.removeLast(<span class="number">2</span>)  <span class="comment">// 删除后两个</span>
+array.removeSubrange(<span class="number">2.</span>.<span class="number">.5</span>)  <span class="comment">// 删除第2个到第5个</span>
+
+<span class="comment">// 改</span>
+array[<span class="number">0</span>] = <span class="number">-1</span>
+array[<span class="number">1.</span>.<span class="number">.3</span>] = [<span class="number">9</span>]
+array.insert(<span class="number">-2</span>, at: <span class="number">0</span>)
+array.insert(contentsOf: <span class="number">10.</span>.<span class="number">.15</span>, at: array.count)
+
+<span class="comment">// 查</span>
+array[<span class="number">0</span>]
+array[<span class="number">0.</span>.<span class="number">.3</span>]
+</code></pre>
+<hr>
+<p>使用 <code>for-in</code> 循环来遍历数组中的所有数据项。  </p>
+<p>如果你同时需要数据项和索引值，可以使用 <code>enumerated()</code> 函数来进行数组遍历。<code>enumerated()</code> 函数返回一个由每一个索引值和数据值组成的元组的新数组。  </p>
+<pre><code class="ObjC"><span class="keyword">for</span> (index, value) <span class="keyword">in</span> array.enumerated() {
+    print(index)
+    print(value)
+}
+</code></pre>
+<hr>
+<p>集合 <code>Set</code> 用来存储相同类型并且没有确定顺序的值。当集合元素顺序不重要时或者希望确保每个元素只出现一次时可以使用集合而不是数组。  </p>
+<hr>
+<p>一个类型要存储在集合中，该类型必须是可哈希化的。也就是说，该类型必须能提供一个方法来计算它的哈希值。  </p>
+<p>哈希值是 <code>Int</code> 类型的。相等的对象哈希值也相同。比如，若 a == b，则 a.hashValue == b.hashValue。  </p>
+<pre><code class="ObjC">let a = <span class="number">1</span>
+let b = <span class="number">1</span>
+a == b  <span class="comment">// true</span>
+a.hashValue == b.hashValue  <span class="comment">// true</span>
+</code></pre>
+<hr>
+<p>Swift的所有基本类型（如 <code>String</code>，<code>Int</code>，<code>Double</code>，<code>Bool</code> 等）默认都是可哈希化的，可以作为集合中值的类型或者字典中键的类型。  </p>
+<p>没有关联值的枚举成员值默认也是可哈希化的。    </p>
+<pre><code class="ObjC"><span class="keyword">enum</span> Direction {
+    <span class="keyword">case</span> east
+    <span class="keyword">case</span> sourth
+    <span class="keyword">case</span> west
+    <span class="keyword">case</span> north
+}
+
+Direction.sourth.hashValue  <span class="comment">// 1</span>
+</code></pre>
+<hr>
+<p>可以使用你自定义的类型作为集合中值的类型或者字典中键的类型，但是自定义的类型必须遵守 <code>Hashable</code> 协议。符合 <code>Hashable</code> 协议的类型需要提供一个类型为 <code>Int</code> 的 <code>hashValue</code> 属性。<br>由于 <code>Hashable</code> 协议还遵守了 <code>Equatable</code> 协议，所以还需要提供一个对相等运算符 <code>==</code> 的实现。  </p>
+<hr>
+<p>写Swift集合应该遵循像 <code>Set&lt;Element&gt;</code> 这样的形式，其中 <code>Element</code> 表示 <code>Set</code> 中允许存储的类型。和数组不同的是，集合没有等价的简写形式。   </p>
+<hr>
+<p>通过构造函数创建一个空集合：  </p>
+<pre><code class="ObjC">var letters = Set&lt;Character&gt;()
+</code></pre>
+<hr>
+<p>清空集合中的内容：  </p>
+<pre><code class="ObjC">var letters = Set&lt;Character&gt;()
+letters.insert(<span class="string">"a"</span>)
+letters = []
+</code></pre>
+<hr>
+<p>用数组字面量来创建集合：  </p>
+<pre><code class="ObjC">var favoriteGenres: Set&lt;String&gt; = [<span class="string">"Rock"</span>, <span class="string">"Classical"</span>, <span class="string">"Hip pop"</span>]
+</code></pre>
+<p>一个 <code>Set</code> 类型不能从数组字面量中被单独推断出来，因此 <code>Set</code> 类型必须显示声明。然而，由于Swift的类型推导功能，如果你想使用一个数组字面量构造一个 <code>Set</code> 并且该数组字面量中所有的元素类型都相同，那么你无须写出 <code>Set</code> 的具体类型。上面的代码可以简化为：  </p>
+<pre><code class="ObjC">var favoriteGenres: Set = [<span class="string">"Rock"</span>, <span class="string">"Classical"</span>, <span class="string">"Hip pop"</span>]
+</code></pre>
+<hr>
+<p>通过访问集合的 <code>count</code> 属性来获取集合中元素的数量。  </p>
+<p>通过访问集合的 <code>isEmpty</code> 属性来判断集合是否为空。  </p>
+<hr>
+<p>对 Set 的基本操作：  </p>
+<pre><code class="ObjC">var favoriteGenres: Set = [<span class="string">"Rock"</span>, <span class="string">"Classical"</span>, <span class="string">"Hip pop"</span>]
+
+<span class="comment">// 添加一个新元素</span>
+favoriteGenres.insert(<span class="string">"Jazz"</span>)
+
+<span class="comment">// 删除一个元素</span>
+<span class="comment">// 如果Set中存在想要删除的元素，则返回该元素值，否则返回nil</span>
+<span class="keyword">if</span> let removedGenre = favoriteGenres.remove(<span class="string">"Rock"</span>) { }
+
+<span class="comment">// Set中是否包含某个元素</span>
+favoriteGenres.contains(<span class="string">"Classical"</span>)
+</code></pre>
+<hr>
+<p>使用 <code>for-in</code> 循环来遍历集合。  </p>
+<p>Swift中的 <code>Set</code> 类型没有确定的顺序，为了按照特定的顺序来遍历一个 <code>Set</code> 中的值，可以使用 <code>sorted()</code> 函数，它将返回一个有序数组，这个数组的元素排列由操作符 <code>&lt;</code>（升序） 对元素进行比较的结果来确定的。   </p>
+<pre><code class="ObjC"><span class="keyword">for</span> genre <span class="keyword">in</span> favoriteGenres.sorted() {
+    print(genre)
+}
 </code></pre>
 <hr>
 
