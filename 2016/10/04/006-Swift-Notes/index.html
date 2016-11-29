@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-28T12:59:28.000Z">
+<meta property="og:updated_time" content="2016-11-29T02:13:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -581,7 +581,7 @@ var emptyString2 = String()    <span class="comment">// 初始化方法</span>
 <pre><code class="ObjC"><span class="keyword">if</span> emptyString1.isEmpty { }
 </code></pre>
 <hr>
-<p>Swfit中的 <code>String</code> 类型是值类型。也就是说，如果你创建了一个字符串，那么当其为其他常量或变量进行赋值操作，或在函数中传递时，会进行值拷贝。   </p>
+<p>Swift中的 <code>String</code> 类型是值类型。也就是说，如果你创建了一个字符串，那么当其为其他常量或变量进行赋值操作，或在函数中传递时，会进行值拷贝。   </p>
 <p>Swift编译器会优化字符串的使用，使实际的复制只发生在绝对必要的情况下，这意味着把字符串作为值类型的同时可以获得极高的性能。  </p>
 <hr>
 <p>可以通过 <code>for-in</code> 循环遍历字符串的 <code>characters</code> 属性来获取每一个字符的值。   </p>
@@ -699,7 +699,7 @@ a == b  <span class="comment">// true</span>
 <hr>
 <p>在我们不需要改变集合的时候尽量应该创建不可变集合，这样不仅可以有更好的性能优化，还能更加清晰的表达你的意图。  </p>
 <hr>
-<p>数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在一个数组中的不同位置。  </p>
+<p>数组使用有序列表存储同一类型的多个值。相同的值可以多次出现在数组中的不同位置。  </p>
 <hr>
 <p>写Swift数组应该遵循像 <code>Array&lt;Element&gt;</code> 这样的形式，其中 <code>Element</code> 是这个数组中唯一允许存在的数据类型。也可是使用 <code>[Element]</code> 这样的简单语法。在实际编写代码的过程中，推荐使用 <code>[Element]</code> 这种写法。   </p>
 <hr>
@@ -739,8 +739,8 @@ var one: [Any] = [<span class="number">1</span>, <span class="number">1.0</span>
 
 <span class="comment">// 增</span>
 array.append(<span class="number">1</span>)
-array.append(contentsOf: <span class="number">2.</span>.<span class="number">.5</span>)
-array += [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]
+array.append(contentsOf: <span class="number">2.</span>.<span class="number">.5</span>)  <span class="comment">// array.append(contentsOf: [2, 3, 4, 5])</span>
+array += [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]  <span class="comment">// array += 6...8</span>
 
 <span class="comment">// 删</span>
 array.remove(at: <span class="number">0</span>)  <span class="comment">// 删除第一个</span>
@@ -772,7 +772,7 @@ array[<span class="number">0.</span>.<span class="number">.3</span>]
 <p>集合 <code>Set</code> 用来存储相同类型并且没有确定顺序的值。当集合元素顺序不重要时或者希望确保每个元素只出现一次时可以使用集合而不是数组。  </p>
 <hr>
 <p>一个类型要存储在集合中，该类型必须是可哈希化的。也就是说，该类型必须能提供一个方法来计算它的哈希值。  </p>
-<p>哈希值是 <code>Int</code> 类型的。相等的对象哈希值也相同。比如，若 a == b，则 a.hashValue == b.hashValue。  </p>
+<p>哈希值是 <code>Int</code> 类型的。相等对象的哈希值也相同。比如，若 a == b，则 a.hashValue == b.hashValue。  </p>
 <pre><code class="ObjC">let a = <span class="number">1</span>
 let b = <span class="number">1</span>
 a == b  <span class="comment">// true</span>
@@ -836,6 +836,58 @@ favoriteGenres.contains(<span class="string">"Classical"</span>)
 }
 </code></pre>
 <hr>
+<p>两个集合基本操作：  </p>
+<pre><code class="ObjC">let aSet: Set = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>]
+let bSet: Set = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]
+
+<span class="comment">// a与b的并集</span>
+aSet.union(bSet)
+
+<span class="comment">// a与b的交集</span>
+aSet.intersection(bSet)
+
+<span class="comment">// 在集合a中，不在集合b中</span>
+aSet.subtracting(bSet)
+
+<span class="comment">// 两个集合是否相等（两个集合是否包含全部相同的元素）</span>
+aSet == bSet
+
+<span class="comment">// 一个集合是否是另一个集合的子集</span>
+aSet.isSubset(of: bSet)
+
+<span class="comment">// 一个集合是否是另一个集合的超集</span>
+aSet.isSuperset(of: bSet)
+</code></pre>
+<hr>
+<p>字典是一种存储同一类型的值的容器。每个值都关联唯一的键。<br>和数组不同的是，字典中的数据项并没有具体的顺序。  </p>
+<hr>
+<p>用 <code>Dictionary&lt;Key, Value&gt;</code> 的这种写法来定义Swift中的字典，其中 <code>Key</code> 是字典中键的数据类型，<code>Value</code> 是字典中值的数据类型。也可以使用 <code>[Key: Value]</code> 这样的简化形式来创建一个字典类型。推荐使用后者简化写法。   </p>
+<hr>
+<p>字典中的 <code>Key</code> 类型必须遵守 <code>Hashable</code> 协议。   </p>
+<hr>
+<p>利用构造函数创建一个空字典：   </p>
+<pre><code class="ObjC">var namesOfIntegers = [Int: String]()
+</code></pre>
+<hr>
+<p>清空字典中的内容：  </p>
+<pre><code class="ObjC">var namesOfIntegers = [Int: String]()
+namesOfIntegers[<span class="number">6</span>] = <span class="string">"six"</span>
+namesOfIntegers = [:]
+</code></pre>
+<hr>
+<p>使用字典字面量来创建字典：  </p>
+<pre><code class="ObjC">var ab = [<span class="string">"aaa"</span>: <span class="string">"AAA"</span>, <span class="string">"bbb"</span>: <span class="string">"BBB"</span>]
+
+<span class="comment">// 如果键的类型或者值的类型不一致，则必须采用类型标注</span>
+var person: [String: Any] = [<span class="string">"name"</span>: <span class="string">"Todd"</span>, <span class="string">"age"</span> : <span class="number">18</span>]
+</code></pre>
+<hr>
+<p>通过访问字典的 <code>count</code> 属性来获取字典中键值对的数量。</p>
+<p>通过访问字典的 <code>isEmpty</code> 属性来判断字典是否为空。  </p>
+<hr>
+<p>对于字典的一些基本操作：  </p>
+<pre><code class="ObjC">var namesOfIntegers = [Int: String]()
+</code></pre>
 
       
     </div>
