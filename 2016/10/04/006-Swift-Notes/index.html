@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-29T02:13:04.000Z">
+<meta property="og:updated_time" content="2016-11-29T09:18:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -863,7 +863,7 @@ aSet.isSuperset(of: bSet)
 <hr>
 <p>用 <code>Dictionary&lt;Key, Value&gt;</code> 的这种写法来定义Swift中的字典，其中 <code>Key</code> 是字典中键的数据类型，<code>Value</code> 是字典中值的数据类型。也可以使用 <code>[Key: Value]</code> 这样的简化形式来创建一个字典类型。推荐使用后者简化写法。   </p>
 <hr>
-<p>字典中的 <code>Key</code> 类型必须遵守 <code>Hashable</code> 协议。   </p>
+<p>字典中 <code>Key</code> 的类型必须遵守 <code>Hashable</code> 协议。   </p>
 <hr>
 <p>利用构造函数创建一个空字典：   </p>
 <pre><code class="ObjC">var namesOfIntegers = [Int: String]()
@@ -887,7 +887,222 @@ var person: [String: Any] = [<span class="string">"name"</span>: <span class="st
 <hr>
 <p>对于字典的一些基本操作：  </p>
 <pre><code class="ObjC">var namesOfIntegers = [Int: String]()
+
+<span class="comment">// 增/改</span>
+namesOfIntegers[<span class="number">1</span>] = <span class="string">"one"</span>
+namesOfIntegers[<span class="number">2</span>] = <span class="string">"two"</span>
+namesOfIntegers[<span class="number">3</span>] = <span class="string">"three"</span>
+
+<span class="comment">// 如果键不存在就新增，如果存在就修改</span>
+<span class="comment">// updateValue(_:forKey:)有返回值，返回更新值之前的原值</span>
+namesOfIntegers.updateValue(<span class="string">"Three"</span>, forKey: <span class="number">3</span>)  <span class="comment">// three</span>
+namesOfIntegers.updateValue(<span class="string">"Four"</span>, forKey: <span class="number">4</span>)  <span class="comment">// nil</span>
+
+<span class="comment">// 查（通过下标语法来获取键对应的值）</span>
+namesOfIntegers[<span class="number">4</span>]
+namesOfIntegers[<span class="number">5</span>]
+
+<span class="comment">// 删</span>
+namesOfIntegers[<span class="number">4</span>] = <span class="literal">nil</span>
+
+<span class="comment">// removeValue(forKey:)有返回值，返回被删除的值</span>
+namesOfIntegers.removeValue(forKey: <span class="number">3</span>)  <span class="comment">// Three</span>
+namesOfIntegers.removeValue(forKey: <span class="number">5</span>)  <span class="comment">// nil</span>
 </code></pre>
+<hr>
+<p>使用 for-in 循环来遍历字典中的键值对：   </p>
+<pre><code class="ObjC"><span class="keyword">for</span> (key, value) <span class="keyword">in</span> namesOfIntegers {
+    print(key)
+    print(value)
+}
+</code></pre>
+<hr>
+<p>通过访问字典的 <code>keys</code> 和 <code>values</code> 属性可以获取到字典所有的键和值。  </p>
+<p>Swift的字典类型是无序集合类型，为了以特定顺序遍历字典的键或值，可以对字典的 <code>keys</code> 或 <code>values</code> 属性使用 <code>sorted()</code> 函数。  </p>
+<hr>
+<h3 id="控制流"><a href="#控制流" class="headerlink" title="控制流"></a>控制流</h3><hr>
+<p>使用 <code>for-in</code> 循环来遍历一个集合中的所有元素，如数字范围、字符串中的字符、数组中的元素以及字典中的键值对等。   </p>
+<pre><code class="ObjC"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="number">1.</span>.<span class="number">.5</span> { }
+<span class="keyword">for</span> character <span class="keyword">in</span> string.characters { }
+<span class="keyword">for</span> name <span class="keyword">in</span> nameArray { }
+<span class="keyword">for</span> (key, value) <span class="keyword">in</span> infoDictionary { }
+</code></pre>
+<p>如果不需要区间序列内每一项的值，可以使用下划线 <code>_</code> 来忽略这个值。  </p>
+<pre><code class="ObjC"><span class="comment">// 打印5次</span>
+<span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">1.</span>.<span class="number">.5</span> { 
+    print(<span class="string">"Todd"</span>)
+}
+</code></pre>
+<hr>
+<p><code>while</code> 循环会一直运行一段语句直到条件变成false。这类循环适合使用在迭代次数未知的情况下。   </p>
+<p>Swift提供两种 <code>while</code> 循环形式：   </p>
+<ul>
+<li><code>while</code> 循环。每次在循环开始时计算条件是否符合。   </li>
+<li><code>repeat - while</code> 循环。每次在循环结束时计算条件是否符合。  </li>
+</ul>
+<hr>
+<p>Swift提供了两种条件分支语句：<code>if</code> 语句和 <code>switch</code> 语句。当条件较为简单且可能的情况很少时，使用 <code>if</code> 语句；当条件较复杂、有更多排列组合的时候 <code>switch</code> 语句更适用。并且，<code>switch</code>语句在需要用到模式匹配的情况下会更有用。   </p>
+<hr>
+<p><code>switch</code> 语句会尝试把某个值与若干个模式进行匹配。根据第一个匹配成功的模式，<code>switch</code> 语句会执行对应的代码。   </p>
+<hr>
+<p><code>switch</code> 语句必须是完备的。这就是说，每一个可能的值都必须至少有一个分支与之对应。在某些不可能涵盖所有值的情况下，可以使用默认分支来涵盖其他所有没有对应的值，这个默认分支必须在 <code>switch</code> 语句的最后面。  </p>
+<hr>
+<p>与C和Objective-C中的 <code>switch</code> 语句不同，在Swift中，当匹配的 <code>case</code> 分支中的代码执行完毕后，程序会立即终止 <code>switch</code> 语句，并不会继续执行下一个 <code>case</code> 分支。也就是说，不需要在 <code>case</code> 分支中显式的使用 <code>break</code> 语句。这使得 <code>switch</code> 语句更安全、更易用，也能避免因忘记写 <code>break</code> 语句而产生的错误。    </p>
+<p>如果想要显式贯穿 <code>case</code> 分支，可以使用 <code>fallthrough</code> 语句。  </p>
+<p>虽然在 <code>case</code> 语句后 <code>break</code> 不是必须的，但是依然可以在 <code>case</code> 分支中的代码执行完毕前使用  <code>break</code> 跳出 <code>switch</code> 语句。  </p>
+<hr>
+<p>每一个 <code>case</code> 分支都必须包含至少一条语句。像下面这样的代码是无效的，因为第一个 <code>case</code> 分支是空的：  </p>
+<pre><code class="ObjC">let character: Character = <span class="string">"a"</span>
+
+<span class="keyword">switch</span> character {
+<span class="keyword">case</span> <span class="string">"a"</span>:  <span class="comment">// 编译报错</span>
+<span class="keyword">case</span> <span class="string">"A"</span>:
+    print(<span class="string">"The letter is A"</span>)
+<span class="keyword">default</span>:
+    print(<span class="string">"Other letters"</span>)
+}
+</code></pre>
+<hr>
+<p>如上代码，为了让单个 <code>case</code> 同时匹配 <code>a</code> 和 <code>A</code>，可以将这两个值组成一个复合匹配，用逗号分开：    </p>
+<pre><code class="ObjC">let character: Character = <span class="string">"a"</span>
+
+<span class="keyword">switch</span> character {
+<span class="keyword">case</span> <span class="string">"a"</span>, <span class="string">"A"</span>:
+    print(<span class="string">"The letter is a/A"</span>)
+<span class="keyword">default</span>:
+    print(<span class="string">"Other letters"</span>)
+}
+</code></pre>
+<hr>
+<p><code>case</code> 分支的模式可以是一个值区间。  </p>
+<hr>
+<p>使用元组在同一个 switch 语句中匹配多个值。元组中的元素可以是值，也可以是区间。还可以使用下划线 <code>_</code> 来匹配所有可能的值。  </p>
+<pre><code class="ObjC">let point = (<span class="number">0</span>, <span class="number">1</span>)
+
+<span class="keyword">switch</span> point {
+<span class="keyword">case</span> (<span class="number">0</span>, <span class="number">0</span>):
+    print(<span class="string">"origin"</span>)
+<span class="keyword">case</span> (_, <span class="number">0</span>):
+    print(<span class="string">"x axis"</span>)
+<span class="keyword">case</span> (<span class="number">0</span>, _):
+    print(<span class="string">"y axis"</span>)
+<span class="keyword">case</span> (<span class="number">-2.</span>.<span class="number">.2</span>, <span class="number">-2.</span>.<span class="number">.2</span>):
+    print(<span class="string">"inside the 4*4 box"</span>)
+<span class="keyword">default</span>:
+    print(<span class="string">"outside the 4*4 box"</span>)
+}
+</code></pre>
+<p>从这个例子中可以看出，Swift允许多个 <code>case</code> 匹配同一个值。但是，如果存在多个匹配，那么只会执行第一个被匹配到的 <code>case</code> 分支，剩下分支都会被忽视掉。  </p>
+<hr>
+<p><code>case</code> 分支允许将匹配的值绑定到一个临时的常量或变量，并且在 <code>case</code> 分支体内使用 —— 这种行为被称为值绑定 <code>value binding</code>。   </p>
+<pre><code class="ObjC">let point = (<span class="number">2</span>, <span class="number">0</span>)
+
+<span class="keyword">switch</span> point {
+<span class="keyword">case</span> (let x, <span class="number">0</span>):
+    print(<span class="string">"x axis and x is \(x)"</span>)
+<span class="keyword">case</span> (<span class="number">0</span>, let y):
+    print(<span class="string">"y axis and y is \(y)"</span>)
+<span class="keyword">case</span> let (x, y):
+    print(<span class="string">"x is \(x) and y is \(y)"</span>)
+}
+</code></pre>
+<p>可以看到，这个 <code>switch</code> 语句不包含默认分支。这是因为最后一个 <code>case</code> 声明了一个可以匹配余下所有值的元组。这使得 <code>switch</code> 语句已经完备了，因此不需要默认分支。  </p>
+<hr>
+<p><code>case</code> 分支的模式可以使用 <code>where</code> 语句来判断额外的条件。  </p>
+<pre><code class="ObjC">let point = (<span class="number">2</span>, <span class="number">2</span>)
+
+<span class="keyword">switch</span> point {
+<span class="keyword">case</span> let (x, y) where x == y:
+    print(<span class="string">"on the line x = y"</span>)
+<span class="keyword">case</span> let (x, y) where x == -y:
+    print(<span class="string">"on the line x = -y"</span>)
+<span class="keyword">case</span> let (x, y):
+    print(<span class="string">"x is \(x) and y is \(y)"</span>)
+}
+</code></pre>
+<hr>
+<p>当多个条件可以使用同一种方法来处理时，可以将这几种可能放在同一个 <code>case</code> 后面，并且用逗号隔开。当 <code>case</code> 后面的任意一种模式匹配的时候，这条分支就会被匹配。并且，如果匹配列表过长，还可以分行书写。   </p>
+<pre><code class="ObjC">let character: Character = <span class="string">"e"</span>
+
+<span class="keyword">switch</span> character {
+<span class="keyword">case</span> <span class="string">"a"</span>, <span class="string">"e"</span>, <span class="string">"i"</span>, <span class="string">"o"</span>, <span class="string">"u"</span>:
+    print(<span class="string">"\(character) is a vowel"</span>)
+<span class="keyword">case</span> <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"f"</span>, <span class="string">"g"</span>, <span class="string">"h"</span>, <span class="string">"j"</span>, <span class="string">"k"</span>, <span class="string">"l"</span>, <span class="string">"m"</span>,
+     <span class="string">"n"</span>, <span class="string">"p"</span>, <span class="string">"q"</span>, <span class="string">"r"</span>, <span class="string">"s"</span>, <span class="string">"t"</span>, <span class="string">"v"</span>, <span class="string">"w"</span>, <span class="string">"x"</span>, <span class="string">"y"</span>,
+     <span class="string">"z"</span>:
+    print(<span class="string">"\(character) is a consonant"</span>)
+<span class="keyword">default</span>:
+    print(<span class="string">"\(character) is not a vowel or a consonant"</span>)
+}
+</code></pre>
+<hr>
+<p>控制转移语句可以改变代码的执行顺序，通过它可以实现代码的跳转。Swift有五种控制转移语句：  </p>
+<ul>
+<li><code>continue</code>：告诉一个循环体立刻停止本次循环，重新开始下次循环，但并不会离开整个循环体。    </li>
+<li><code>break</code>：会立刻结束整个控制流的执行。如果想要更早的结束一个 <code>switch</code> 代码块或者一个循环体时，可以使用 <code>break</code> 语句。  </li>
+<li><code>fallthrough</code>   </li>
+<li><code>return</code>  </li>
+<li><code>throw</code>   </li>
+</ul>
+<hr>
+<p>在Swift中，可以在循环体和条件语句中嵌套循环体和条件语句来创造复杂的控制流结构。并且循环体和条 件语句都可以使用 <code>break</code> 语句来提前结束整个代码块。因此，显式地指明 <code>break</code> 语句想要终止的是哪个循环体或者条件语句会很有用。类似地，如果你有许多嵌套的循环体，显式指明 <code>continue</code> 语句想要影响哪一个循环体也会非常有用。  </p>
+<p>为了实现这个目的，可以使用标签来标记一个循环体或者条件语句，对于一个条件语句，可以使用 <code>break</code> 加标签的方式来结束这个被标记的语句。对于一个循环语句，可以使用 <code>break</code> 或者 <code>continue</code> 加标签来结束或者继续这条被标记语句的执行。  </p>
+<p>声明一个带标签的语句是通过在该语句的关键词的同一行前面放置一个标签作为这个语句的前导关键字，并且该标签后面跟一个冒号。下面是一个针对 <code>while</code> 循环体的标签语法，同样的规则适用于所有的循环体和条件语句。</p>
+<pre><code class="ObjC"><span class="comment">// 格式</span>
+labelName: <span class="keyword">while</span> condition {
+    statements
+}
+
+<span class="comment">// 例子</span>
+oneRoop: <span class="keyword">while</span> <span class="literal">true</span> {
+    twoRoop: <span class="keyword">while</span> <span class="literal">true</span> {
+        var i = Int(arc4random_uniform(<span class="number">10</span>))
+        var j = Int(arc4random_uniform(<span class="number">10</span>))
+        <span class="keyword">if</span> i == <span class="number">5</span> {
+            <span class="keyword">break</span> oneRoop
+        }
+        <span class="keyword">if</span> j == <span class="number">5</span> {
+            <span class="keyword">break</span> twoRoop
+        }
+    }
+}
+</code></pre>
+<hr>
+<p>像 <code>if</code> 语句一样，<code>guard</code> 的执行取决于其后表达式的布尔值。使用 <code>guard</code> 语句来要求条件必须为真时，以执行 <code>guard</code> 语句后的代码。不同于 <code>if</code> 语句，一个 <code>guard</code> 语句总是有一个 <code>else</code> 从句，如果条件不为真则执行 <code>else</code> 从句中的代码。   </p>
+<p>如果 <code>guard</code> 语句的条件被满足，则继续执行 <code>guard</code> 语句大括号后的代码。如果条件不被满足，在 <code>else</code> 分支上的代码就会被执行。这个分支必须转移控制以退出 <code>guard</code> 语句出现的代码段。它可以用控制转移语句如 <code>return</code>，<code>break</code>，<code>continue</code> 以及 <code>throw</code>，或者调用一个不返回的方法或函 数，例如 <code>fatalError()</code>。   </p>
+<p>相比于可以实现同样功能的 <code>if</code> 语句，使用 <code>guard</code> 语句会提升代码的可读性。它可以使代码连贯的被执行而不需要将它包含在 <code>else</code> 语句块中。  </p>
+<pre><code class="ObjC">func greet(person: [String: String]) {
+    guard let name = person[<span class="string">"name"</span>] <span class="keyword">else</span> { <span class="keyword">return</span> }
+    print(<span class="string">"Hello \(name)"</span>)
+    guard let location = person[<span class="string">"location"</span>] <span class="keyword">else</span> { <span class="keyword">return</span> }
+    print(<span class="string">"I hope the weather is nice in \(location)."</span>)
+}
+</code></pre>
+<hr>
+<p>在Swift开发中，为了适配不同的操作系统版本，有时候必须要对API的兼容性做处理。  </p>
+<p>在Objective-C中，通常采用如下三种方式：   </p>
+<pre><code class="ObjC"><span class="keyword">if</span> ([<span class="built_in">UIDevice</span> currentDevice].systemVersion.intValue &gt;= <span class="number">8</span>) { }
+
+<span class="keyword">if</span> (<span class="keyword">self</span> respondsToSelector:<span class="keyword">@selector</span>(xxxAPI)) { }
+
+<span class="meta">#if __IPHONE_OS_VERSION_MIN_REQUIRED &gt;= 70000</span>
+    xxxx
+<span class="meta">#else</span>
+    xxxx
+<span class="meta">#endif</span>
+</code></pre>
+<p>对Swift来说，我们可以在 <code>if</code> 或 <code>guard</code> 条件语句中使用可用性条件 <code>#available</code> 在运行时判断不同的平台下，做不同的逻辑处理。  </p>
+<pre><code class="ObjC"><span class="keyword">if</span> <span class="meta">#available(iOS 10.0, *) {</span>
+    <span class="comment">// iOS10及更高的系统下运行</span>
+} <span class="keyword">else</span> { 
+    <span class="comment">// iOS10以下系统下运行 </span>
+}
+
+guard <span class="meta">#available(iOS 9.0, *) else { return xxx }</span>
+</code></pre>
+<p>最后一个参数 <code>*</code> 是必须的，用于指定在所有其它平台中（如 <code>macOS</code>，<code>watchOS</code>，<code>tvOS</code> 等）。  </p>
+<hr>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><hr>
 
       
     </div>
@@ -1061,7 +1276,7 @@ var person: [String: Any] = [<span class="string">"name"</span>: <span class="st
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li></ol></div>
             
           </div>
         </section>
