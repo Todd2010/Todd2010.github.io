@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-30T09:03:29.000Z">
+<meta property="og:updated_time" content="2016-11-30T09:20:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -1286,7 +1286,8 @@ var reversedNames01 = names.sorted(by: { (s1: String, s2: String) -&gt; Bool <sp
 })
 
 <span class="comment">// 根据上下文推断闭包表达式的参数和返回值类型</span>
-<span class="comment">// 因为排序闭包函数是作为sorted(by:)函数的参数传入的，因此，Swift可以推断其参数和返回值的类型。sorted(by:)函数被一个字符串数组调用，因此其参数必定是 (String, String) -&gt; Bool 类型。</span>
+<span class="comment">// 因为排序闭包函数是作为sorted(by:)函数的参数传入的，因此，Swift可以推断其参数和返回值的类型。</span>
+<span class="comment">// sorted(by:)函数被一个字符串数组调用，因此其参数必定是 (String, String) -&gt; Bool 类型。</span>
 let reversedNames02 = names.sorted(by: { s1 , s2 <span class="keyword">in</span> <span class="keyword">return</span> s1 &gt; s2 })
 
 
@@ -1296,7 +1297,8 @@ let reversedNames03 = names.sorted(by: { s1 , s2 <span class="keyword">in</span>
 <span class="comment">// Swift为内联闭包提供了参数名称缩写功能，你可以直接通过 $0，$1，$2 等来顺序调用闭包的参数</span>
 let reversedNames04 = names.sorted(by: { $<span class="number">0</span> &gt; $<span class="number">1</span> })
 
-<span class="comment">// Swift的String类型定义了关于大于号（ &gt; ）的字符串实现，其作为一个函数接受两个String类型的参数并返回Bool类型的值。而这正好与sorted(by:)函数的参数需要的函数类型相符合。</span>
+<span class="comment">// Swift的String类型定义了关于大于号（ &gt; ）的字符串实现，其作为一个函数接受两个String类型的参数并返回Bool类型的值。</span>
+<span class="comment">// 而这正好与sorted(by:)函数的参数需要的函数类型相符合。</span>
 let reversedNames05 = names.sorted(by: &gt;)
 
 <span class="comment">// 如果你需要将一个很长的闭包表达式作为最后一个参数传递给函数，可以使用尾随闭包来增强函数的可读性。</span>
