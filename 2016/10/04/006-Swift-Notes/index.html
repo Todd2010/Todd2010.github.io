@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-30T03:35:30.000Z">
+<meta property="og:updated_time" content="2016-11-30T09:03:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -351,8 +351,8 @@ let b = <span class="built_in">UInt8</span>.min  <span class="comment">// b的�
 <hr>
 <p>Swift提供了两种浮点数类型：  </p>
 <ul>
-<li><code>Double</code> 表示64位浮点数。可以精确到小数点后15位。   </li>
-<li><code>Float</code> 表示32位浮点数。可以精确到小数点后6位。  </li>
+<li><code>Double</code> 表示64位浮点数。可以保证精确到小数点后15位。   </li>
+<li><code>Float</code> 表示32位浮点数。可以保证精确到小数点后6位。  </li>
 </ul>
 <pre><code class="ObjC">let a = <span class="number">1.01234567890123456789</span>
 let b = <span class="number">1.0123456789012345</span>
@@ -1262,6 +1262,129 @@ nothing(<span class="number">3</span>, <span class="number">5</span>)  <span cla
 <li>闭包表达式是一个利用轻量级语法所写的并且可以捕获其上下文中变量和常量值的匿名闭包。  </li>
 </ul>
 <hr>
+<p>闭包表达式的标准形式：  </p>
+<pre><code class="ObjC">{ (parameters) -&gt; returnType <span class="keyword">in</span> 
+    statement
+}
+</code></pre>
+<p>闭包的函数体部分由关键字 <code>in</code> 引入，该关键字表示闭包的参数和返回值类型定义已经完成，闭包的函数体部分即将开始。   </p>
+<hr>
+<p>闭包表达式提供了一些语法优化，使得撰写闭包变得简单明了。下面通过对一个例子的几次迭代来展示闭包表达式的语法优化。  </p>
+<p>Swift的标准库提供了一个 <code>sorted(by:)</code> 函数，该函数接收一个闭包作为其参数，对数组中的值进行排序，最终返回一个排序好的新数组。员数组不会被修改。   </p>
+<p><code>sorted(by:)</code> 函数接收一个 <code>(Element, Element) -&gt; Bool</code> 类型的闭包，该闭包需要两个参数，并返回一个布尔值来表明第一个参数与第二个参数前后位置。    </p>
+<pre><code class="ObjC">let names = [<span class="string">"Todd"</span>, <span class="string">"Chris"</span>, <span class="string">"Alex"</span>, <span class="string">"Barry"</span>, <span class="string">"Eric"</span>]
+
+<span class="comment">// 提供一个符合sorted(by:)函数中闭包参数类型的普通函数</span>
+func backward(s1: String, s2: String) -&gt; Bool {
+    <span class="keyword">return</span> s1 &gt; s2
+}
+names.sorted(by: backward)
+
+<span class="comment">// 利用标准的闭包表达式语法构建一个内联排序闭包</span>
+var reversedNames01 = names.sorted(by: { (s1: String, s2: String) -&gt; Bool <span class="keyword">in</span>
+    <span class="keyword">return</span> s1 &gt; s2
+})
+
+<span class="comment">// 根据上下文推断闭包表达式的参数和返回值类型</span>
+<span class="comment">// 因为排序闭包函数是作为sorted(by:)函数的参数传入的，因此，Swift可以推断其参数和返回值的类型。sorted(by:)函数被一个字符串数组调用，因此其参数必定是 (String, String) -&gt; Bool 类型。</span>
+let reversedNames02 = names.sorted(by: { s1 , s2 <span class="keyword">in</span> <span class="keyword">return</span> s1 &gt; s2 })
+
+
+<span class="comment">// 单行表达式闭包可以通过省略 return 关键字来隐式返回单行表达式的结果</span>
+let reversedNames03 = names.sorted(by: { s1 , s2 <span class="keyword">in</span> s1 &gt; s2 })
+
+<span class="comment">// Swift为内联闭包提供了参数名称缩写功能，你可以直接通过 $0，$1，$2 等来顺序调用闭包的参数</span>
+let reversedNames04 = names.sorted(by: { $<span class="number">0</span> &gt; $<span class="number">1</span> })
+
+<span class="comment">// Swift的String类型定义了关于大于号（ &gt; ）的字符串实现，其作为一个函数接受两个String类型的参数并返回Bool类型的值。而这正好与sorted(by:)函数的参数需要的函数类型相符合。</span>
+let reversedNames05 = names.sorted(by: &gt;)
+
+<span class="comment">// 如果你需要将一个很长的闭包表达式作为最后一个参数传递给函数，可以使用尾随闭包来增强函数的可读性。</span>
+<span class="comment">// 尾随闭包是一个书写在函数括号之后的闭包表达式，函数支持将其作为最后一个参数调用。</span>
+let reversedNames06 = names.sorted() { $<span class="number">0</span> &gt; $<span class="number">1</span> }
+
+<span class="comment">// 如果闭包表达式是函数的唯一参数，则当你使用尾随闭包时，还可以把 () 省略掉</span>
+let reversedNames07 = names.sorted { $<span class="number">0</span> &gt; $<span class="number">1</span> }
+</code></pre>
+<hr>
+<p>闭包可以在其被定义的上下文中捕获常量和变量，即使这些常量和变量的原作用域已经不存在了，闭包仍然可以在函数体内引用和修改这些值。    </p>
+<p>在Swift中，可以捕获值的闭包的最简单的形式就是嵌套函数。嵌套函数可以捕获其外部函数的所有参数已经定义的常量和变量。  </p>
+<pre><code class="ObjC">func makeIncrementer(amonut: Int) -&gt; () -&gt; Int {
+    var totalNumber = <span class="number">0</span>
+    func incrementer() -&gt; Int {
+        totalNumber += amonut
+        <span class="keyword">return</span> totalNumber
+    }
+    <span class="keyword">return</span> incrementer
+}
+
+let incrementByTen = makeIncrementer(amonut: <span class="number">10</span>)
+incrementByTen()  <span class="comment">// 10</span>
+incrementByTen()  <span class="comment">// 20</span>
+
+let incrementBySeven = makeIncrementer(amonut: <span class="number">7</span>)
+incrementBySeven()  <span class="comment">// 7</span>
+incrementBySeven()  <span class="comment">// 14</span>
+</code></pre>
+<hr>
+<p>函数和闭包都是引用类型。也就是说，无论你将函数或闭包赋值给一个常量还是变量，实际上你都是将常量或变量的值设置为对应函数或闭包的引用。   </p>
+<pre><code class="ObjC">let incrementByTen = makeIncrementer(amonut: <span class="number">10</span>)
+incrementByTen()  <span class="comment">// 10</span>
+incrementByTen()  <span class="comment">// 20</span>
+
+let alsoIncrementByTen = incrementByTen
+alsoIncrementByTen()  <span class="comment">// 30</span>
+incrementByTen()  <span class="comment">// 40</span>
+</code></pre>
+<hr>
+<p>当一个闭包作为参数传递到一个函数中，但是这个闭包在函数返回之后才被执行，我们称该闭包从函数中逃逸。当遇到这种情况时，可以在闭包参数名之前加上标注 <code>@escaping</code>，用来指明这个闭包是允许逃逸出这个函数的。  </p>
+<pre><code class="ObjC">func doSomething(justPrintSomething: @escaping (String) -&gt; Void) -&gt; Void {
+    print(<span class="string">"在主线程中做一部分事情，准备开启一个子线程做其余事情"</span>)
+    DispatchQueue.global().async {
+        print(<span class="string">"开启一个子线程做事情"</span>)
+        DispatchQueue.main.async {
+            print(<span class="string">"做完事情回到主线程"</span>)
+            print(<span class="string">"执行闭包"</span>)
+            justPrintSomething(<span class="string">"数据"</span>)
+        }
+    }
+}
+
+doSomething { (resultString: String) <span class="keyword">in</span>
+    print(<span class="string">"传递出来的结果：\(resultString)"</span>)
+}
+
+<span class="comment">/*
+在主线程中做一部分事情，准备开启一个子线程做其余事情
+开启一个子线程做事情
+做完事情回到主线程
+执行闭包
+传递出来的结果：数据
+*/</span>
+</code></pre>
+<hr>
+<p>将一个闭包标记为 <code>@escaping</code> 意味着你必须在闭包中显式地引用 <code>self</code>。  </p>
+<hr>
+<p><code>@autoclosure</code> 关键字用来修饰函数的闭包类型的参数，并且这种闭包的类型只能是 <code>() -&gt; T</code> 这种类型。在调用的时候，闭包可以用对应的表达式来代替，Swift会自动把对应的表达式转化成闭包样式。这种便利语法让你能够省略闭包的花括号，用一个普通的表达式来代替显式的闭包。   </p>
+<pre><code class="ObjC"><span class="comment">// 普通函数</span>
+func logIfTrue(_ predicate: () -&gt; Bool) {
+    <span class="keyword">if</span> predicate() {
+        print(<span class="string">"log something"</span>)
+    }
+}
+logIfTrue{ <span class="number">2</span> &gt; <span class="number">1</span> }
+
+<span class="comment">// 用 @autoclosure 修饰闭包参数的函数</span>
+func logIfTrue(_ predicate: @autoclosure () -&gt; Bool) {
+    <span class="keyword">if</span> predicate() {
+        print(<span class="string">"log something"</span>)
+    }
+}
+logIfTrue( <span class="number">2</span> &gt; <span class="number">1</span> )  <span class="comment">// Swift会自动把 2 &gt; 1 这个表达式转化为 () -&gt; Bool 类型的闭包</span>
+</code></pre>
+<p>自动闭包 <code>@autoclosure</code> 最有用的地方就是延迟求值，因为直到你调用这个闭包，代码段才会被执行。延迟求值对于那些耗时操作或高计算成本的代码来说是很有益处的，因为它使得你能控制代码的执行时机。Swift标准库中的 <code>??</code>，<code>&amp;&amp;</code>，<code>||</code> 等有用到这个特性。   </p>
+<hr>
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><hr>
 
       
     </div>
@@ -1439,7 +1562,7 @@ nothing(<span class="number">3</span>, <span class="number">5</span>)  <span cla
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li></ol></div>
             
           </div>
         </section>
