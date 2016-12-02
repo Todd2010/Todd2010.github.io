@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-02T03:19:36.000Z">
+<meta property="og:updated_time" content="2016-12-02T08:02:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -1392,6 +1392,143 @@ logIfTrue( <span class="number">2</span> &gt; <span class="number">1</span> )  <
 <p>自动闭包 <code>@autoclosure</code> 最有用的地方就是延迟求值，因为直到你调用这个闭包，代码段才会被执行。延迟求值对于那些耗时操作或高计算成本的代码来说是很有益处的，因为它使得你能控制代码的执行时机。Swift标准库中的 <code>??</code>，<code>&amp;&amp;</code>，<code>||</code> 等操作符的实现就用到了这个特性。   </p>
 <hr>
 <h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><hr>
+<p>枚举为一组相关的值定义了一个共同的类型，可以让你在代码中以类型安全的方式来使用这些值。   </p>
+<hr>
+<p>在Swift中，枚举是一等类型。    </p>
+<p>Swift中的枚举非常灵活，不必给每一个枚举成员提供一个值。如果想要给枚举成员提供一个值（原始值），则该值的类型可以是整型、浮点型、字符型和字符串型。   </p>
+<p>Swift中的枚举采用了很多只被类所支持的特性，比如计算属性，用来提供枚举值的附加信息；构造函数，用来提供一个初始值；实例方法，用来提供和枚举值相关联的功能；还可以遵守协议来提供标准的功能；还可以在原始实现的基础上扩展枚举的功能。   </p>
+<hr>
+<pre><code class="ObjC"><span class="keyword">enum</span> Direction {
+    <span class="keyword">case</span> north
+    <span class="keyword">case</span> south
+    <span class="keyword">case</span> east
+    <span class="keyword">case</span> west
+}
+
+var direction = Direction.north
+direction = . east
+</code></pre>
+<p><code>Direction</code> 枚举类型中定义的值 <code>north</code>，<code>south</code>，<code>east</code>，<code>west</code> 是这个枚举的成员值。  </p>
+<p>与C和Objective-C不同的是，Swift中的枚举成员在被创建的时候没有默认的整型值，这些枚举的成员值本身就是完备的值，这些值的类型是已经明确定义好的 <code>Direction</code> 类型。   </p>
+<p>每个枚举定义了一个全新的类型，就像是Swift中的其他类型一样。枚举的名字应该以大写字母开头，并且最好给枚举的名字起一个单数名字。  </p>
+<hr>
+<p>使用 switch 语句来来匹配单个枚举值。<br>在判断一个枚举类值时，switch语句必须穷举所有情况。强制穷举能确保枚举成员不会被意外遗漏。  </p>
+<pre><code class="ObjC">var direction = Direction.north
+
+<span class="keyword">switch</span> direction {
+<span class="keyword">case</span> .north:
+    print(<span class="string">"North"</span>)
+<span class="keyword">case</span> .south:
+    print(<span class="string">"South"</span>)
+<span class="keyword">case</span> .east:
+    print(<span class="string">"East"</span>)
+<span class="keyword">case</span> .west:
+    print(<span class="string">"West"</span>)
+}
+</code></pre>
+<hr>
+<p>枚举成员可以指定任意类型的关联值存储在枚举成员中，且同一个枚举中不同的枚举成员可以有不同类型的关联值。      </p>
+<p>枚举的关联值主要作用在于让你在存储成员值的同时还存储额外的自定义信息，并且当你在代码中使用该枚举成员时，还可以修改这个关联值。</p>
+<pre><code class="ObjC"><span class="comment">// 某个系统的设置信息</span>
+<span class="keyword">enum</span> Setting {
+    <span class="keyword">case</span> string(String)
+    <span class="keyword">case</span> <span class="keyword">int</span>(Int)
+    <span class="keyword">case</span> <span class="keyword">bool</span>(Bool)
+}  
+
+<span class="comment">// 商品的两种不同类型的条形码</span>
+<span class="keyword">enum</span> Barcode { 
+    <span class="keyword">case</span> upc(Int, Int, Int, Int) 
+    <span class="keyword">case</span> qrCode(String)
+}
+
+var productBarcode = Barcode.upc(<span class="number">8</span>, <span class="number">85909</span>, <span class="number">51226</span>, <span class="number">3</span>)
+productBarcode = .qrCode(<span class="string">"ABCDEFGHIJKLMNOP"</span>)
+
+<span class="keyword">switch</span> productBarcode { 
+<span class="keyword">case</span> let .upc(numberSystem, manufacturer, product, check): 
+    print(<span class="string">"UPC: \(numberSystem), \(manufacturer), \(product), \(check)."</span>)
+<span class="keyword">case</span> .qrCode(let productCode):
+    print(<span class="string">"QR code: \(productCode)."</span>) 
+}
+</code></pre>
+<hr>
+<p>枚举成员可以被默认值（原始值）预填充，这些原始值的类型必须相同。  </p>
+<pre><code class="ObjC"><span class="keyword">enum</span> AS<span class="built_in">CIIControlCharacter</span>: Character { 
+    <span class="keyword">case</span> tab = <span class="string">"\t"</span> 
+    <span class="keyword">case</span> lineFeed = <span class="string">"\n"</span> 
+    <span class="keyword">case</span> carriageReturn = <span class="string">"\r"</span> 
+}
+</code></pre>
+<p>原始值和关联值是不同的。原始值是在定义枚举时被预先填充的值，如上面三个字符类型的ASCII码。对于一个特定的枚举成员，它的原始值始终不变。关联值是在创建一个基于枚举成员的常量或变量时才设置的值，枚举成员的关联值是可以变化的。  </p>
+<hr>
+<p>原始值的隐式赋值：如果枚举类型在定义的时候被声明为整型和字符串类型时，不需要显示地为每一个枚举成员设置原始值，Swift会自动赋值。  </p>
+<pre><code class="ObjC"><span class="comment">// 不给成员值赋原始值（整型）</span>
+<span class="keyword">enum</span> Month: Int {
+    <span class="keyword">case</span> January, February, March, April, May, June,
+         July, August, September, October, November, December
+}
+let a: Month = .February
+a.rawValue  <span class="comment">// 1</span>
+
+<span class="comment">// 只给第一个成员值赋原始值（整型）</span>
+<span class="keyword">enum</span> Month: Int {
+    <span class="keyword">case</span> January = <span class="number">1</span>, February, March, April, May, June,
+         July, August, September, October, November, December
+}
+let a: Month = .February
+a.rawValue  <span class="comment">// 2</span>
+
+<span class="comment">// 不给成员值赋原始值（字符串）</span>
+<span class="comment">// 字符串类型的隐式原始值为该枚举成员的名称</span>
+<span class="keyword">enum</span> Month: String {
+    <span class="keyword">case</span> January, February, March, April, May, June,
+         July, August, September, October, November, December
+}
+let a: Month = .February
+a.rawValue  <span class="comment">// February</span>
+</code></pre>
+<hr>
+<p>使用原始值初始化枚举实例：如果在定义枚举类型的时候显示或者隐式地使用了原始值，那么Swift会自动为该枚举类型生成一个初始化方法，这个方法接受一个 <code>rawValue</code> 的参数，返回一个可选类型的枚举值。  </p>
+<pre><code class="ObjC"><span class="keyword">enum</span> Month: Int {
+    <span class="keyword">case</span> January, February, March, April, May, June,
+         July, August, September, October, November, December
+}
+let a: Month? = Month(rawValue: <span class="number">3</span>)  <span class="comment">// Optional(Month.April)</span>
+</code></pre>
+<hr>
+<p>递归枚举是一种枚举类型，它有一个或多个成员使用该枚举类型本身的实例作为关联值。  </p>
+<p>在枚举成员前加上 <code>indirect</code> 来表示该成员可递归。  </p>
+<pre><code class="ObjC"><span class="comment">// 该枚举类型存储三种算术表达式：纯数字、两个表达式相加、两个表达式相乘。</span>
+<span class="keyword">enum</span> ArithmeticExpression { 
+    <span class="keyword">case</span> number(Int) 
+    indirect <span class="keyword">case</span> addition(ArithmeticExpression, ArithmeticExpression) 
+    indirect <span class="keyword">case</span> multiplication(ArithmeticExpression, ArithmeticExpression) 
+}
+
+<span class="comment">// 表达式：(5 + 4) * 2</span>
+let five = ArithmeticExpression.number(<span class="number">5</span>) 
+let four = ArithmeticExpression.number(<span class="number">4</span>) 
+let two = ArithmeticExpression.number(<span class="number">2</span>)
+let sum = ArithmeticExpression.addition(five, four) 
+let result = ArithmeticExpression.multiplication(sum, two) 
+
+<span class="comment">// 要操作具有递归性质的数据结构，使用递归函数是一种直截了当的方式。</span>
+func evaluate(_ expression: ArithmeticExpression) -&gt; Int { 
+    <span class="keyword">switch</span> expression { 
+    <span class="keyword">case</span> let .number(value):
+        <span class="keyword">return</span> value 
+    <span class="keyword">case</span> let .addition(left, right):
+        <span class="keyword">return</span> evaluate(left) + evaluate(right) 
+    <span class="keyword">case</span> let .multiplication(left, right):
+        <span class="keyword">return</span> evaluate(left) * evaluate(right) 
+    }
+}
+
+evaluate(result)  <span class="comment">// 18</span>
+</code></pre>
+<hr>
+<h3 id="类和结构体"><a href="#类和结构体" class="headerlink" title="类和结构体"></a>类和结构体</h3><hr>
 
       
     </div>
@@ -1569,7 +1706,7 @@ logIfTrue( <span class="number">2</span> &gt; <span class="number">1</span> )  <
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li></ol></div>
             
           </div>
         </section>
