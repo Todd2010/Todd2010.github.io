@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-02T08:02:27.000Z">
+<meta property="og:updated_time" content="2016-12-02T08:17:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -1410,9 +1410,9 @@ direction = . east
 </code></pre>
 <p><code>Direction</code> 枚举类型中定义的值 <code>north</code>，<code>south</code>，<code>east</code>，<code>west</code> 是这个枚举的成员值。  </p>
 <p>与C和Objective-C不同的是，Swift中的枚举成员在被创建的时候没有默认的整型值，这些枚举的成员值本身就是完备的值，这些值的类型是已经明确定义好的 <code>Direction</code> 类型。   </p>
-<p>每个枚举定义了一个全新的类型，就像是Swift中的其他类型一样。枚举的名字应该以大写字母开头，并且最好给枚举的名字起一个单数名字。  </p>
+<p>每个枚举定义了一个全新的类型，就像是Swift中的其他类型一样。枚举的名字应该以大写字母开头，且最好是单数形式。  </p>
 <hr>
-<p>使用 switch 语句来来匹配单个枚举值。<br>在判断一个枚举类值时，switch语句必须穷举所有情况。强制穷举能确保枚举成员不会被意外遗漏。  </p>
+<p>使用 <code>switch</code> 语句来匹配单个枚举值。<br>在判断一个枚举类值时，<code>switch</code> 语句必须穷举所有情况。强制穷举能确保枚举成员不会被意外遗漏。  </p>
 <pre><code class="ObjC">var direction = Direction.north
 
 <span class="keyword">switch</span> direction {
@@ -1428,7 +1428,7 @@ direction = . east
 </code></pre>
 <hr>
 <p>枚举成员可以指定任意类型的关联值存储在枚举成员中，且同一个枚举中不同的枚举成员可以有不同类型的关联值。      </p>
-<p>枚举的关联值主要作用在于让你在存储成员值的同时还存储额外的自定义信息，并且当你在代码中使用该枚举成员时，还可以修改这个关联值。</p>
+<p>枚举关联值的主要作用是让你在存储成员值的同时还能存储额外的自定义信息，并且当你在代码中使用该枚举成员时，还可以修改这个关联值。</p>
 <pre><code class="ObjC"><span class="comment">// 某个系统的设置信息</span>
 <span class="keyword">enum</span> Setting {
     <span class="keyword">case</span> string(String)
