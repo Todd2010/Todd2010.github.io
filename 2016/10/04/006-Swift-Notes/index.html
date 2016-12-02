@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-11-30T09:20:42.000Z">
+<meta property="og:updated_time" content="2016-12-02T02:42:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -1210,7 +1210,18 @@ func multiplyTwoInts(_ a: Int, _ b: Int) -&gt; Int {
 <p>上面这个函数的类型为 <code>() -&gt; Void</code>。</p>
 <hr>
 <p>可以把函数类型当做普通的类型一样来处理，比如可以把一个函数当做其他函数的参数，也能当做其他函数的返回值等等。    </p>
-<pre><code class="ObjC"><span class="comment">// 把函数类型当做普通类型</span>
+<pre><code class="ObjC">func addTwoInts(_ a: Int, _ b: Int) -&gt; Int {
+    <span class="keyword">return</span> a + b
+}
+
+func multiplyTwoInts(_ a: Int, _ b: Int) -&gt; Int {
+    <span class="keyword">return</span> a * b
+}
+func zeroResult(_ a: Int, _ b: Int) -&gt; Int {
+    <span class="keyword">return</span> <span class="number">0</span>
+}
+
+<span class="comment">// 把函数类型当做普通类型</span>
 var mathFunction: (Int, Int) -&gt; Int
 mathFunction = addTwoInts
 mathFunction(<span class="number">3</span>, <span class="number">5</span>)  <span class="comment">// 8</span>
@@ -1221,7 +1232,7 @@ mathFunction(<span class="number">3</span>, <span class="number">5</span>)  <spa
 func printMathResult(_ mathFunction: (Int, Int) -&gt; Int, _ a: Int, _ b: Int) {
     print(<span class="string">"Result: \(mathFunction(a, b))"</span>)
 }
-printMathResult(addTwoInts, <span class="number">3</span>, <span class="number">5</span>)  <span class="comment">// 15</span>
+printMathResult(addTwoInts, <span class="number">3</span>, <span class="number">5</span>)  <span class="comment">// Result: 8</span>
 
 
 <span class="comment">// 把函数类型当做返回值类型</span>
@@ -1238,12 +1249,7 @@ func printMathResult(addOrMultipl: String) -&gt; (Int, Int) -&gt; Int {
 
 let add = printMathResult(addOrMultipl: <span class="string">"add"</span>)  <span class="comment">// 获得具有加法功能的函数</span>
 let multiply = printMathResult(addOrMultipl: <span class="string">"multiply"</span>)  <span class="comment">// 获得具有乘法功能的函数</span>
-
-func zeroResult(_ a: Int, _ b: Int) -&gt; Int {
-    <span class="keyword">return</span> <span class="number">0</span>
-}
-<span class="comment">// 获得一个无论传什么参数，都返回0的函数</span>
-let nothing = printMathResult(addOrMultipl: <span class="string">"nothing"</span>)
+let nothing = printMathResult(addOrMultipl: <span class="string">"nothing"</span>)  <span class="comment">// // 获得一个无论传什么参数，都返回0的函数</span>
 
 add(<span class="number">3</span>, <span class="number">5</span>)  <span class="comment">// 8</span>
 multiply(<span class="number">3</span>, <span class="number">5</span>)  <span class="comment">// 15</span>
