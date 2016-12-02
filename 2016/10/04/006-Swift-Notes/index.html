@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Buddha's Temple">
 <meta property="og:description">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-02T02:42:49.000Z">
+<meta property="og:updated_time" content="2016-12-02T03:19:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description">
@@ -1276,7 +1276,7 @@ nothing(<span class="number">3</span>, <span class="number">5</span>)  <span cla
 <p>闭包的函数体部分由关键字 <code>in</code> 引入，该关键字表示闭包的参数和返回值类型定义已经完成，闭包的函数体部分即将开始。   </p>
 <hr>
 <p>闭包表达式提供了一些语法优化，使得撰写闭包变得简单明了。下面通过对一个例子的几次迭代来展示闭包表达式的语法优化。  </p>
-<p>Swift的标准库提供了一个 <code>sorted(by:)</code> 函数，该函数接收一个闭包作为其参数，对数组中的值进行排序，最终返回一个排序好的新数组。员数组不会被修改。   </p>
+<p>Swift的标准库提供了一个 <code>sorted(by:)</code> 函数，该函数接收一个闭包作为其参数，对数组中的值进行排序，最终返回一个排序好的新数组，原数组不会被修改。   </p>
 <p><code>sorted(by:)</code> 函数接收一个 <code>(Element, Element) -&gt; Bool</code> 类型的闭包，该闭包需要两个参数，并返回一个布尔值来表明第一个参数与第二个参数前后位置。    </p>
 <pre><code class="ObjC">let names = [<span class="string">"Todd"</span>, <span class="string">"Chris"</span>, <span class="string">"Alex"</span>, <span class="string">"Barry"</span>, <span class="string">"Eric"</span>]
 
@@ -1295,7 +1295,6 @@ var reversedNames01 = names.sorted(by: { (s1: String, s2: String) -&gt; Bool <sp
 <span class="comment">// 因为排序闭包函数是作为sorted(by:)函数的参数传入的，因此，Swift可以推断其参数和返回值的类型。</span>
 <span class="comment">// sorted(by:)函数被一个字符串数组调用，因此其参数必定是 (String, String) -&gt; Bool 类型。</span>
 let reversedNames02 = names.sorted(by: { s1 , s2 <span class="keyword">in</span> <span class="keyword">return</span> s1 &gt; s2 })
-
 
 <span class="comment">// 单行表达式闭包可以通过省略 return 关键字来隐式返回单行表达式的结果</span>
 let reversedNames03 = names.sorted(by: { s1 , s2 <span class="keyword">in</span> s1 &gt; s2 })
@@ -1316,7 +1315,7 @@ let reversedNames07 = names.sorted { $<span class="number">0</span> &gt; $<span 
 </code></pre>
 <hr>
 <p>闭包可以在其被定义的上下文中捕获常量和变量，即使这些常量和变量的原作用域已经不存在了，闭包仍然可以在函数体内引用和修改这些值。    </p>
-<p>在Swift中，可以捕获值的闭包的最简单的形式就是嵌套函数。嵌套函数可以捕获其外部函数的所有参数已经定义的常量和变量。  </p>
+<p>在Swift中，可以捕获值的闭包的最简单的形式就是嵌套函数。嵌套函数可以捕获其外部函数的所有参数以及定义的常量和变量。  </p>
 <pre><code class="ObjC">func makeIncrementer(amonut: Int) -&gt; () -&gt; Int {
     var totalNumber = <span class="number">0</span>
     func incrementer() -&gt; Int {
@@ -1390,7 +1389,7 @@ func logIfTrue(_ predicate: @autoclosure () -&gt; Bool) {
 }
 logIfTrue( <span class="number">2</span> &gt; <span class="number">1</span> )  <span class="comment">// Swift会自动把 2 &gt; 1 这个表达式转化为 () -&gt; Bool 类型的闭包</span>
 </code></pre>
-<p>自动闭包 <code>@autoclosure</code> 最有用的地方就是延迟求值，因为直到你调用这个闭包，代码段才会被执行。延迟求值对于那些耗时操作或高计算成本的代码来说是很有益处的，因为它使得你能控制代码的执行时机。Swift标准库中的 <code>??</code>，<code>&amp;&amp;</code>，<code>||</code> 等有用到这个特性。   </p>
+<p>自动闭包 <code>@autoclosure</code> 最有用的地方就是延迟求值，因为直到你调用这个闭包，代码段才会被执行。延迟求值对于那些耗时操作或高计算成本的代码来说是很有益处的，因为它使得你能控制代码的执行时机。Swift标准库中的 <code>??</code>，<code>&amp;&amp;</code>，<code>||</code> 等操作符的实现就用到了这个特性。   </p>
 <hr>
 <h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><hr>
 
