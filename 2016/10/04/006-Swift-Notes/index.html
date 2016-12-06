@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-02T09:43:54.000Z">
+<meta property="og:updated_time" content="2016-12-06T09:00:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
@@ -1401,7 +1401,7 @@ logIfTrue( <span class="number">2</span> &gt; <span class="number">1</span> )  <
 <hr>
 <p>在Swift中，枚举是一等类型。    </p>
 <p>Swift中的枚举非常灵活，不必给每一个枚举成员提供一个值。如果想要给枚举成员提供一个值（原始值），则该值的类型可以是整型、浮点型、字符型和字符串型。   </p>
-<p>Swift中的枚举采用了很多只被类所支持的特性，比如计算属性，用来提供枚举值的附加信息；构造函数，用来提供一个初始值；实例方法，用来提供和枚举值相关联的功能；还可以遵守协议来提供标准的功能；还可以在原始实现的基础上扩展枚举的功能。   </p>
+<p>Swift中的枚举采用了很多只被类所支持的特性，比如计算属性，用来提供枚举值的附加信息；构造函数，用来提供一个初始值；实例方法，用来提供和枚举值相关联的功能；还可以遵守协议来提供标准的功能；还可以在原来实现的基础上扩展枚举的功能。   </p>
 <hr>
 <pre><code class="ObjC"><span class="keyword">enum</span> Direction {
     <span class="keyword">case</span> north
@@ -1411,7 +1411,7 @@ logIfTrue( <span class="number">2</span> &gt; <span class="number">1</span> )  <
 }
 
 var direction = Direction.north
-direction = . east
+direction = .east
 </code></pre>
 <p><code>Direction</code> 枚举类型中定义的值 <code>north</code>，<code>south</code>，<code>east</code>，<code>west</code> 是这个枚举的成员值。  </p>
 <p>与C和Objective-C不同的是，Swift中的枚举成员在被创建的时候没有默认的整型值，这些枚举的成员值本身就是完备的值，这些值的类型是已经明确定义好的 <code>Direction</code> 类型。   </p>
@@ -1492,6 +1492,18 @@ a.rawValue  <span class="comment">// 2</span>
 }
 let a: Month = .February
 a.rawValue  <span class="comment">// February</span>
+
+<span class="comment">// 给某个成员值赋原始值（字符串）</span>
+<span class="keyword">enum</span> Month: String {
+    <span class="keyword">case</span> January = <span class="string">"Jan."</span>, February, March, April, May, June,
+    July, August, September, October, November, December
+}
+
+let a: Month = .January
+a.rawValue  <span class="comment">// Jan.</span>
+
+let b: Month = .February
+b.rawValue  <span class="comment">// February</span>
 </code></pre>
 <hr>
 <p>使用原始值初始化枚举实例：如果在定义枚举类型的时候显示或者隐式地使用了原始值，那么Swift会自动为该枚举类型生成一个初始化方法，这个方法接受一个 <code>rawValue</code> 的参数，返回一个可选类型的枚举值。  </p>
@@ -1534,6 +1546,70 @@ evaluate(result)  <span class="comment">// 18</span>
 </code></pre>
 <hr>
 <h3 id="类和结构体"><a href="#类和结构体" class="headerlink" title="类和结构体"></a>类和结构体</h3><hr>
+<p>Swift中类和结构体有很多共同点：  </p>
+<ul>
+<li>定义属性用于存储值   </li>
+<li>定义方法用于提供功能   </li>
+<li>定义下标操作使得可以通过下标语法来访问实例中的值   </li>
+<li>定义构造器用于生成初始化值   </li>
+<li>实现协议用于提供某种标准功能   </li>
+</ul>
+<p>与结构体相比，类还有如下附加功能：   </p>
+<ul>
+<li>允许一个类继承另一个类   </li>
+<li>类型转换允许在运行时检查和解释一个类实例的类型   </li>
+<li>析构器允许一个类实例释放任何其分配的资源   </li>
+<li>引用计数允许对一个类的多次引用   </li>
+</ul>
+<hr>
+<p>结构体总是通过被复制的方式在代码中传递，不使用引用计数。   </p>
+<hr>
+<p>每次定义一个新类或结构体的时候，实际上是定义了一个新的Swift类型。  </p>
+<p>类名使用 <code>UpperCamelCase</code> 方式。<br>属性和方法名使用 <code>lowerCamelCase</code> 方式。  </p>
+<hr>
+<pre><code class="ObjC"><span class="comment">// 定义结构体</span>
+<span class="keyword">struct</span> Resolution {
+    var width = <span class="number">0</span>
+    var height = <span class="number">0</span>
+}
+
+<span class="comment">// 定义类</span>
+class VideoMode {
+    var resolution = Resolution()
+    var interlaced = <span class="literal">false</span>
+    var frameRate = <span class="number">0.0</span>
+    var name: String?
+}
+
+<span class="comment">// 生成一个结构体和一个类实例</span>
+let someResolution = Resolution()
+let someVideoMode = VideoMode()
+
+<span class="comment">// 访问结构体和类的属性</span>
+someResolution.width
+someVideoMode.resolution.width
+
+<span class="comment">// 给结构体和类的属性赋值</span>
+someResolution.width = <span class="number">10</span>
+someVideoMode.resolution.width = <span class="number">20</span>
+</code></pre>
+<p>与Objective-C不同的是，Swift允许直接设置结构体属性的子属性。  </p>
+<hr>
+<p>所有结构体都有一个自动生成的成员逐一构造器，用于初始化新结构体实例中的成员属性。类实例没有默认的成员逐一构造器。   </p>
+<pre><code class="ObjC">let vga = Resolution(width: <span class="number">640</span>, height: <span class="number">480</span>)
+</code></pre>
+<hr>
+<p>值类型被赋予给一个变量、常量或者被传递给一个函数的时候，其值会被拷贝。  </p>
+<p>在Swift中，所有的结构体和枚举类型都是值类型。   </p>
+<p>实际上，在Swift中，所有的基本类型：整型、浮点型、布尔类型、字符串、数组、字典等都是值类型，并且在底层都是以结构体的形式来实现的。   </p>
+<hr>
+<p>与值类型不同，引用类型在被赋予到一个变量、常量或者被传递给一个函数的时候，拷贝的是引用的指针，其值不会被拷贝。   </p>
+<p>类是引用类型，有可能有多个常量或变量同时引用同一个实例。Swift提供两个恒等运算符（等价于 <code>===</code>、不等价于 <code>!==</code>）来判定两个常量或者变量是否引用同一个类实例。   </p>
+<hr>
+<p>在Swift中，许多基本类型，诸如 <code>String</code>、<code>Array</code> 和 <code>Dictionary</code> 类型均以结构体形式实现，因此，在代码中，拷贝行为看起来似乎总在发生。然而，Swift幕后只在绝对必要时才执行实际的拷贝，从而来确保性能最优化。  </p>
+<hr>
+<p>###属性   </p>
+<hr>
 
       
     </div>
