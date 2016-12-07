@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-07T09:06:47.000Z">
+<meta property="og:updated_time" content="2016-12-07T09:50:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
@@ -1827,6 +1827,68 @@ SomeClass.someTypeMethod()
 <p>下标可以定义在类、结构体和枚举中，是访问集合、列表或序列中元素的快捷方式。可以使用下标的索引来设置和获取值，而不再需要调用对应的存取方法。   </p>
 <p>一个类型可以定义多个下标，通过不同的索引类型进行重载。   </p>
 <hr>
+<p>下标允许你通过在实例名称后面的方括号中传入一个或多个索引值来对实例进行存取。<br>定义下标使用 <code>subscript</code> 关键字，指定一个或多个参数和返回值类型。<br>下标可以设定为读写或只读，这种行为由 <code>getter</code> 和 <code>setter</code> 来实现。   </p>
+<pre><code class="ObjC">subscript(index: Int) -&gt; Int {
+    get {
+        <span class="keyword">return</span> 一个Int值
+    }
+    set {
+        执行适当的赋值操作
+    }
+}
+</code></pre>
+<hr>
+<p>只读下标。   </p>
+<pre><code class="ObjC"><span class="keyword">struct</span> TimesTable {
+    let multiplier: Int
+    subscript(index: Int) -&gt; Int {
+        <span class="keyword">return</span> multiplier * index
+    }
+}
+
+<span class="comment">// threeTimesTable表示整数3的乘法表</span>
+let threeTimesTable = TimesTable(multiplier: <span class="number">3</span>)
+threeTimesTable[<span class="number">6</span>]  <span class="comment">// 18</span>
+</code></pre>
+<hr>
+<p>下标可以接受任意数量任意类型的参数，也可以返回任意类型的返回值。   </p>
+<p>一个类或结构体可以根据自身的需要提供多个下标实现，使用下标时通过参数的数量和类型进行区分，自动匹配合适的下标，这叫做下标的重载。   </p>
+<pre><code class="ObjC"><span class="comment">// Matrix用来表示一个Double类型的二维数组（矩阵）</span>
+<span class="keyword">struct</span> Matrix {
+    let rows: Int, columns: Int
+    var grid: [Double]
+    init(rows: Int, columns: Int) {
+        <span class="keyword">self</span>.rows = rows
+        <span class="keyword">self</span>.columns = columns
+        grid = Array(repeating: <span class="number">0.0</span>, count: rows * columns)
+    }
+
+    <span class="comment">// 判断下标值是否越界</span>
+    func indexIsValidForRow(row: Int, column: Int) -&gt; Bool {
+        <span class="keyword">return</span> row &gt;= <span class="number">0</span> &amp;&amp; row &lt; rows &amp;&amp; column &gt;= <span class="number">0</span> &amp;&amp; column &lt; columns
+    }
+
+    subscript(row: Int, column: Int) -&gt; Double {
+        get {
+            assert(indexIsValidForRow(row: row, column: column), <span class="string">"Index out of range"</span>)
+            <span class="keyword">return</span> grid[(row * columns) + column]
+        }
+        set {
+            assert(indexIsValidForRow(row: row, column: column), <span class="string">"Index out of range"</span>)
+            grid[(row * columns) + column] = newValue
+        }
+    }
+}
+
+<span class="comment">// 创建一个2*2的矩阵</span>
+var matrix = Matrix(rows: <span class="number">2</span>, columns: <span class="number">2</span>)
+
+<span class="comment">// 将矩阵右上角和左下角位置的值设置为1.5和3.2</span>
+matrix[<span class="number">0</span>, <span class="number">1</span>] = <span class="number">1.5</span>
+matrix[<span class="number">1</span>, <span class="number">0</span>] = <span class="number">3.2</span>
+</code></pre>
+<hr>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><hr>
 
       
     </div>
@@ -2004,7 +2066,7 @@ SomeClass.someTypeMethod()
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li></ol></div>
             
           </div>
         </section>
