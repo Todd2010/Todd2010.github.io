@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-07T09:50:08.000Z">
+<meta property="og:updated_time" content="2016-12-07T11:58:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
@@ -1889,6 +1889,91 @@ matrix[<span class="number">1</span>, <span class="number">0</span>] = <span cla
 </code></pre>
 <hr>
 <h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><hr>
+<p>一个类可以继承另一个类的方法、属性和其他特性。当一个类继承其他类时，继承类叫子类，被继承类叫超类或父类。<br>在Swift中，继承是区分类与其他类型的一个基本特征。  </p>
+<p>类可以访问超类的方法、属性和下标，并且可以重写这些方法、属性和下标来优化或者修改它们的行为。   </p>
+<p>可以在类中对继承来的属性添加属性观察器，这样当属性值改变时，类就会被通知到。   </p>
+<hr>
+<p>不继承于其他类的类称之为基类。   </p>
+<pre><code class="ObjC"><span class="comment">// 定义了一个Vehicle的基类</span>
+class Vehicle {
+    var currentSpeed = <span class="number">0.0</span>
+
+    var description: String {
+        <span class="keyword">return</span> <span class="string">"traveling at \(currentSpeed) miles per hour"</span>
+    }
+
+    func makeNoise() {
+        <span class="comment">// 什么也不做-因为车辆不一定会有噪音 </span>
+    }
+}
+
+let someVehicle = Vehicle()
+someVehicle.currentSpeed = <span class="number">80</span>
+someVehicle.description  <span class="comment">// traveling at 80.0 miles per hour</span>
+</code></pre>
+<hr>
+<p>子类生成指的是在一个已有类的基础上创建一个新类。   </p>
+<pre><code class="ObjC">class Bicycle: Vehicle {
+    var hasBasket = <span class="literal">false</span>
+}
+
+let bicycle = Bicycle()
+bicycle.hasBasket = <span class="literal">true</span>
+bicycle.currentSpeed = <span class="number">15.0</span>
+bicycle.description  <span class="comment">// traveling at 15.0 miles per hour</span>
+</code></pre>
+<hr>
+<p>子类可以为继承来的实例方法、类方法、实例属性、下标提供自己定制的实现，这种行为叫做重写。   </p>
+<p>如果要重写某个特性，需要在重写定义的前面加上 <code>override</code> 关键字。   </p>
+<p>当在子类中重写父类的方法、属性和下标时，有时在你的重写版本中使用已经存在的父类实现会大有裨益。可以通过使用 <code>super</code> 前缀来访问父类的方法、属性和下标。   </p>
+<ul>
+<li>在方法 <code>someMethod()</code> 的重写实现中使用 <code>super.someMethod()</code> 来调用父类的 <code>someMethod()</code> 方法。   </li>
+<li>在属性 <code>someProperty</code> 的 <code>getter</code> 和 <code>setter</code> 的重写实现中，可以通过 <code>super.someProperty</code> 来访问父类的 <code>someProperty</code> 属性。   </li>
+<li>在下标的重写实现中，可以通过 <code>super[someIndex]</code> 来访问父类中的相同下标。   </li>
+</ul>
+<hr>
+<p>重写方法。   </p>
+<pre><code class="ObjC">class Train: Vehicle {
+    override func makeNoise() {
+        print(<span class="string">"Choo Choo"</span>)
+    }
+}
+let train = Train()
+train.makeNoise()  <span class="comment">// Choo Choo</span>
+</code></pre>
+<hr>
+<p>重写属性。<br>你可以提供定制的 <code>getter</code>（或 <code>setter</code>）来重写任意继承来的属性，无论继承来的属性是存储型属性还是计算型属性。子类并不知道继承来的属性是存储型的还是计算型的，它只知道继承来的属性会有一个名字和类型。<br>可以将一个继承来的只读属性重写为一个读写属性，只需要在重写版本的属性里提供 <code>getter</code> 和 <code>setter</code> 即可。但是，不可以将一个继承来的读写属性重写为一个只读属性。</p>
+<pre><code class="ObjC">class Car: Vehicle {
+    var gear = <span class="number">1</span>
+    override var description: String {
+        <span class="keyword">return</span> <span class="keyword">super</span>.description + <span class="string">" in gear \(gear)"</span>
+    }
+}
+let car = Car()
+car.currentSpeed = <span class="number">25.0</span>
+car.gear = <span class="number">3</span>
+car.description  <span class="comment">// traveling at 25.0 miles per hour in gear 3</span>
+</code></pre>
+<hr>
+<p>重写观察属性。<br>可以通过重写属性为一个继承来的属性添加属性观察器。这样当继承来的属性值发生改变时就会被通知到，无论那个属性原本是如何实现的。<br>不可以为继承来的常量存储型属性或继承来的只读计算型属性添加属性观察器。这些属性的值是不可以被设置 的。<br>不可以同时提供重写的 <code>setter</code> 和重写的属性观察器。如果想观察属性值的变化，并且已经为属性提供了定制的 <code>setter</code>，那么在 <code>setter</code> 中就可以观察到任何值变化了。  </p>
+<pre><code class="ObjC">class AutomaticCar: Car {
+    override var currentSpeed: Double {
+        didSet {
+            gear = Int(currentSpeed / <span class="number">10.0</span>) + <span class="number">1</span>
+        }
+    }
+}
+
+let automatic = AutomaticCar()
+automatic.currentSpeed = <span class="number">35.0</span>
+automatic.description  <span class="comment">// traveling at 35.0 miles per hour in gear 4</span>
+</code></pre>
+<hr>
+<p>可以通过把方法、属性或下标标记为 <code>final</code> 来防止它们被子类重写，如：<code>final var</code>，<code>final func</code>，<code>final class func</code>，<code>final subscript</code>）。   </p>
+<p>如果重写了带有 <code>final</code> 标记的方法、属性或下标，在编译时会报错。  </p>
+<p>在关键字 <code>class</code> 前添加 <code>final</code> 修饰符来将整个类标记为 <code>final</code>，这样的类是不可被继承的。   </p>
+<hr>
+<h3 id="构造过程"><a href="#构造过程" class="headerlink" title="构造过程"></a>构造过程</h3><hr>
 
       
     </div>
@@ -2066,7 +2151,7 @@ matrix[<span class="number">1</span>, <span class="number">0</span>] = <span cla
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造过程"><span class="nav-number">14.</span> <span class="nav-text">构造过程</span></a></li></ol></div>
             
           </div>
         </section>
