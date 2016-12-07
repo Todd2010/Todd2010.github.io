@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-06T09:00:51.000Z">
+<meta property="og:updated_time" content="2016-12-07T06:26:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
@@ -1608,8 +1608,158 @@ someVideoMode.resolution.width = <span class="number">20</span>
 <hr>
 <p>在Swift中，许多基本类型，诸如 <code>String</code>、<code>Array</code> 和 <code>Dictionary</code> 类型均以结构体形式实现，因此，在代码中，拷贝行为看起来似乎总在发生。然而，Swift幕后只在绝对必要时才执行实际的拷贝，从而来确保性能最优化。  </p>
 <hr>
-<p>###属性   </p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><hr>
+<p>存储属性就是存储在特定类或结构体实例中的一个常量或变量。  </p>
+<p>可以在定义存储属性的时候指定默认值，也可以在构造函数中设置或修改存储属性的值，甚至是修改常量存储属性的值。   </p>
+<pre><code class="ObjC"><span class="comment">// 用于描述整数范围的结构体，范围值在被创建后不能修改</span>
+<span class="keyword">struct</span> FixedLengthRange {
+    var firstValue: Int
+    let length: Int
+}
+
+<span class="comment">// 0, 1, 2</span>
+var rangeOfThreeItems = FixedLengthRange(firstValue: <span class="number">0</span>, length: <span class="number">3</span>)
+
+<span class="comment">// 6, 7, 8</span>
+rangeOfThreeItems.firstValue = <span class="number">6</span>
+</code></pre>
+<p>如果创建了一个结构体的实例并将其值赋值给一个常量，则无法修改实例的任何属性，即使有属性被声明为变量也不行。    </p>
+<pre><code class="ObjC"><span class="comment">// 0, 1, 2, 3</span>
+let rangeOfFourItems = FixedLengthRange(firstValue: <span class="number">0</span>, length: <span class="number">4</span>)
+rangeOfFourItems.firstValue = <span class="number">6</span>  <span class="comment">// 报错</span>
+</code></pre>
+<p>这是由于结构体属于值类型的原因，当值类型的实例被声明为常量时，它的所有属性也就成了常量。   </p>
 <hr>
+<p>延迟存储属性（懒加载属性）是指第一次被调用的时候才会计算其初始值的属性。在属性声明前使用 <code>lazy</code> 来标示一个延迟存储属性。   </p>
+<p>必须将延迟存储属性声明成变量，因为属性的初始值可能在实例构造完成之后才会得到。而常量属性在构造完成之前必须要有值。   </p>
+<p>延迟属性应用在当属性的值在实例构造过程结束后才能知道，或者属性的初始值需要经过复杂的大量计算时。</p>
+<p>如果 <code>lazy</code> 属性在没有被初始化就同时被多个线程访问，则无法保证该属性只会被初始化一次。  </p>
+<hr>
+<p>类、结构体和枚举还可以定义计算属性。计算属性不直接存储值，而是提供一个 <code>getter</code> 和一个可选的 <code>setter</code> 来间接获取和设置其他属性的值。  </p>
+<pre><code class="ObjC"><span class="keyword">struct</span> Point {
+    var x = <span class="number">0.0</span>, y = <span class="number">0.0</span>
+}
+
+<span class="keyword">struct</span> Size {
+    var width = <span class="number">0.0</span>, height = <span class="number">0.0</span>
+}
+
+<span class="keyword">struct</span> Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+            let centerX = origin.x + (size.width / <span class="number">2</span>)
+            let centerY = origin.y + (size.height / <span class="number">2</span>)
+            <span class="keyword">return</span> Point(x: centerX, y: centerY)
+        }
+        set(newCenter) {
+            origin.x = newCenter.x - (size.width / <span class="number">2</span>)
+            origin.y = newCenter.y - (size.height / <span class="number">2</span>)
+        }
+    }
+}
+var square = Rect(origin: Point(x: <span class="number">0.0</span>, y: <span class="number">0.0</span>), size: Size(width: <span class="number">10.0</span>, height: <span class="number">10.0</span>))
+square.center
+square.center = Point(x: <span class="number">15.0</span>, y: <span class="number">15.0</span>)
+</code></pre>
+<p>如果计算属性的 <code>setter</code> 没有定义表示新值的参数值，则可以使用默认名称的 <code>newValue</code>。    </p>
+<p>只有 <code>getter</code> 没有 <code>setter</code> 的计算属性就是只读计算属性。    </p>
+<p>计算属性只能是常量，包括只读计算属性，因为他们的值是不固定的。  </p>
+<p>只读计算属性的声明可以去掉 <code>get</code> 关键字和花括号：   </p>
+<pre><code class="ObjC"><span class="keyword">struct</span> Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        let centerX = origin.x + (size.width / <span class="number">2</span>)
+        let centerY = origin.y + (size.height / <span class="number">2</span>)
+        <span class="keyword">return</span> Point(x: centerX, y: centerY)
+    }
+}
+</code></pre>
+<hr>
+<p>属性观察器监控和响应属性值的变化，每次属性被设置新值的时候都会调用属性观察器，即使新值和当前值相同也不例外。   </p>
+<p>属性观察器：  </p>
+<ul>
+<li><code>willSet</code>：在新的值被设置之前调用。    </li>
+<li><code>didSet</code>：在新的值被设置之后调用。   </li>
+</ul>
+<p><code>willSet</code> 观察器会将新的属性值作为常量参数传入，在 <code>willSet</code> 的实现代码中可以为这个参数指定一个名称，如果不指定默认使用 <code>newValue</code> 来表示。<br><code>didSet</code> 观察器会将旧的属性值作为常量参数传入，在 <code>didSet</code> 的实现代码中可以为这个参数指定一个名称，如果不指定默认使用 <code>oldValue</code> 来表示。   </p>
+<pre><code class="ObjC">class StepCounter {
+    <span class="comment">// 统计一个人步行的总步数（当每次总步数更新时，就打印总步数以及每次增加的步数）</span>
+    var totalSteps: Int = <span class="number">0</span> {
+        willSet(newTotalSteps) {
+            print(<span class="string">"Total steps: \(newTotalSteps)"</span>)
+        }
+        didSet {
+            <span class="keyword">if</span> totalSteps &gt; oldValue {
+                print(<span class="string">"Added steps: \(totalSteps - oldValue)"</span>)
+            }
+        }
+    }
+
+}
+let stepCounter = StepCounter()
+stepCounter.totalSteps = <span class="number">200</span>
+<span class="comment">// Total steps: 200</span>
+<span class="comment">// Added steps: 200</span>
+
+stepCounter.totalSteps = <span class="number">360</span>
+<span class="comment">// Total steps: 200</span>
+<span class="comment">// Added steps: 160</span>
+</code></pre>
+<hr>
+<p>父类的属性在子类的构造器中被赋值时，它在父类中的 <code>willSet</code> 和 <code>didSet</code> 观察器会被调用，随后才会调用子类的观察器。   </p>
+<hr>
+<p>全局变量是在函数、方法、闭包或任何类型之外的变量。<br>局部变量是在函数、方法或闭包内部定义的变量。<br>全局的常量或变量都是延迟计算的，不需要 <code>lazy</code> 修饰。<br>局部范围的常量和变量从不延迟计算。   </p>
+<p>计算属性和属性观察器所具有的功能也可以用于全局变量和局部变量。<br>全局或局部变量都属于存储型变量，跟存储属性类似，它为特定类型的值提供存储空间，并允许读取和写入。<br>在全局或局部范围都可以定义计算型变量和为存储型变量定义观察器。<br>计算型变量跟计算属性一样，返回一个计算结果而不是存储值。   </p>
+<hr>
+<p>可以为类型本身定义属性，无论创建了多少个该类型的实例，这些属性都只有唯一的一份，这种属性就是类型属性（Type Property）。<br>类型属性用于定义某个类型所有实例共享的数据，比如所有实例都能用的一个常量或变量。   </p>
+<p>跟实例的存储属性不同，存储型类型属性必须有默认值，因为类型本身没有构造器，也就无法在初始化过程中使用构造器给类型属性赋值。<br>存储型类型属性是延迟初始化的，它们只有在第一次被访问的时候才被初始化。即使它们被多个线程同时访问，系统也保证只会对其进行一次初始化，不需要 <code>lazy</code> 修饰符。   </p>
+<hr>
+<p>在Swift中，类型属性是作为类型定义的一部分写在类型最外层的花括号内。  </p>
+<p>使用关键字 <code>static</code> 来定义类型属性。在为类定义计算型类型属性时，可以改用关键字 <code>class</code> 来支持子类对父类的实现进行重写。  </p>
+<pre><code class="ObjC"><span class="comment">// 结构体中的存储型类型属性和计算型类型属性</span>
+<span class="keyword">struct</span> SomeStructure {
+    <span class="keyword">static</span> var storedTypeProperty = <span class="string">"Some value."</span>
+    <span class="keyword">static</span> var computedTypeProperty: Int {
+        <span class="keyword">return</span> <span class="number">1</span>
+    }
+}
+
+<span class="comment">// 枚举中的存储型类型属性和计算型类型属性</span>
+<span class="keyword">enum</span> SomeEnumeration {
+    <span class="keyword">static</span> var storedTypeProperty = <span class="string">"Some value."</span>
+    <span class="keyword">static</span> var computedTypeProperty: Int {
+        <span class="keyword">return</span> <span class="number">6</span>
+    }
+}
+
+<span class="comment">// 类中的存储型类型属性和计算型类型属性（本类、对父类的重写）</span>
+class SomeClass {
+    <span class="keyword">static</span> var storedTypeProperty = <span class="string">"Some value."</span>
+    <span class="keyword">static</span> var computedTypeProperty: Int {
+        <span class="keyword">return</span> <span class="number">27</span>
+    }
+    class var overrideableComputedTypeProperty: Int {
+        <span class="keyword">return</span> <span class="number">107</span>
+    }
+}
+</code></pre>
+<hr>
+<p>类型属性是通过类型本身来访问的，而不是通过实例来访问的。   </p>
+<pre><code class="ObjC">SomeStructure.computedTypeProperty  <span class="comment">// 1</span>
+SomeStructure.storedTypeProperty = <span class="string">"Another value."</span>
+
+SomeEnumeration.computedTypeProperty  <span class="comment">// 6</span>
+SomeEnumeration.storedTypeProperty = <span class="string">"Another value."</span>
+
+SomeClass.computedTypeProperty  <span class="comment">// 27</span>
+SomeClass.overrideableComputedTypeProperty  <span class="number">107</span>
+SomeClass.storedTypeProperty = <span class="string">"Another value."</span>
+</code></pre>
+<hr>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><hr>
 
       
     </div>
@@ -1787,7 +1937,7 @@ someVideoMode.resolution.width = <span class="number">20</span>
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li></ol></div>
             
           </div>
         </section>
