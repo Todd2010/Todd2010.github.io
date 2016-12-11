@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-11T07:35:44.000Z">
+<meta property="og:updated_time" content="2016-12-11T11:17:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
@@ -3061,6 +3061,137 @@ internal class B: A {
 <p>还可以明确指定扩展的访问级别吗，如 <code>private extension xxx</code>，从而给该扩展中的所有成员指定一个新的默认访问级别。    </p>
 <p>如果想要通过扩展来遵循协议，那么你就不能显式指定该扩展的访问级别了。协议拥有相应的访问级别，并会为该扩展中所有协议要求的实现提供默认的访问级别。   </p>
 <hr>
+<h3 id="高级运算符"><a href="#高级运算符" class="headerlink" title="高级运算符"></a>高级运算符</h3><hr>
+<p>按位取反运算符：   </p>
+<pre><code class="ObjC">let a: <span class="built_in">UInt8</span> = <span class="number">0</span>b00001111  <span class="comment">// 15</span>
+~a  <span class="comment">// 240即0b11110000</span>
+</code></pre>
+<p>按位与运算符：   </p>
+<pre><code class="ObjC">let a: <span class="built_in">UInt8</span> = <span class="number">0</span>b11111100
+let b: <span class="built_in">UInt8</span> = <span class="number">0</span>b00111111
+let c = a &amp; b   <span class="comment">// 60即0b00111100</span>
+</code></pre>
+<p>按位或运算符：   </p>
+<pre><code class="ObjC">let a: <span class="built_in">UInt8</span> = <span class="number">0</span>b11111100
+let b: <span class="built_in">UInt8</span> = <span class="number">0</span>b00111111
+let c = a | b  <span class="comment">// 255即0b11111111</span>
+</code></pre>
+<p>按位异或运算符：   </p>
+<pre><code class="ObjC">let a: <span class="built_in">UInt8</span> = <span class="number">0</span>b11111100
+let b: <span class="built_in">UInt8</span> = <span class="number">0</span>b00111111
+let c = a ^ b  <span class="comment">// 195即0b11000011</span>
+</code></pre>
+<hr>
+<p>按位左移运算符和按位右移运算符可以对一个数的所有位进行指定位数的左移和右移。对一个数进行按位左移或按位右移，相当于对这个数进行乘以 <code>2</code> 或除以 <code>2</code> 的运算。   </p>
+<p>对无符号整数进行移位的规则如下：  </p>
+<ul>
+<li>已经存在的位按指定的位数进行左移和右移。   </li>
+<li>任何因移动而超出整型存储范围的位都会被丢弃。   </li>
+<li>用 <code>0</code> 来填充移位后产生的空白位。   </li>
+</ul>
+<pre><code class="ObjC">let a: <span class="built_in">UInt8</span> = <span class="number">4</span> <span class="comment">// 即二进制的0b00000100</span>
+a &lt;&lt; <span class="number">1</span>  <span class="comment">// 8  即0b00001000</span>
+a &lt;&lt; <span class="number">2</span>  <span class="comment">// 16 即0b00010000</span>
+a &lt;&lt; <span class="number">5</span>  <span class="comment">// 128即0b10000000</span>
+a &lt;&lt; <span class="number">6</span>  <span class="comment">// 0  即0b00000000</span>
+a &gt;&gt; <span class="number">2</span>  <span class="comment">// 1  即0b00000001</span>
+</code></pre>
+<hr>
+<p>默认情况下，当向一个整数赋予超过它容量的值时，Swift默认会报错，而不是生成一个无效的数。这个行为 为我们在运算过大或着过小的数的时候提供了额外的安全性。   </p>
+<pre><code class="ObjC">var a = Int8.max  <span class="comment">// 127</span>
+a = a + <span class="number">1</span>  <span class="comment">// 报错</span>
+</code></pre>
+<p>Swift提供的三个溢出运算符（<code>&amp;+</code>、<code>&amp;-</code>、<code>&amp;*</code>）来让系统支持整数溢出运算，这些运算符都是以 <code>&amp;</code> 开头的。    </p>
+<pre><code class="ObjC">var a = Int8.max  <span class="comment">// 127</span>
+a = a &amp;+ <span class="number">1</span>  <span class="comment">// -128</span>
+a = a &amp;+ <span class="number">2</span>  <span class="comment">// -127</span>
+
+var a = <span class="built_in">UInt8</span>.max  <span class="comment">// 255</span>
+a = a &amp;+ <span class="number">1</span>  <span class="comment">// 0</span>
+a = a &amp;+ <span class="number">2</span>  <span class="comment">// 1</span>
+</code></pre>
+<p>对于无符号与有符号整型数值来说，当出现上溢时，它们会从数值所能容纳的最大数变成最小的数。同样地，当发生下溢时，它们会从所能容纳的最小数变成最大的数。  </p>
+<hr>
+<p>类和结构体可以为现有的运算符提供自定义的实现，这被称为运算符重载。<br>下面例子展示了为自定义的结构体实现加法运算符：   </p>
+<pre><code class="ObjC"><span class="keyword">struct</span> Vector2D {
+    var x = <span class="number">0.0</span>, y = <span class="number">0.0</span>
+}
+
+extension Vector2D {
+    <span class="keyword">static</span> func +(left: Vector2D, right: Vector2D) -&gt; Vector2D {
+        <span class="keyword">return</span> Vector2D(x: left.x + right.x, y: left.y + right.y)
+    }
+}
+
+let vector1 = Vector2D(x: <span class="number">3.0</span>, y: <span class="number">1.0</span>)
+let vector2 = Vector2D(x: <span class="number">2.0</span>, y: <span class="number">4.0</span>)
+let vector3 = vector1 + vector2  <span class="comment">// Vector2D(x: 5.0, y: 5.0)</span>
+</code></pre>
+<hr>
+<p>要实现前缀或者后缀运算符，需要在声明运算符函数的时候在 <code>func</code> 关键字之前加上 <code>prefix</code> 或者 <code>postfix</code> 修饰符。   </p>
+<pre><code class="ObjC">extension Vector2D {
+    <span class="keyword">static</span> prefix func - (vector: Vector2D) -&gt; Vector2D {
+        <span class="keyword">return</span> Vector2D(x: -vector.x, y: -vector.y)
+    }
+}
+-vector3 <span class="comment">// Vector2D(x: -5.0, y: -5.0)</span>
+</code></pre>
+<hr>
+<p>复合赋值运算符将赋值运算符如 <code>+=</code> 在实现的时候，需要把运算符的左参数设置成 <code>inout</code> 类型，因为这个参数的值会在运算符函数内直接被修改。   </p>
+<pre><code class="ObjC">extension Vector2D {
+    <span class="keyword">static</span> func += (left: <span class="keyword">inout</span> Vector2D, right: Vector2D) {
+        left = left + right
+    }
+}
+var vector4 = Vector2D(x: <span class="number">4.0</span>, y: <span class="number">4.0</span>)
+vector4 += Vector2D(x: <span class="number">1.0</span>, y: <span class="number">1.0</span>)  <span class="comment">// Vector2D(x: 5.0, y: 5.0)</span>
+</code></pre>
+<hr>
+<p>自定义的类和结构体没有对等价运算符进行默认实现，等价运算符通常被称为相等运算符 <code>==</code> 与不等运算符 <code>!=</code>。对于自定义类型，Swift 无法判断其是否相等。    </p>
+<pre><code class="ObjC">extension Vector2D {
+    <span class="keyword">static</span> func == (left: Vector2D, right: Vector2D) -&gt; Bool {
+        <span class="keyword">return</span> (left.x == right.x) &amp;&amp; (left.y == right.y)
+    }
+
+    <span class="keyword">static</span> func != (left: Vector2D, right: Vector2D) -&gt; Bool {
+        <span class="keyword">return</span> !(left == right)
+    }
+}
+let vector5 = Vector2D(x: <span class="number">1.0</span>, y: <span class="number">1.0</span>)
+let vector6 = Vector2D(x: <span class="number">1.0</span>, y: <span class="number">1.0</span>)
+let vector7 = Vector2D(x: <span class="number">1.0</span>, y: <span class="number">2.0</span>)
+vector5 == vector6  <span class="comment">// true</span>
+vector5 != vector7  <span class="comment">// true</span>
+</code></pre>
+<hr>
+<p>除了实现标准运算符，在Swift中还可以声明和实现自定义运算符。新的运算符要使用 <code>operator</code> 关键字在全局作用域内进行定义，同时还要指定 <code>prefix</code>、<code>infix</code> 或者 <code>postfix</code>。   </p>
+<pre><code class="ObjC">prefix operator +++
+
+extension Vector2D {
+    <span class="keyword">static</span> prefix func +++ (vector: <span class="keyword">inout</span> Vector2D) -&gt; Vector2D {
+        vector += vector
+        <span class="keyword">return</span> vector
+    }
+}
+var vector8 = Vector2D(x: <span class="number">3.0</span>, y: <span class="number">8.0</span>)
++++vector8  <span class="comment">// Vector2D(x: 6.0, y: 16.0)</span>
+</code></pre>
+<hr>
+<p>每个自定义中缀运算符都属于某个优先级组。这个优先级组指定了这个运算符和其他中缀运算符的优先级和结合性。而没有明确放入优先级组的自定义中缀运算符会放到一个默认的优先级组内，其优先级高于三元运算符。   </p>
+<pre><code class="ObjC">infix operator +-: AdditionPrecedence
+
+extension Vector2D {
+    <span class="keyword">static</span> func +- (left: Vector2D, right: Vector2D) -&gt; Vector2D {
+        <span class="keyword">return</span> Vector2D(x: left.x + right.x, y: left.y - right.y)
+    }
+}
+
+let vector9 = Vector2D(x: <span class="number">1.0</span>, y: <span class="number">2.0</span>)
+let vector10 = Vector2D(x: <span class="number">3.0</span>, y: <span class="number">4.0</span>)
+let vector11 = vector9 +- vector10  <span class="comment">// Vector2D(x: 4.0, y: -2.0)</span>
+</code></pre>
+<p>如果对同一个值同时使用前缀与后缀运算符，则后缀运算符会先参与运算。   </p>
+<hr>
 
       
     </div>
@@ -3238,7 +3369,7 @@ internal class B: A {
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造过程"><span class="nav-number">14.</span> <span class="nav-text">构造过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#析构过程"><span class="nav-number">15.</span> <span class="nav-text">析构过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动引用计数"><span class="nav-number">16.</span> <span class="nav-text">自动引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选链式调用"><span class="nav-number">17.</span> <span class="nav-text">可选链式调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">18.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换"><span class="nav-number">19.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套类型"><span class="nav-number">20.</span> <span class="nav-text">嵌套类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">21.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协议"><span class="nav-number">22.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型"><span class="nav-number">23.</span> <span class="nav-text">泛型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问控制"><span class="nav-number">24.</span> <span class="nav-text">访问控制</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造过程"><span class="nav-number">14.</span> <span class="nav-text">构造过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#析构过程"><span class="nav-number">15.</span> <span class="nav-text">析构过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动引用计数"><span class="nav-number">16.</span> <span class="nav-text">自动引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选链式调用"><span class="nav-number">17.</span> <span class="nav-text">可选链式调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">18.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换"><span class="nav-number">19.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套类型"><span class="nav-number">20.</span> <span class="nav-text">嵌套类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">21.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协议"><span class="nav-number">22.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型"><span class="nav-number">23.</span> <span class="nav-text">泛型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问控制"><span class="nav-number">24.</span> <span class="nav-text">访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级运算符"><span class="nav-number">25.</span> <span class="nav-text">高级运算符</span></a></li></ol></div>
             
           </div>
         </section>
