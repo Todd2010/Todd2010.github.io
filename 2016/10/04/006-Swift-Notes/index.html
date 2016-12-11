@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-11T03:29:58.000Z">
+<meta property="og:updated_time" content="2016-12-11T07:35:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
@@ -3001,7 +3001,66 @@ func someFunction&lt;T: SomeClass, U: SomeProtocol&gt;(someT: T, someU: U) {
 </ul>
 <p>第三条和第四条要求结合起来意味着 <code>anotherContainer</code> 中的元素也可以通过 <code>!=</code> 操作符来比较，因为它和 <code>someContainer</code> 中的元素类型相同。   </p>
 <hr>
-<p>### </p>
+<h3 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h3><hr>
+<p>访问控制限制了你访问其他源文件或模块中的代码的级别。   </p>
+<p>可以给单个类型（类、结构体、枚举）设置访问级别，也可以给这些类型的属性、方法、构造器、下标等设置访问级别。协议也可以被限定在一定的范围内使用，包括协议里的全局常量、变量和函数。   </p>
+<hr>
+<p>Swift中的访问控制模型基于模块和源文件这两个概念。     </p>
+<p>在Swift中，Xcode的每个目标（例如框架或应用程序）都被当作独立的模块处理，一个模块可以使用 <code>import</code> 关键字导入另外一个模块。   </p>
+<p>源文件就是Swift中的源代码文件，它通常属于一个模块，即一个应用程序或者框架。尽管我们一般会将不同的类型分别定义在不同的源文件中，但是同一个源文件也可以包含多个类型的定义。    </p>
+<hr>
+<p>通过修饰符 <code>open</code>，<code>public</code>，<code>internal</code>，<code>fileprivate</code>，<code>private</code> 来声明实体的访问级别。   </p>
+<p><code>open</code> 和 <code>public</code> 的区别主要在继承上：把一个类标记为 <code>open</code>，更多的是在表明，该类可以作为其他模块的父类被继承。<code>public</code> 所修饰的类只能在本模块中被其他继承。    </p>
+<hr>
+<p>一个类型的访问级别会直接影响到其类型成员（属性、方法、构造器、下标）的默认访问级别。如果你将类型指定为 <code>fileprivate</code>，那么该类型所有成员的默认访问级别也会变成 <code>fileprivate</code>。如果你将类型指定为 <code>open</code>、<code>public</code> 或者 <code>internal</code>，那么该类型的所有成员的便保持默认的 <code>internal</code> 访问级别。   </p>
+<hr>
+<p>元组的访问级别是由元组中访问级别最严格的类型来决定的。元组不同于类、结构体、枚举、函数那样有单独的定义，元组的访问级别是在它被使用时自动推断出的，而无法明确指定。   </p>
+<hr>
+<p>函数的访问级别根据参数类型和返回类型中最严格的访问级别来决定的。但是，如果最后的访问级别不符合函数定义所在环境的默认访问级别，那么就需要明确地指定该函数的访问级别。  </p>
+<pre><code class="ObjC">func someFunction() -&gt; (SomeInternalClass, SomePrivateClass) { 
+    <span class="comment">// 此处是函数实现部分 </span>
+}
+</code></pre>
+<p>以上代码会导致编译错误。这个函数的返回类型是一个元组，该元组中包含两个自定义的类，其中一个类的访问级别是 <code>internal</code>，另一个类的访问级别是 <code>private</code> ，所以根据元组访问级别的原则，该元组最终的访问级别是 <code>private</code>。因此，该函数的访问级别也应该是 <code>private</code>，正确写法如下：   </p>
+<pre><code class="ObjC">private func someFunction() -&gt; (SomeInternalClass, SomePrivateClass) { 
+    <span class="comment">// 此处是函数实现部分 </span>
+}
+</code></pre>
+<hr>
+<p>枚举成员的访问级别和该枚举类型相同，不能为枚举成员单独指定不同的访问级别。    </p>
+<p>枚举类型定义中的任何原始值或关联值的类型的访问级别至少不能低于枚举类型的访问级别。   </p>
+<hr>
+<p><code>private</code> 类型中的嵌套类型的访问级别为 <code>private</code>；<br><code>open</code>、<code>public</code> 或 <code>internal</code> 类型中的嵌套类型的访问级别为 <code>internal</code>；<br>如果想要让嵌套类型拥有 <code>public</code> 访问级别，则需要显示指出。      </p>
+<hr>
+<p>子类的访问级别不得高于父类的访问级别。比如父类的访问级别是 <code>internal</code>，子类的访问级别不能是 <code>public</code>。   </p>
+<p>然而，可以通过重写为继承来的类成员提供更高的访问级别。比如下面的例子：   </p>
+<pre><code class="ObjC">public class A { 
+    private func someMethod() {} 
+}
+
+internal class B: A { 
+    override internal func someMethod() {} 
+}
+</code></pre>
+<hr>
+<p>常量、变量、属性不能拥有比它们的类型更高的访问级别。同样，下标也不能拥有比索引类型或返回类型更高的访问级别。    </p>
+<hr>
+<p>常量、变量、属性、下标的 <code>Getter</code> 和 <code>Setter</code> 的访问级别和它们所属类型的访问级别相同。   </p>
+<p><code>Setter</code> 的访问级别可以低于对应的 <code>Getter</code> 的访问级别，这样就可以控制变量、属性或下标的读写权限。在 <code>var</code> 或 <code>subscript</code> 关键字之前，可以通过 <code>private(set)</code>、<code>fileprivate(set)</code> 或 <code>internal(set)</code> 为它们的写入权限指定更低的访问级别。   </p>
+<hr>
+<p>自定义构造器的访问级别可以低于或等于其所属类型的访问级别。唯一的例外是必要构造器 <code>required initializer</code>，它的访问级别必须和所属类型的访问级别相同。    </p>
+<p>如同函数或方法的参数，构造器参数的访问级别也不能低于构造器本身的访问级别。   </p>
+<p>如果结构体和类的所有存储型属性设置了默认初始值，并且未提供自定义的构造器，那么Swift会为其提供一个默认的无参数的构造器，该默认构造器的访问级别与所属类型的访问级别相同，除非类型的访问级别大于 <code>internal</code>。因此，如果希望一个 <code>public</code> 级别的类型也能在其他模块中使用这种无参数的默认构造器，你只能自己提供一个 <code>public</code> 访问级别的无参数构造器。对于结构体默认的成员逐一构造器同样如此。   </p>
+<hr>
+<p>如果想为一个协议类型明确地指定访问级别，在定义协议时指定即可。这将限制该协议只能在适当的访问级别范围内被采纳。    </p>
+<p>需要注意的是：协议中的每一个要求都具有和该协议相同的访问级别，你不能将协议中的要求设置为其他访问级别。这样才能确保该协议的所有要求对于任意遵循者都将可用。    </p>
+<p>如果定义了一个继承自其他协议的新协议，那么新协议拥有的访问级别最高也只能和被继承协议的访问级别相 同。   </p>
+<p>一个类型可以遵循比自身访问级别低的协议，然而，一旦遵循了比自身访问级别低的协议时，该类型的访问级别则取决与它本身和所遵循协议两者间最低的访问级别。   </p>
+<hr>
+<p>可以在访问级别允许的情况下对类、结构体、枚举进行扩展。扩展成员具有和原始类型成员一致的访问级 别。例如，你扩展了一个 <code>public</code> 或者 <code>internal</code> 类型，扩展中的成员具有默认的 <code>internal</code> 访问级别，和原始类型中的成员一致。如果你扩展了一个 <code>private</code> 类型，扩展成员则拥有默认的 <code>private</code> 访问级别。   </p>
+<p>还可以明确指定扩展的访问级别吗，如 <code>private extension xxx</code>，从而给该扩展中的所有成员指定一个新的默认访问级别。    </p>
+<p>如果想要通过扩展来遵循协议，那么你就不能显式指定该扩展的访问级别了。协议拥有相应的访问级别，并会为该扩展中所有协议要求的实现提供默认的访问级别。   </p>
+<hr>
 
       
     </div>
@@ -3179,7 +3238,7 @@ func someFunction&lt;T: SomeClass, U: SomeProtocol&gt;(someT: T, someU: U) {
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造过程"><span class="nav-number">14.</span> <span class="nav-text">构造过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#析构过程"><span class="nav-number">15.</span> <span class="nav-text">析构过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动引用计数"><span class="nav-number">16.</span> <span class="nav-text">自动引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选链式调用"><span class="nav-number">17.</span> <span class="nav-text">可选链式调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">18.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换"><span class="nav-number">19.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套类型"><span class="nav-number">20.</span> <span class="nav-text">嵌套类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">21.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协议"><span class="nav-number">22.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型"><span class="nav-number">23.</span> <span class="nav-text">泛型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造过程"><span class="nav-number">14.</span> <span class="nav-text">构造过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#析构过程"><span class="nav-number">15.</span> <span class="nav-text">析构过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动引用计数"><span class="nav-number">16.</span> <span class="nav-text">自动引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选链式调用"><span class="nav-number">17.</span> <span class="nav-text">可选链式调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">18.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换"><span class="nav-number">19.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套类型"><span class="nav-number">20.</span> <span class="nav-text">嵌套类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">21.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协议"><span class="nav-number">22.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型"><span class="nav-number">23.</span> <span class="nav-text">泛型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问控制"><span class="nav-number">24.</span> <span class="nav-text">访问控制</span></a></li></ol></div>
             
           </div>
         </section>
