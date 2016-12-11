@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-08T14:00:28.000Z">
+<meta property="og:updated_time" content="2016-12-11T03:29:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万5千字，慢读需要3到4个小时。  
@@ -2413,6 +2413,595 @@ let photo = try! loadImage(atPath: <span class="string">"./Resources/John Apples
 <p>可以使用 <code>defer</code> 语句在即将离开当前代码块时执行一系列语句。该语句让你能执行一些必要的清理工作，不管是以何种方式离开当前代码块的（无论是由于抛出错误而离开，还是由于诸如 <code>return</code> 或者 <code>break</code> 的语句）。   </p>
 <hr>
 <h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><hr>
+<p>类型转换在Swift中使用 <code>is</code> 和 <code>as</code> 操作符实现。这两个操作符给我们提供了一种简单达意的方式来检查值的类型或者转换它的类型。还可以用它来检查一个类型是否实现了某个协议。   </p>
+<hr>
+<p>可以将类型转换用在类和子类的层次结构上，用来检查特定类实例的类型并且转换这个类实例的类型成为这个层次结构中的其他类型。   </p>
+<pre><code class="ObjC"><span class="comment">// 基类</span>
+class MediaItem {
+    var name: String
+    init(name: String) {
+        <span class="keyword">self</span>.name = name
+    }
+}
+
+<span class="comment">// MediaItem基类的子类</span>
+class Movie: MediaItem {
+    var director: String
+    init(name: String, director: String) {
+        <span class="keyword">self</span>.director = director
+        <span class="keyword">super</span>.init(name: name)
+    }
+}
+
+<span class="comment">// MediaItem基类的子类</span>
+class Song: MediaItem {
+    var artist: String
+    init(name: String, artist: String) {
+        <span class="keyword">self</span>.artist = artist
+        <span class="keyword">super</span>.init(name: name)
+    }
+}
+
+<span class="comment">// library类型被推导为 [MediaItem] 类型</span>
+<span class="comment">// 若要迭代library，依次取出的实例会是 MediaItem 类型</span>
+let library = [
+    Movie(name: <span class="string">"Casablanca"</span>, director: <span class="string">"Michael Curtiz"</span>),
+    Song(name: <span class="string">"Blue Suede Shoes"</span>, artist: <span class="string">"Elvis Presley"</span>),
+    Movie(name: <span class="string">"Citizen Kane"</span>, director: <span class="string">"Orson Welles"</span>),
+    Song(name: <span class="string">"The One And Only"</span>, artist: <span class="string">"Chesney Hawkes"</span>),
+    Song(name: <span class="string">"Never Gonna Give You Up"</span>, artist: <span class="string">"Rick Astley"</span>)
+]
+
+<span class="comment">// 用类型检查操作符 is 来检查一个实例是否属于特定子类型。</span>
+var movieCount = <span class="number">0</span>
+var songCount = <span class="number">0</span>
+<span class="keyword">for</span> item <span class="keyword">in</span> library {
+    <span class="keyword">if</span> item is Movie {
+        movieCount += <span class="number">1</span>
+    } <span class="keyword">else</span> <span class="keyword">if</span> item is Song {
+        songCount += <span class="number">1</span>
+    }
+}
+</code></pre>
+<hr>
+<p>某类型的一个常量或变量可能在幕后实际上属于一个子类。当确定是这种情况时，用类型转换操作符 <code>as?</code> 或 <code>as!</code> 可以尝试向下转到它的子类型。   </p>
+<p>由于向下转型可能会失败，类型转型操作符带有两种不同形式。<code>as?</code> 返回一个试图向下转成的类型的可选值。<code>as!</code> 强制向下转型，如果失败，则会触发运行时错误。    </p>
+<pre><code class="ObjC"><span class="keyword">for</span> item <span class="keyword">in</span> library {
+    <span class="keyword">if</span> let movie = item as? Movie {
+        print(<span class="string">"Movie: '\(movie.name)', dir. \(movie.director)"</span>)
+    } <span class="keyword">else</span> <span class="keyword">if</span> let song = item as? Song {
+        print(<span class="string">"Song: '\(song.name)', by \(song.artist)"</span>)
+    }
+}
+</code></pre>
+<hr>
+<p>Swift为不确定类型提供了两种特殊的类型别名：   </p>
+<ul>
+<li><code>Any</code> 可以表示任何类型，包括函数类型。   </li>
+<li><code>AnyObject</code> 可以表示任何类类型的实例。   </li>
+</ul>
+<p>作者：图拉鼎<br>链接：<a href="https://zhuanlan.zhihu.com/p/22584349" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/22584349</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p>在Swift 3之前，我们可以写完一个项目都只用 <code>AnyObject</code> 来代表大多数实例，好像不用与 <code>Any</code> 类型打交道。但事实上，<code>Any</code> 和 <code>AnyObject</code> 是有明显区别的，因为 <code>Any</code> 可以代表 <code>struct</code>、<code>class</code>、<code>func</code> 等等几乎所有类型，而 <code>AnyObject</code> 只能代表 <code>class</code> 生成的实例。<br>那为什么之前我们在Swift 2里可以用 <code>[AnyObject]</code> 声明数组，并且在里面放 <code>Int</code>、<code>String</code> 等 <code>struct</code> 类型呢？这是因为Swift 2中，会针对这些 <code>Int</code>、<code>String</code> 等 <code>struct</code> 进行一个 <code>Implicit Bridging Conversions</code>，在 <code>Array</code> 里插入他们时，编译器会自动将其 <code>bridge</code> 到Objective-C的 <code>NSNumber</code>、<code>NSString</code> 等类类型，这就是为什么我们声明的 <code>[AnyObject]</code> 里可以放 <code>struct</code> 的原因了。<br>但在Swift 3当中，为了达成一门真正的跨平台语言，相关提案将 <code>Implicit Bridging Conversions</code> 给去掉了。所以如果你要把 <code>String</code> 这个 <code>struct</code> 放进一个 <code>[AnyObject]</code> 里，一定要 <code>as NSString</code>，这些转换都需要显示的进行了，毕竟Linux平台默认没有Objective-C的runtime。这样各平台的表现更加一致。<br><a href="https://zhuanlan.zhihu.com/p/22584349" target="_blank" rel="external">以上内容摘自网络博客</a>    </p>
+<hr>
+<h3 id="嵌套类型"><a href="#嵌套类型" class="headerlink" title="嵌套类型"></a>嵌套类型</h3><hr>
+<p>Swift支持定义嵌套类型，可以在支持的类型中定义嵌套的枚举、类和结构体。比如在结构体类型中定义嵌套的枚举类型。     </p>
+<p>在外部引用嵌套类型时，可以在嵌套类型的类型名前加上其外部类型的类型名作为前缀。   </p>
+<pre><code class="ObjC"><span class="keyword">struct</span> BlackjackCard { 
+    <span class="comment">// 嵌套的 Suit 枚举 </span>
+    <span class="keyword">enum</span> Suit: Character {
+        <span class="keyword">case</span> Spades = <span class="string">"1"</span>, Hearts = <span class="string">"2"</span>, Diamonds = <span class="string">"3"</span>, Clubs = <span class="string">"4"</span> 
+    }
+
+    <span class="comment">// 其他结构体中代码</span>
+}
+
+let heartsSymbol = BlackjackCard.Suit.Hearts.rawValue
+</code></pre>
+<hr>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><hr>
+<p>扩展就是为一个已有的类、结构体、枚举类型或者协议类型添加新功能。这包括在没有权限获取原始源代码的情况下扩展类型的能力（即逆向建模）。扩展和Objective-C中的分类类似。     </p>
+<p>Swift中的扩展可以：   </p>
+<ul>
+<li>添加计算型属性和计算型类型属性   </li>
+<li>定义实例方法和类型方法   </li>
+<li>提供新的构造器   </li>
+<li>定义下标   </li>
+<li>定义和使用新的嵌套类型   </li>
+<li>使一个已有类型符合某个协议   </li>
+</ul>
+<p>在Swift中，你甚至可以对协议进行扩展，提供协议要求的实现或者添加额外的功能，从而可以让符合协议的 类型拥有这些功能。   </p>
+<p>需要注意的是扩展可以为一个类型添加新的功能，但是不能重写已有的功能。   </p>
+<hr>
+<p>下面例子为Swift的内建 <code>Double</code> 类型添加了五个计算型实例属性，用来提供与距离单位协作的基本支持：    </p>
+<pre><code class="ObjC">extension Double {
+    var km: Double { <span class="keyword">return</span> <span class="keyword">self</span> * <span class="number">1</span>_000<span class="number">.0</span> }
+    var m : Double { <span class="keyword">return</span> <span class="keyword">self</span> }
+    var cm: Double { <span class="keyword">return</span> <span class="keyword">self</span> / <span class="number">100.0</span> }
+    var mm: Double { <span class="keyword">return</span> <span class="keyword">self</span> / <span class="number">1</span>_000<span class="number">.0</span> }
+    var ft: Double { <span class="keyword">return</span> <span class="keyword">self</span> / <span class="number">3.28084</span> }  <span class="comment">// 英尺</span>
+}
+
+<span class="number">25.4</span>.mm  <span class="comment">// 0.0254</span>
+<span class="number">3.0</span>.ft  <span class="comment">// 0.914399970739201</span>
+</code></pre>
+<p>扩展可以添加新的计算型属性，但是不可以添加存储型属性，也不可以为已有属性添加属性观察器。  </p>
+<hr>
+<p>扩展能为类添加新的便利构造器，但是不能为类添加新的指定构造器或析构器。指定构造器和析构器必须总 是由原始的类实现来提供。    </p>
+<p>如果用扩展为一个值类型添加构造器，同时该值类型的原始实现中未定义任何定制的构造器且所有存储属性 提供了默认值，那么我们就可以在扩展中添加新的构造器，并且可以在新的构造器里调用默认构造器和逐一成员构造器。如果在值类型的原始实现中有定制的构造器，那么上述规则将不再适用。    </p>
+<pre><code class="ObjC"><span class="keyword">struct</span> Point {
+    var x = <span class="number">0.0</span>, y = <span class="number">0.0</span>
+}
+
+<span class="keyword">struct</span> Size {
+    var width = <span class="number">0.0</span>, height = <span class="number">0.0</span>
+}
+
+<span class="comment">// 结构体Rect未提供定制的构造器，因此会获得一个逐一成员构造器</span>
+<span class="comment">// 又因为它为所有存储型属性提供了默认值，因此又会获得一个默认构造器</span>
+<span class="keyword">struct</span> Rect {
+    var origin = Point()
+    var size = Size()
+}
+
+let defaultRect = Rect()
+let memberwiseRect = Rect(origin: Point(x: <span class="number">2.0</span>, y: <span class="number">2.0</span>),
+                          size: Size(width: <span class="number">5.0</span>, height: <span class="number">5.0</span>))
+
+<span class="comment">// 结构体Rect的构造器</span>
+extension Rect {
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / <span class="number">2</span>)
+        let originY = center.y - (size.height / <span class="number">2</span>)
+        <span class="keyword">self</span>.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+let centerRect = Rect(center: Point(x: <span class="number">4.0</span>, y: <span class="number">4.0</span>),
+                      size: Size(width: <span class="number">3.0</span>, height: <span class="number">3.0</span>))
+</code></pre>
+<hr>
+<p>扩展可以为已有类型添加新的实例方法和类型方法。   </p>
+<p>下面的例子为 <code>Int</code> 类型添加了一个名为 <code>repetitions</code> 的实例方法：   </p>
+<pre><code class="ObjC">extension Int {
+    func repetitions(task: () -&gt; Void) {
+        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0.</span>.&lt;<span class="keyword">self</span> {
+            task()
+        }
+    }
+}
+
+<span class="comment">// 打印 3 次</span>
+<span class="number">3.</span>repetitions { print(<span class="string">"Hello!"</span>) }
+</code></pre>
+<p>通过扩展添加的实例方法也可以修改该实例本身。结构体和枚举类型中如若有修改 <code>self</code> 或其属性的方法必须将该实例方法标注为 <code>mutating</code>，正如来自原始实现的可变方法一样。  </p>
+<pre><code class="ObjC">给Int类型利用扩展的方式添加了一个名为 square 的可变方法
+extension Int {
+    mutating func square() {
+        <span class="keyword">self</span> = <span class="keyword">self</span> * <span class="keyword">self</span>
+    }
+}
+
+var someInt = <span class="number">3</span>
+someInt.square()  <span class="comment">// 9</span>
+</code></pre>
+<hr>
+<p>扩展还可以为已有类型添加新下标。   </p>
+<p>下面这个例子为Swift内建类型 <code>Int</code> 添加一个整型下标，该下标 <code>[n]</code> 返回十进制数字从右向左数的第 <code>n</code> 个数字：   </p>
+<pre><code class="ObjC">extension Int {
+    subscript(digitIndex: Int) -&gt; Int {
+        var decimalBase = <span class="number">1</span>
+        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="number">0.</span>.&lt;digitIndex {
+            decimalBase *= <span class="number">10</span>
+        }
+        <span class="keyword">return</span> (<span class="keyword">self</span> / decimalBase) % <span class="number">10</span>
+    }
+}
+<span class="number">746381295</span>[<span class="number">0</span>]  <span class="comment">// 5 </span>
+<span class="number">746381295</span>[<span class="number">1</span>]  <span class="comment">// 9</span>
+<span class="number">746381295</span>[<span class="number">2</span>]  <span class="comment">// 2</span>
+<span class="number">746381295</span>[<span class="number">3</span>]  <span class="comment">// 1</span>
+<span class="number">746381295</span>[<span class="number">9</span>]  <span class="comment">// 0 越界，犹如在最左边补0，即0746381295[9]</span>
+</code></pre>
+<hr>
+<p>扩展可以为已有的类、结构体和枚举添加新的嵌套类型。   </p>
+<p>下面这个例子为 <code>Int</code> 添加了嵌套枚举。用来表示正整数、零和负整数：   </p>
+<pre><code class="ObjC">extension Int {
+    <span class="keyword">enum</span> Kind {
+        <span class="keyword">case</span> Negative, Zero, Positive
+    }
+
+    var kind: Kind {
+        <span class="keyword">switch</span> <span class="keyword">self</span> {
+        <span class="keyword">case</span> <span class="number">0</span>:
+            <span class="keyword">return</span> .Zero
+        <span class="keyword">case</span> let x where x &gt; <span class="number">0</span>:
+            <span class="keyword">return</span> .Positive
+        <span class="keyword">default</span>:
+            <span class="keyword">return</span> .Negative
+        }
+    }
+}
+</code></pre>
+<hr>
+<h3 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h3><hr>
+<p>协议定义了一个蓝图，规定了一系列用来实现某一特定任务或者功能的方法、属性，以及其他需要的东西。类、结构体或枚举都可以遵循协议，并为协议定义的这些要求提供具体实现。某个类型能够满足某个协议的要求，就可以说该类型遵循这个协议。   </p>
+<p>除了遵循协议的类型必须实现的要求外，还可以对协议进行扩展，通过扩展来实现一部分要求或者实现一些附加功能，这样遵循协议的类型就能够使用这些功能。   </p>
+<hr>
+<p>协议不指定属性是存储型属性还是计算型属性，它只指定属性的名称和类型以及指定属性是可读的还是可读可写的。<br>如果协议要求属性是可读可写的，那么该属性不能是常量属性或只读的计算型属性。如果协议只要求属性是可读的，那么该属性不仅可以是可读的，如果代码需要的话，还可以是可写的。   </p>
+<pre><code class="ObjC">protocol SomeProtocol { 
+    var mustBeSettable: Int { get set }  <span class="comment">// 可读可写属性</span>
+    var doesNotNeedToBeSettable: Int { get }   <span class="comment">// 只读属性</span>
+}
+</code></pre>
+<p>在协议中定义类型属性时，总是使用 <code>static</code> 关键字作为前缀。当类类型遵循协议时，除了使用 <code>static</code> 关键字，还可以使用 <code>class</code> 关键字来声明类型属性。   </p>
+<pre><code class="ObjC">protocol AnotherProtocol {
+    <span class="keyword">static</span> var someTypeProperty: Int { get set } 
+}
+</code></pre>
+<hr>
+<p>协议可以要求遵循协议的类型实现某些指定的实例方法或类方法。这些方法作为协议的一部分，像普通方法一样放在协议的定义中，但是不需要大括号和方法体。<br>可以在协议中定义具有可变参数的方法，但是，协议中的方法不支持提供默认值的参数。   </p>
+<p>与属性要求中所述类似，在协议中定义类方法的时候，总是使用 <code>static</code> 关键字作为前缀。当类类型遵循协议时，除了使用 <code>static</code> 关键字，还可以使用 <code>class</code> 关键字作为前缀。   </p>
+<pre><code class="ObjC">protocol SomeProtocol {
+    func randomMethod() -&gt; Double
+    <span class="keyword">static</span> func someTypeMethod() 
+}
+</code></pre>
+<hr>
+<p>如果在值类型（即结构体和枚举）的方法中需要改变方法所属的实例，需要将 <code>mutating</code> 关键字作为方法的前缀，写在 <code>func</code> 关键字之前，表示可以在该方法中修改它所属的实例以及实例的任意属性的值。   </p>
+<p>实现协议中的 <code>mutating</code> 方法时，若是类类型，则不用写 <code>mutating</code> 关键字。而对于结构体和枚举，则必须写 <code>mutating</code> 关键字。   </p>
+<pre><code class="ObjC">protocol Togglable {
+    mutating func toggle()
+}
+
+<span class="keyword">enum</span> OnOffSwitch: Togglable {
+    <span class="keyword">case</span> Off, On
+
+    mutating func toggle() {
+        <span class="keyword">switch</span> <span class="keyword">self</span> {
+        <span class="keyword">case</span> .Off:
+            <span class="keyword">self</span> = .On
+        <span class="keyword">case</span> .On:
+            <span class="keyword">self</span> = .Off
+        }
+    }
+}
+
+var lightSwitch = OnOffSwitch.Off
+lightSwitch.toggle()
+</code></pre>
+<hr>
+<p>协议可以要求遵循协议的类型实现指定的构造器。   </p>
+<p>在遵循协议的类中实现构造器，无论是作为指定构造器，还是作为便利构造器。都必须为构造器的实现标上 <code>required</code> 修饰符。   </p>
+<pre><code class="ObjC">protocol SomeProtocol {
+    init(someParameter: Int)
+}
+
+class SomeClass: SomeProtocol {
+    required init(someParameter: Int) {
+        <span class="comment">// 这里是对遵循协议的构造器的实现部分</span>
+    }
+}
+</code></pre>
+<p>使用 <code>required</code> 修饰符可以确保所有子类也必须提供此构造器的实现，从而也能遵循协议。   </p>
+<p>如果类已经被标记为 <code>final</code>，那么不需要在协议构造器的实现中使用 <code>required</code> 修饰符，因为 <code>final</code> 类不能有子类。    </p>
+<p>如果一个子类重写了父类的指定构造器，并且该构造器满足了某个协议的要求，那么该构造器的实现需要同时标注 <code>required</code> 和 <code>override</code> 修饰符。    </p>
+<pre><code class="ObjC">protocol SomeProtocol {
+    init()
+}
+
+class SomeSuperClass {
+    init() {
+        <span class="comment">// 这里是构造器的实现部分</span>
+    }
+}
+
+class SomeSubClass: SomeSuperClass, SomeProtocol {
+    <span class="comment">// 因为遵循协议，需要加上 required </span>
+    <span class="comment">// 因为继承自父类，需要加上 override </span>
+    required override init() {
+        <span class="comment">// 这里是构造器的实现部分</span>
+    }
+}
+</code></pre>
+<hr>
+<p>协议还可以为遵循协议的类型定义可失败构造器要求。   </p>
+<p>遵循协议的类型可以通过可失败构造器 <code>init?</code> 或非可失败构造器 <code>init</code> 来满足协议中定义的可失败构造器要求。协议中定义的非可失败构造器要求可以通过非可失败构造器 <code>init</code> 或隐式解包可失败构造器 <code>init!</code> 来满足。  </p>
+<hr>
+<p>尽管协议本身并未实现任何功能，但是协议可以被当做一个成熟的类型来使用。   </p>
+<p>协议可以像其他普通类型一样使用，使用场景如下：   </p>
+<ul>
+<li>作为函数、方法或构造器中的参数类型或返回值类型   </li>
+<li>作为常量、变量或属性的类型   </li>
+<li>作为数组、字典或其他容器中的元素类型   </li>
+</ul>
+<p>下面这个例子是将协议作为类型来使用：   </p>
+<pre><code class="ObjC"><span class="comment">// 生成随机数的协议</span>
+protocol RandomNumberGenerator {
+    func random() -&gt; Double
+}
+
+class Dice {
+    let sides: Int
+
+    <span class="comment">// generator 属性的类型为 RandomNumberGenerator</span>
+    <span class="comment">// 因此任何遵循了 RandomNumberGenerator 协议的类型的实例都可以赋值给 generator</span>
+    <span class="comment">// 除此之外并无其他要求</span>
+    let generator: RandomNumberGenerator
+
+    init(sides: Int, generator: RandomNumberGenerator) {
+        <span class="keyword">self</span>.sides = sides
+        <span class="keyword">self</span>.generator = generator
+    }
+
+    func roll() -&gt; Int {
+        <span class="keyword">return</span> Int(generator.random() * Double(sides)) + <span class="number">1</span>
+    }
+}
+</code></pre>
+<hr>
+<p>委托是一种设计模式，它允许类或结构体将一些需要它们负责的功能委托给其他类型的实例。<br>委托模式的实现很简单：定义协议来封装那些需要被委托的功能，这样就能确保遵循协议的类型能提供这些功能。委托模式可以用来响应特定的动作，或者接收外部数据源提供的数据，而无需关心外部数据源的类型。  </p>
+<hr>
+<p>即便无法修改源代码，依然可以通过扩展令已有类型遵循并符合协议。扩展可以为已有类型添加属性、方法、下标以及构造器，因此可以符合协议中的相应要求。   </p>
+<p>通过扩展令已有类型遵循并符合协议时，该类型的所有实例也会随之获得协议中定义的各项功能。    </p>
+<hr>
+<p>协议能够继承一个或多个其他协议，可以在继承的协议的基础上增加新的要求。协议的继承语法与类的继承相 似，多个被继承的协议间用逗号分隔。   </p>
+<pre><code class="ObjC">protocol InheritingProtocol: SomeProtocol, AnotherProtocol {
+    <span class="comment">// 这里是协议的定义部分 </span>
+}
+</code></pre>
+<hr>
+<p>在协议的继承列表中，通过添加 <code>class</code> 关键字来限制协议只能被类类型遵循，而结构体或枚举不能遵循 该协议。<code>class</code> 关键字必须第一个出现在协议的继承列表中，在其他继承的协议之前。   </p>
+<pre><code class="ObjC">protocol SomeClassOnlyProtocol: class, SomeInheritedProtocol {
+    <span class="comment">// 这里是类类型专属协议的定义部分 </span>
+}
+</code></pre>
+<hr>
+<p>有时候需要同时遵循多个协议，这时可以将多个协议采用 <code>SomeProtocol &amp; AnotherProtocol</code> 这样的格式进行组合，称为协议合成。  </p>
+<pre><code class="ObjC">protocol Named {
+    var name: String { get }
+}
+
+protocol Aged {
+    var age: Int { get }
+}
+
+<span class="keyword">struct</span> Person: Named, Aged {
+    var name: String
+    var age: Int
+}
+
+<span class="comment">// wishHappyBirthday函数不关心参数的具体类型，只要参数遵循这两个协议即可</span>
+func wishHappyBirthday(to celebrator: Named &amp; Aged) {
+    print(<span class="string">"Happy birthday, \(celebrator.name), you're \(celebrator.age)!"</span>) }
+
+let birthdayPerson = Person(name: <span class="string">"Malcolm"</span>, age: <span class="number">21</span>)
+wishHappyBirthday(to: birthdayPerson)
+</code></pre>
+<hr>
+<p>使用类型转换中描述的 <code>is</code> 和 <code>as</code> 操作符来检查协议一致性，即是否符合某协议，并且可以转换到指定的协议类型。   </p>
+<ul>
+<li><code>is</code> 用来检查实例是否符合某个协议，若符合则返回 <code>true</code>，否则返回 <code>false</code>。   </li>
+<li><code>as?</code> 返回一个可选值，当实例符合某个协议时，返回类型为协议类型的可选值，否则返回 <code>nil</code>。   </li>
+<li><code>as!</code> 将实例强制向下转换到某个协议类型，如果强转失败，会引发运行时错误。   </li>
+</ul>
+<pre><code class="ObjC">protocol HasArea {
+    var area: Double { get }
+}
+
+class Circle: HasArea {
+    let pi = <span class="number">3.1415927</span>
+    var radius: Double
+    var area: Double { <span class="keyword">return</span> pi * radius * radius }  <span class="comment">// 计算型属性</span>
+
+    init(radius: Double) {
+        <span class="keyword">self</span>.radius = radius
+    }
+}
+
+class Country: HasArea {
+    var area: Double  <span class="comment">// 存储型属性</span>
+
+    init(area: Double) {
+        <span class="keyword">self</span>.area = area
+    }
+}
+
+<span class="comment">// Animal类并未遵循HasArea协议</span>
+class Animal {
+    var legs: Int
+    init(legs: Int) {
+        <span class="keyword">self</span>.legs = legs
+    }
+}
+
+let objects: [AnyObject] = [
+    Circle(radius: <span class="number">2.0</span>),
+    Country(area: <span class="number">243</span>_610),
+    Animal(legs: <span class="number">4</span>)
+]
+
+<span class="keyword">for</span> object <span class="keyword">in</span> objects {
+    <span class="keyword">if</span> let objectWithArea = object as? HasArea {
+        print(<span class="string">"Area is \(objectWithArea.area)"</span>)
+    } <span class="keyword">else</span> {
+        print(<span class="string">"Something that doesn't have an area"</span>)
+    }
+}
+
+<span class="comment">// Area is 12.5663708</span>
+<span class="comment">// Area is 243610.0</span>
+<span class="comment">// Something that doesn't have an area</span>
+</code></pre>
+<hr>
+<p>协议可以定义可选要求，遵循协议的类型可以选择是否实现这些要求。<br>在协议中使用 <code>optional</code> 关键字作为前缀来定义可选要求。可选要求用在需要和 <code>Objective-C</code> 打交道的代码中。<br>协议和可选要求都必须带上 <code>@objc</code> 标记。标记了 <code>@objc</code> 特性的协议只能被Objective-C的类或者 <code>@objc</code> 类遵循，其他类以及结构体和枚举均不能遵循这种协议。   </p>
+<pre><code class="ObjC">@objc protocol CounterDataSource { 
+    optional func incrementForCount(count: Int) -&gt; Int  <span class="comment">// 可选方法</span>
+    optional var fixedIncrement: Int { get }   <span class="comment">// 可选属性</span>
+}
+</code></pre>
+<p>尽管技术上允许 <code>CounterDataSource</code> 协议中的方法和属性都是可选的，但是遵循协议的类还是最好不要让其可选。  </p>
+<hr>
+<p>协议可以通过扩展来为遵循协议的类型提供属性、方法以及下标的实现。通过这种方式，你可以基于协议本身来实现这些功能，而无需在每个遵循协议的类型中都重复同样的实现，更无需使用全局函数。   </p>
+<pre><code class="ObjC">protocol RandomNumberGenerator {
+    func random() -&gt; Double
+}
+
+extension RandomNumberGenerator {
+    func randomBool() -&gt; Bool {
+        <span class="keyword">return</span> random() &gt; <span class="number">0.5</span>
+    }
+}
+</code></pre>
+<hr>
+<p>可以通过协议扩展来为协议要求的属性、方法以及下标提供默认的实现。如果遵循协议的类型为这些要求提供了自己的实现，那么这些自定义实现将会替代扩展中的默认实现被使用。   </p>
+<hr>
+<p>在扩展协议的时候，可以指定一些限制条件，只有遵循协议的类型满足这些限制条件时，才能获得协议扩展提供的默认实现。这些限制条件写在协议名之后，使用 <code>where</code> 子句来描述。    </p>
+<pre><code class="ObjC"><span class="comment">// 集合中的元素如果遵循TextRepresentable协议，其元素就可以获得textualDescription属性</span>
+<span class="comment">// 比如在数组中存放了遵循TextRepresentable协议的结构体的实例，从而可以访问这些实例的textualDescription属性</span>
+extension Collection where Iterator.Element: TextRepresentable {
+    var textualDescription: String {
+        let itemsAsText = <span class="keyword">self</span>.map { $<span class="number">0.</span>textualDescription }
+        <span class="keyword">return</span> <span class="string">"["</span> + itemsAsText.joinWithSeparator(<span class="string">", "</span>) + <span class="string">"]"</span>
+    }
+}
+</code></pre>
+<hr>
+<h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><hr>
+<p>泛型代码让你能够根据自定义的需求，编写出适用于任意类型且灵活可重用的函数及类型。它能让你避免代码的重复，用一种清晰和抽象的方式来表达代码的意图。  </p>
+<p>泛型是Swift最强大的特性之一，许多Swift标准库是通过泛型代码构建的。事实上，泛型的使用贯穿了整本 语言手册，比如，Swift中的 <code>Array</code> 和 <code>Dictionary</code> 都是泛型集合。   </p>
+<hr>
+<pre><code class="ObjC">func swapTwoValues&lt;T&gt;(_ a: <span class="keyword">inout</span> T, _ b: <span class="keyword">inout</span> T) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+</code></pre>
+<p>在 <code>swapTwoValues(_:_:)</code> 函数中，占位类型 <code>T</code> 是类型参数的一个例子。类型参数指定并命名一个占位类型，并且紧跟在函数名后面，使用一对尖括号括起来 <code>&lt;T&gt;</code>。   </p>
+<p>一旦一个类型参数被指定，就可以用它来定义一个函数的参数类型或者作为函数的返回类型，还可以用作函数主体中的注释类型。在这些情况下，类型参数会在函数调用时被实际类型所替换。    </p>
+<p>可以有多个类型参数，将它们都写在尖括号中，用逗号分开。   </p>
+<hr>
+<p>在大多数情况下，类型参数具有一个描述性名字，例如 <code>Dictionary&lt;Key, Value&gt;</code> 中的 <code>Key</code> 和 <code>Value</code>，以及 <code>Array&lt;Element&gt;</code> 中的 <code>Element</code>，这可以告诉阅读代码的人这些类型参数和泛型函数之间的关系。然而，当它们之间没有有意义的关系时，通常使用单个字母来命名，例如 <code>T</code>、<code>U</code>、<code>V</code> 等。   </p>
+<hr>
+<p>除了泛型函数，Swift还允许你定义泛型类型。   </p>
+<pre><code class="ObjC"><span class="keyword">struct</span> Stack&lt;Element&gt; {
+    var items = [Element]()
+
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+
+    mutating func pop() -&gt; Element {
+        <span class="keyword">return</span> items.removeLast()
+    }
+}
+
+
+var stackOfStrings = Stack&lt;String&gt;()
+stackOfStrings.push(<span class="string">"aaa"</span>)
+stackOfStrings.push(<span class="string">"bbb"</span>)
+stackOfStrings.push(<span class="string">"ccc"</span>)
+
+let fromTheTop = stackOfStrings.pop()  <span class="comment">// ccc</span>
+</code></pre>
+<p>当想要扩展一个泛型类型的时候，并不需要在扩展的定义中提供类型参数列表。原始类型定义中声明的类型参数列表在扩展中可以直接使用，并且这些来自原始类型中的参数名称会被用作原始定义中类型参数的引用。   </p>
+<pre><code class="ObjC">extension Stack { 
+    var topItem: Element? {
+        <span class="keyword">return</span> items.isEmpty ? <span class="literal">nil</span> : items[items.count - <span class="number">1</span>] 
+    } 
+}
+</code></pre>
+<p>上面的这个扩展并没有定义一个类型参数列表。<code>Stack</code> 类型已有的类型参数名称 <code>Element</code> 被用在扩展中来表示计算型属性 <code>topItem</code> 的可选类型。   </p>
+<hr>
+<p>有时候如果能将使用在泛型函数和泛型类型中的类型添加一个特定的类型约束，将会是非常有用的。类型约束可以指定一个类型参数必须继承自指定类，或者符合一个特定的协议或协议组合。比如，Swift的 <code>Dictionary</code> 类型对字典的键的类型做了些限制，字典的键的类型必须是可哈希的，因此就必须遵循 <code>Hashable</code>  协议。   </p>
+<p>在一个类型参数名后面放置一个类名或者协议名，并用冒号进行分隔，来定义类型约束，它们将成为类型参数列表的一部分。   </p>
+<pre><code class="ObjC"><span class="comment">// T必须是SomeClass子类的类型约束</span>
+<span class="comment">// U必须遵循SomeProtocol协议</span>
+func someFunction&lt;T: SomeClass, U: SomeProtocol&gt;(someT: T, someU: U) {
+    <span class="comment">// 这里是泛型函数的函数体部分 </span>
+}
+</code></pre>
+<hr>
+<p>类型约束的一个例子：   </p>
+<pre><code class="ObjC">func findIndex&lt;T&gt;(of valueToFind: T, <span class="keyword">in</span> array:[T]) -&gt; Int? {
+    <span class="keyword">for</span> (index, value) <span class="keyword">in</span> array.enumerated() {
+        <span class="keyword">if</span> value == valueToFind {
+            <span class="keyword">return</span> index
+        }
+    }
+    <span class="keyword">return</span> <span class="literal">nil</span>
+}
+</code></pre>
+<p>上面这个函数将无法通过编译，问题出在 <code>if value == valueToFind</code>，因为并不是所有的Swift类型都可以用相等符号 <code>==</code> 比较，比如是一个自定义的类或结构体。然而，Swift标准库中定义了一个 <code>Equatable</code> 协议，该协议要求任何遵循该协议的类型必须实现相等符号 <code>==</code> 和不等符号 <code>!=</code>，从而能对该类型的任意两个值进行比较。因此，上面代码改为以下形式才是正确的。   </p>
+<pre><code class="ObjC">func findIndex&lt;T: Equatable&gt;(of valueToFind: T, <span class="keyword">in</span> array:[T]) -&gt; Int? {
+    <span class="keyword">for</span> (index, value) <span class="keyword">in</span> array.enumerated() {
+        <span class="keyword">if</span> value == valueToFind {
+            <span class="keyword">return</span> index
+        }
+    }
+    <span class="keyword">return</span> <span class="literal">nil</span>
+}
+</code></pre>
+<hr>
+<p>定义一个协议时，有的时候声明一个或多个关联类型作为协议定义的一部分将会非常有用。关联类型为协议中的某个类型提供了一个占位名（或者说别名），其代表的实际类型在协议被采纳时才会被指定。通过 <code>associatedtype</code> 关键字来指定关联类型。   </p>
+<pre><code class="ObjC">protocol Container {
+    associatedtype ItemType
+
+    <span class="comment">// 必须通过append(_:)方法添加一个新元素到容器中</span>
+    mutating func append(_ item: ItemType)
+
+    <span class="comment">// 必须可以通过count属性获取容器中的元素数量，且是Int类型</span>
+    var count: Int { get }
+
+    <span class="comment">// 必须可以通过Int型的下标来检索容器中的每个元素</span>
+    subscript(i: Int) -&gt; ItemType { get }
+}
+</code></pre>
+<p>任何遵从 <code>Container</code> 协议的类型必须能够指定其存储的元素的类型，必须保证只有正确类型的元素可以加进容器中，必须明确通过其下标返回的元素的类型。   </p>
+<p>为了达到这个目的，<code>Container</code> 协议声明了一个关联类型 <code>ItemType</code>。这个协议无法定义 <code>ItemType</code> 是什么类型的别名，这个信息将留给遵从协议的类型来提供。    </p>
+<pre><code class="ObjC"><span class="keyword">struct</span> Stack&lt;Element&gt;: Container {
+    var items = [Element]()
+
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+
+    mutating func pop() -&gt; Element {
+        <span class="keyword">return</span> items.removeLast()
+    }
+
+
+    <span class="comment">// Container 协议的实现部分    </span>
+    typealias ItemType = Element  <span class="comment">// 此句可以通过下面方法推断出来，可省略</span>
+
+    mutating func append(_ item: Element) {
+        <span class="keyword">self</span>.push(item)
+    }
+
+    var count: Int {
+        <span class="keyword">return</span> items.count
+    }
+
+    subscript(i: Int) -&gt; Element {
+        <span class="keyword">return</span> items[i]
+    }
+}
+</code></pre>
+<hr>
+<p>类型约束能够为泛型函数或泛型类型的类型参数定义一些强制要求。  </p>
+<p>为关联类型定义约束也是非常有用的，可以在参数列表中通过 <code>where</code> 子句为关联类型定义约束。   </p>
+<pre><code class="ObjC">func allItemsMatch&lt;C1: Container, C2: Container&gt;
+    (_ someContainer: C1, _ anotherContainer: C2) -&gt; Bool
+    where C1.ItemType == C2.ItemType, C1.ItemType: Equatable { }
+</code></pre>
+<p>上面这个函数的约束有：  </p>
+<ul>
+<li><code>C1</code> 必须符合 <code>Container</code> 协议（意思就是 <code>someContainer</code> 是一个 C1 类型的容器）   </li>
+<li><code>C2</code> 必须符合 <code>Container</code> 协议（意思就是 <code>anotherContainer</code> 是一个 C2 类型的容器）    </li>
+<li><code>C1</code> 的 <code>ItemType</code> 必须和 <code>C2</code> 的 <code>ItemType</code> 类型相同，写作 <code>C1.ItemType == C2.ItemType</code>（意思就是 <code>someContainer</code> 和 <code>anotherContainer</code> 包含相同类型的元素）   </li>
+<li><code>C1</code> 的 <code>ItemType</code> 必须符合 <code>Equatable</code> 协议（意思就是 <code>someContainer</code> 中的元素可以通过不等于操作符 <code>!=</code> 来检查它们是否彼此不同）     </li>
+</ul>
+<p>第三条和第四条要求结合起来意味着 <code>anotherContainer</code> 中的元素也可以通过 <code>!=</code> 操作符来比较，因为它和 <code>someContainer</code> 中的元素类型相同。   </p>
+<hr>
+<p>### </p>
 
       
     </div>
@@ -2590,7 +3179,7 @@ let photo = try! loadImage(atPath: <span class="string">"./Resources/John Apples
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造过程"><span class="nav-number">14.</span> <span class="nav-text">构造过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#析构过程"><span class="nav-number">15.</span> <span class="nav-text">析构过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动引用计数"><span class="nav-number">16.</span> <span class="nav-text">自动引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选链式调用"><span class="nav-number">17.</span> <span class="nav-text">可选链式调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">18.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换"><span class="nav-number">19.</span> <span class="nav-text">类型转换</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础部分"><span class="nav-number">1.</span> <span class="nav-text">基础部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算符"><span class="nav-number">2.</span> <span class="nav-text">基本运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串和字符"><span class="nav-number">3.</span> <span class="nav-text">字符串和字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型"><span class="nav-number">4.</span> <span class="nav-text">集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制流"><span class="nav-number">5.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">8.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类和结构体"><span class="nav-number">9.</span> <span class="nav-text">类和结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">10.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">11.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标"><span class="nav-number">12.</span> <span class="nav-text">下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">13.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造过程"><span class="nav-number">14.</span> <span class="nav-text">构造过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#析构过程"><span class="nav-number">15.</span> <span class="nav-text">析构过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动引用计数"><span class="nav-number">16.</span> <span class="nav-text">自动引用计数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选链式调用"><span class="nav-number">17.</span> <span class="nav-text">可选链式调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">18.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换"><span class="nav-number">19.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套类型"><span class="nav-number">20.</span> <span class="nav-text">嵌套类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">21.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协议"><span class="nav-number">22.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型"><span class="nav-number">23.</span> <span class="nav-text">泛型</span></a></li></ol></div>
             
           </div>
         </section>
