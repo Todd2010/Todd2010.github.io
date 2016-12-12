@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-11T11:27:25.000Z">
+<meta property="og:updated_time" content="2016-12-12T03:42:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。  
@@ -293,7 +293,7 @@
 <h3 id="基础部分"><a href="#基础部分" class="headerlink" title="基础部分"></a>基础部分</h3><hr>
 <p>Swift包含了C和Objecitve-C中所有的基础数据类型，<code>Int</code> 表示整型值；<code>Double</code> 和 <code>Float</code> 表示浮点型值；<code>Bool</code> 表示布尔型值；<code>String</code> 表示字符串型值；<code>Character</code> 表示字符型值。   </p>
 <hr>
-<p>Swift提供了三个的基本的集合类型：<code>Array</code>、<code>Dictionary</code>、<code>Set</code>。   </p>
+<p>Swift提供了三个基本的集合类型：<code>Array</code>、<code>Dictionary</code>、<code>Set</code>。   </p>
 <hr>
 <p>在Swift中，如果你要处理的值不需要改变，那么使用常量可以让你的代码更加安全并且能更清晰的表达你的意图。   </p>
 <hr>
@@ -1581,7 +1581,7 @@ class VideoMode {
     var name: String?
 }
 
-<span class="comment">// 生成一个结构体和一个类实例</span>
+<span class="comment">// 生成一个结构体实例和一个类实例</span>
 let someResolution = Resolution()
 let someVideoMode = VideoMode()
 
@@ -1593,9 +1593,9 @@ someVideoMode.resolution.width
 someResolution.width = <span class="number">10</span>
 someVideoMode.resolution.width = <span class="number">20</span>
 </code></pre>
-<p>与Objective-C不同的是，Swift允许直接设置结构体属性的子属性。  </p>
+<p>与Objective-C不同的是，Swift允许直接设置结构体属性的子属性。<br><a href="http://blog.csdn.net/Jackson__Chan/article/details/52305518?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="external">在Objective-C中为什么不允许直接修改某个对象的结构体属性的成员</a>  </p>
 <hr>
-<p>所有结构体都有一个自动生成的成员逐一构造器，用于初始化新结构体实例中的成员属性。类实例没有默认的成员逐一构造器。   </p>
+<p>所有结构体都有一个自动生成的成员逐一构造器（<code>memberwise initializer</code>），用于初始化结构体实例中的成员属性。类实例没有默认的成员逐一构造器。   </p>
 <pre><code class="ObjC">let vga = Resolution(width: <span class="number">640</span>, height: <span class="number">480</span>)
 </code></pre>
 <hr>
@@ -1604,12 +1604,12 @@ someVideoMode.resolution.width = <span class="number">20</span>
 <p>实际上，在Swift中，所有的基本类型：整型、浮点型、布尔类型、字符串、数组、字典等都是值类型，并且在底层都是以结构体的形式来实现的。   </p>
 <hr>
 <p>与值类型不同，引用类型在被赋予到一个变量、常量或者被传递给一个函数的时候，拷贝的是引用的指针，其值不会被拷贝。   </p>
-<p>类是引用类型，有可能有多个常量或变量同时引用同一个实例。Swift提供两个恒等运算符（等价于 <code>===</code>、不等价于 <code>!==</code>）来判定两个常量或者变量是否引用同一个类实例。   </p>
+<p>类是引用类型，有可能有多个常量或变量同时引用同一个类实例。Swift提供两个恒等运算符（等价于 <code>Identical to</code>：<code>===</code>、不等价于 <code>Not identical to</code>：<code>!==</code>）来判定两个常量或者变量是否引用同一个类实例。   </p>
 <hr>
 <p>在Swift中，许多基本类型，诸如 <code>String</code>、<code>Array</code> 和 <code>Dictionary</code> 类型均以结构体形式实现，因此，在代码中，拷贝行为看起来似乎总在发生。然而，Swift幕后只在绝对必要时才执行实际的拷贝，从而来确保性能最优化。  </p>
 <hr>
 <h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><hr>
-<p>存储属性就是存储在特定类或结构体实例中的一个常量或变量。  </p>
+<p>存储属性（<code>stored property</code>）就是存储在特定类或结构体实例中的一个常量或变量。  </p>
 <p>可以在定义存储属性的时候指定默认值，也可以在构造函数中设置或修改存储属性的值。   </p>
 <pre><code class="ObjC"><span class="comment">// 用于描述整数范围的结构体，范围值在被创建后不能修改</span>
 <span class="keyword">struct</span> FixedLengthRange {
@@ -1623,19 +1623,19 @@ var rangeOfThreeItems = FixedLengthRange(firstValue: <span class="number">0</spa
 <span class="comment">// 6, 7, 8</span>
 rangeOfThreeItems.firstValue = <span class="number">6</span>
 </code></pre>
-<p>如果创建了一个结构体的实例并将其值赋值给一个常量，则无法修改实例的任何属性，即使有属性被声明为变量也不行。    </p>
+<p>如果创建了一个结构体的实例并将其值赋值给一个常量，则无法修改实例中的任何属性值，不管那些属性在定义的时候被声明为了常量还是变量。    </p>
 <pre><code class="ObjC"><span class="comment">// 0, 1, 2, 3</span>
 let rangeOfFourItems = FixedLengthRange(firstValue: <span class="number">0</span>, length: <span class="number">4</span>)
 rangeOfFourItems.firstValue = <span class="number">6</span>  <span class="comment">// 报错</span>
 </code></pre>
 <p>这是由于结构体属于值类型的原因，当值类型的实例被声明为常量时，它的所有属性也就成了常量。   </p>
 <hr>
-<p>延迟存储属性（懒加载属性）是指第一次被调用的时候才会计算其初始值的属性。在属性声明前使用 <code>lazy</code> 来标示一个延迟存储属性。   </p>
+<p>延迟存储属性（懒加载存储属性 <code>lazy stored property</code>）是指第一次被调用的时候才会计算其初始值的属性。在属性声明前使用 <code>lazy</code> 来标示一个延迟存储属性。   </p>
 <p>必须将延迟存储属性声明成变量，因为属性的初始值可能在实例构造完成之后才会得到。而常量属性在构造完成之前必须要有值。   </p>
-<p>延迟属性应用在当属性的值在实例构造过程结束后才能知道，或者属性的初始值需要经过复杂的大量计算时。</p>
-<p>如果 <code>lazy</code> 属性在没有被初始化就同时被多个线程访问，则无法保证该属性只会被初始化一次。  </p>
+<p>延迟存储属性可应用在当属性值在实例构造过程结束后才能知道，或者属性的初始值需要经过复杂的大量计算时。</p>
+<p>如果延迟存储属性在没有被初始化就同时被多个线程访问，则无法保证该属性只会被初始化一次。  </p>
 <hr>
-<p>类、结构体和枚举还可以定义计算属性。计算属性不直接存储值，而是提供一个 <code>getter</code> 和一个可选的 <code>setter</code> 来间接获取和设置其他属性的值。  </p>
+<p>类、结构体和枚举还可以定义计算属性（<code>computed property</code>）。计算属性不直接存储值，而是提供一个 <code>getter</code> 来获取值和一个可选的 <code>setter</code> 来间接设置其他属性的值。  </p>
 <pre><code class="ObjC"><span class="keyword">struct</span> Point {
     var x = <span class="number">0.0</span>, y = <span class="number">0.0</span>
 }
@@ -1663,7 +1663,7 @@ var square = Rect(origin: Point(x: <span class="number">0.0</span>, y: <span cla
 square.center
 square.center = Point(x: <span class="number">15.0</span>, y: <span class="number">15.0</span>)
 </code></pre>
-<p>如果计算属性的 <code>setter</code> 没有定义表示新值的参数值，则可以使用默认名称的 <code>newValue</code>。    </p>
+<p>如果计算属性的 <code>setter</code> 没有定义表示新值的参数值，则可以使用默认名称 <code>newValue</code>。    </p>
 <p>只有 <code>getter</code> 没有 <code>setter</code> 的计算属性就是只读计算属性。    </p>
 <p>计算属性只能是变量，包括只读计算属性，因为他们的值是不固定的。  </p>
 <p>只读计算属性的声明可以去掉 <code>get</code> 关键字和花括号：   </p>
@@ -1678,7 +1678,7 @@ square.center = Point(x: <span class="number">15.0</span>, y: <span class="numbe
 }
 </code></pre>
 <hr>
-<p>属性观察器监控和响应属性值的变化，每次属性被设置新值的时候都会调用属性观察器，即使新值和当前值相同也不例外。   </p>
+<p>属性观察器（<code>property observer</code>）监控和响应属性值的变化，每次属性被设置新值的时候都会调用属性观察器，即使新值和当前值相同也不例外。   </p>
 <p>属性观察器：  </p>
 <ul>
 <li><code>willSet</code>：在新的值被设置之前调用。    </li>
@@ -1697,7 +1697,6 @@ square.center = Point(x: <span class="number">15.0</span>, y: <span class="numbe
             }
         }
     }
-
 }
 let stepCounter = StepCounter()
 stepCounter.totalSteps = <span class="number">200</span>
@@ -1705,7 +1704,7 @@ stepCounter.totalSteps = <span class="number">200</span>
 <span class="comment">// Added steps: 200</span>
 
 stepCounter.totalSteps = <span class="number">360</span>
-<span class="comment">// Total steps: 200</span>
+<span class="comment">// Total steps: 360</span>
 <span class="comment">// Added steps: 160</span>
 </code></pre>
 <hr>
@@ -1714,7 +1713,7 @@ stepCounter.totalSteps = <span class="number">360</span>
 <p>全局变量是在函数、方法、闭包或任何类型之外的变量。<br>局部变量是在函数、方法或闭包内部定义的变量。<br>全局的常量或变量都是延迟计算的，不需要 <code>lazy</code> 修饰。<br>局部范围的常量和变量从不延迟计算。   </p>
 <p>计算属性和属性观察器所具有的功能也可以用于全局变量和局部变量。<br>全局或局部变量都属于存储型变量，跟存储属性类似，它为特定类型的值提供存储空间，并允许读取和写入。<br>在全局或局部范围都可以定义计算型变量和为存储型变量定义观察器。<br>计算型变量跟计算属性一样，返回一个计算结果而不是存储值。   </p>
 <hr>
-<p>可以为类型本身定义属性，无论创建了多少个该类型的实例，这些属性都只有唯一的一份，这种属性就是类型属性（Type Property）。<br>类型属性用于定义某个类型所有实例共享的数据，比如所有实例都能用的一个常量或变量。   </p>
+<p>可以为类型本身定义属性，无论创建了多少个该类型的实例，这些属性都只有唯一的一份，这种属性就是类型属性（<code>Type Property</code>）。<br>类型属性用于定义某个类型所有实例共享的数据，比如所有实例都能用的一个常量或变量。   </p>
 <p>跟实例的存储属性不同，存储型类型属性必须有默认值，因为类型本身没有构造器，也就无法在初始化过程中使用构造器给类型属性赋值。<br>存储型类型属性是延迟初始化的，它们只有在第一次被访问的时候才被初始化。即使它们被多个线程同时访问，系统也保证只会对其进行一次初始化，不需要 <code>lazy</code> 修饰符。   </p>
 <hr>
 <p>在Swift中，类型属性是作为类型定义的一部分写在类型最外层的花括号内。  </p>
@@ -1735,12 +1734,17 @@ stepCounter.totalSteps = <span class="number">360</span>
     }
 }
 
-<span class="comment">// 类中的存储型类型属性和计算型类型属性（本类、对父类的重写）</span>
-class SomeClass {
+<span class="comment">// 类中的存储型类型属性和计算型类型属性</span>
+class SomeClass: SuperSomeClass {
+    <span class="comment">// 本类中的存储型类型属性</span>
     <span class="keyword">static</span> var storedTypeProperty = <span class="string">"Some value."</span>
+
+    <span class="comment">// 本类中的计算型类型属性</span>
     <span class="keyword">static</span> var computedTypeProperty: Int {
         <span class="keyword">return</span> <span class="number">27</span>
     }
+
+    <span class="comment">// 对父类重写的计算型类型属性</span>
     class var overrideableComputedTypeProperty: Int {
         <span class="keyword">return</span> <span class="number">107</span>
     }
