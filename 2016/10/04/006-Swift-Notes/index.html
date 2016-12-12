@@ -93,7 +93,7 @@
 <meta property="og:description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。  
 在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-12T03:42:44.000Z">
+<meta property="og:updated_time" content="2016-12-12T04:04:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
 <meta name="twitter:description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。  
@@ -1767,10 +1767,10 @@ SomeClass.storedTypeProperty = <span class="string">"Another value."</span>
 <p>类、结构体、枚举都可以定义实例方法，实例方法是为给定类型的实例封装一些具体的功能。<br>类、结构体、枚举还可以定义类型方法，类型方法与类型本身关联。   </p>
 <p>结构体和枚举能够定义方法是Swift和Objective-C的主要区别之一。<br>在Objective-C中，类是唯一能定义方法的类型。   </p>
 <hr>
-<p>类型的每一个实例都有一个隐含的属性叫做 <code>self</code>，<code>self</code> 完全等同于该实例本身。<br>实际上，在代码中没必要经常写 <code>self</code>，不论何时，只要在一个方法中使用一个已知的属性或者方法名称，如果没有明确的写 <code>self</code>，Swift默认指的是当前实例的属性和方法。   </p>
+<p>类型的每一个实例都有一个隐含的属性叫做 <code>self</code>，<code>self</code> 完全等同于该实例本身。<br>实际上，在代码中没必要经常写 <code>self</code>，一般情况下，只要在一个方法中使用了一个已知的属性或者方法名称，如果没有明确写 <code>self</code>，Swift默认指的就是当前实例的属性和方法。   </p>
 <p>如果实例方法的某个参数名称与实例的某个属性名称相同的时候，可以使用 <code>self</code> 属性来区分参数名称和属性名称。</p>
 <hr>
-<p>结构体和枚举是值类型，默认情况下，值类型的属性不能在它的实例方法中被修改。但是，如果确实需要在某个特定的方法中修改结构体或者枚举的属性，可以把这个方法声明为可变 <code>mutating</code> 方法。  </p>
+<p>结构体和枚举是值类型，默认情况下，值类型的属性不能在它的实例方法中被修改。但是，如果确实需要在某个特定的方法中修改结构体或者枚举中的属性，可以把这个方法声明为可变 <code>mutating</code> 方法。  </p>
 <pre><code class="ObjC"><span class="keyword">struct</span> Point {
     var x = <span class="number">0.0</span>, y = <span class="number">0.0</span>
     mutating func move(x: Double, y: Double) {
@@ -1801,6 +1801,7 @@ fixedPoint.move(x: <span class="number">10</span>, y: <span class="number">20</s
 <p>枚举的可变方法可以把 self 设置为同一枚举类型的不同成员。   </p>
 <pre><code class="ObjC"><span class="keyword">enum</span> LightState {
     <span class="keyword">case</span> Off, Low, High
+
     mutating func next() {
         <span class="keyword">switch</span> <span class="keyword">self</span> {
         <span class="keyword">case</span> .Off:
@@ -1818,11 +1819,13 @@ light.next() <span class="comment">// LightState.High</span>
 light.next() <span class="comment">// LightState.Off</span>
 </code></pre>
 <hr>
-<p>定义在类型本身上的方法叫做类型方法。在方法的 <code>func</code> 关键字前加上 <code>static</code> 关键字来指定类型方法。<br>类型方法是在类型上调用的方法，而不能在实例上调用。   </p>
+<p>定义在类型本身上的方法叫做类型方法（<code>type method</code>）。在方法的 <code>func</code> 关键字前加上 <code>static</code> 关键字来指定类型方法，还可以用关键字 <code>class</code> 来允许子类重写父类的方法实现。   </p>
+<p>类型方法是在类型上调用的方法，而不能在实例上调用。   </p>
 <pre><code class="ObjC">class SomeClass {
-    class func someTypeMethod() {
+    <span class="keyword">static</span> func someTypeMethod() {
     }
 }
+
 SomeClass.someTypeMethod()
 </code></pre>
 <p>在类型方法的方法体中，<code>self</code> 指向这个类型本身，而不是类型的某个实例。这意味着你可以用 <code>self</code> 来消除类型属性和类型方法参数之间的歧义。   </p>
