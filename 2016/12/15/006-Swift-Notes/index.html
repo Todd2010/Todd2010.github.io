@@ -84,20 +84,17 @@
 
 
 
-<meta name="description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。  
-在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
+<meta name="description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。   在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《The Swift Programming Language》读书摘要">
-<meta property="og:url" content="http://todd2010.github.io/2016/10/04/006-Swift-Notes/index.html">
-<meta property="og:site_name" content="Buddha's Temple">
-<meta property="og:description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。  
-在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
+<meta property="og:url" content="http://todd2010.github.io/2016/12/15/006-Swift-Notes/index.html">
+<meta property="og:site_name" content="Buddha&#39;s Temple">
+<meta property="og:description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。   在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
-<meta property="og:updated_time" content="2016-12-12T04:04:23.000Z">
+<meta property="og:updated_time" content="2016-12-14T17:35:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《The Swift Programming Language》读书摘要">
-<meta name="twitter:description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。  
-在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
+<meta name="twitter:description" content="本篇读书摘要大概有2万2千字和170个代码段，涵盖了原书11万字的几乎所有知识点，慢读需要3到4个小时。   在原书通读过3到5遍后，每周再浏览一到两遍读书摘要，两个月后对Swift的基础知识算是能做到了然于胸了。">
 <meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Swift_Notes_001.png">
 
 
@@ -257,8 +254,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-04T10:07:00+08:00" content="2016-10-04">
-              2016-10-04
+            <time itemprop="dateCreated" datetime="2016-12-15T01:35:07+08:00" content="2016-12-15">
+              2016-12-15
             </time>
           </span>
 
@@ -2303,7 +2300,7 @@ class SomeSubclass: SomeClass {
 <hr>
 <h3 id="自动引用计数"><a href="#自动引用计数" class="headerlink" title="自动引用计数"></a>自动引用计数</h3><hr>
 <p>Swift使用自动引用计数机制来跟踪和管理应用程序的内存。通常情况下，Swift内存管理机制会一直起作用，你无须自己来考虑内存的管理。ARC会在类的实例不再被使用时，自动释放其占用的内存。   </p>
-<p>引用计数仅仅应用于类的实例。结构体和枚举类型是值类型，不是引用类型，也不是通过引用的方式存储和传 递的。    </p>
+<p>引用计数仅仅应用于类的实例。结构体和枚举类型是值类型，不是引用类型，也不是通过引用的方式存储和传递的。    </p>
 <hr>
 <p>每次创建一个新的类实例的时候，ARC会分配一块内存来储存该实例信息。内存中包含实例的类型信息以及这个实例所有相关的存储型属性的值。<br>此外，当实例不再被使用时，ARC就会释放实例所占用的内存，并让释放的内存能挪作他用，以确保不再被使用的实例不会一直占用内存空间。</p>
 <p>当ARC释放了正在被使用中的实例时，该实例的属性和方法将不能被访问和调用。<br>为了确保使用中的实例不会被销毁，ARC会跟踪和计算每一个实例正在被多少属性、常量和变量所引用。哪怕实例的引用数为1，ARC都不会销毁这个实例。</p>
@@ -3223,16 +3220,16 @@ let vector11 = vector9 +- vector10  <span class="comment">// Vector2D(x: 4.0, y:
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/18/005-Hexo-GitHub/" rel="next" title="HEXO+GitHub搭建个人博客">
-                <i class="fa fa-chevron-left"></i> HEXO+GitHub搭建个人博客
+              <a href="/2016/08/19/002-Some-Notes/" rel="next" title="乱七八糟的iOS工具箱">
+                <i class="fa fa-chevron-left"></i> 乱七八糟的iOS工具箱
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/10/17/007-Swift-Array/" rel="prev" title="Swift Array">
-                Swift Array <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/02/007-SwiftyJSON/" rel="prev" title="SwiftyJSON README翻译及源码解读">
+                SwiftyJSON README翻译及源码解读 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -3395,7 +3392,7 @@ let vector11 = vector9 +- vector10  <span class="comment">// Vector2D(x: 4.0, y:
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

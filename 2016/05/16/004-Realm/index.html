@@ -84,18 +84,15 @@
 
 
 
-<meta name="description">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Realm官方文档的翻译解读以及项目扩展">
-<meta property="og:url" content="http://todd2010.github.io/2016/04/08/004-Realm/index.html">
-<meta property="og:site_name" content="Buddha's Temple">
-<meta property="og:description">
+<meta property="og:url" content="http://todd2010.github.io/2016/05/16/004-Realm/index.html">
+<meta property="og:site_name" content="Buddha&#39;s Temple">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Realm_Tutorial_Cover.png">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Realm_Tutorial_01.jpg">
-<meta property="og:updated_time" content="2016-05-16T08:00:19.000Z">
+<meta property="og:updated_time" content="2016-05-16T08:00:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Realm官方文档的翻译解读以及项目扩展">
-<meta name="twitter:description">
 <meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/Realm_Tutorial_Cover.png">
 
 
@@ -255,8 +252,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-08T12:00:00+08:00" content="2016-04-08">
-              2016-04-08
+            <time itemprop="dateCreated" datetime="2016-05-16T16:00:18+08:00" content="2016-05-16">
+              2016-05-16
             </time>
           </span>
 
@@ -304,7 +301,7 @@
 </blockquote>
 <p>Reaml能以高效、安全、快速的方式来编写App的<strong>数据模型层</strong>。</p>
 <p>先大致浏览一下Realm数据模型的简单定义与使用：  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个模型和定义一个常规Objective-C类的做法基本相似</span><br><span class="line">// 不同点在于：1、必须继承RLMObject类； 2、属性的修饰符（Property Attribute）在这里去掉了，后面会给出原因</span><br><span class="line"></span><br><span class="line">#import &lt;Realm/Realm.h&gt;</span><br><span class="line">@interface Dog : RLMObject</span><br><span class="line">@property NSString *name;</span><br><span class="line">@property NSInteger age;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#import &lt;Realm/Realm.h&gt;</span><br><span class="line">#import &quot;Dog.h&quot;</span><br><span class="line"></span><br><span class="line">RLM_ARRAY_TYPE(Dog)  // 一对多关系（一个人有多条狗）</span><br><span class="line"></span><br><span class="line">@interface Person : RLMObject</span><br><span class="line">@property NSString      *name;</span><br><span class="line">@property NSData        *picture;</span><br><span class="line">@property RLMArray&lt;Dog&gt; *dogs;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 数据模型的使用和常规Objective-C对象的使用一样</span><br><span class="line">Dog *mydog = [[Dog alloc] init];</span><br><span class="line">mydog.name = @&quot;Rex&quot;;</span><br><span class="line">mydog.age = 1;</span><br><span class="line">NSLog(@&quot;Name of dog: %@&quot;, mydog.name);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 查询所有小于2岁的狗狗</span><br><span class="line">RLMResults *puppies = [Dog objectsWhere:@&quot;age &lt; 2&quot;];</span><br><span class="line">NSLog(@&quot;Count of all dogs less than 2 years old: %ld&quot;, puppies.count);  // count == 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 数据的存储十分简单</span><br><span class="line">RLMRealm *realm = [RLMRealm defaultRealm];</span><br><span class="line">[realm transactionWithBlock:^&#123;</span><br><span class="line">    [realm addObject:mydog];</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">// 检索操作会在需要的时候及时更新</span><br><span class="line">NSLog(@&quot;Count of all dogs less than 2 years old: %ld&quot;, puppies.count);  // count == 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 可以在线程中执行检索或者更新操作（推荐）</span><br><span class="line">dispatch_async(dispatch_queue_create(&quot;background&quot;, 0), ^&#123;</span><br><span class="line">    Dog *theDog = [[Dog objectsWhere:@&quot;age == 1&quot;] firstObject];</span><br><span class="line">    RLMRealm *realm = [RLMRealm defaultRealm];</span><br><span class="line">    [realm beginWriteTransaction];</span><br><span class="line">    theDog.age = 3;</span><br><span class="line">    [realm commitWriteTransaction];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">// 定义一个模型和定义一个常规Objective-C类的做法基本相似</div><div class="line">// 不同点在于：1、必须继承RLMObject类； 2、属性的修饰符（Property Attribute）在这里去掉了，后面会给出原因</div><div class="line"></div><div class="line">#import &lt;Realm/Realm.h&gt;</div><div class="line">@interface Dog : RLMObject</div><div class="line">@property NSString *name;</div><div class="line">@property NSInteger age;</div><div class="line">@end</div><div class="line"></div><div class="line"></div><div class="line">#import &lt;Realm/Realm.h&gt;</div><div class="line">#import &quot;Dog.h&quot;</div><div class="line"></div><div class="line">RLM_ARRAY_TYPE(Dog)  // 一对多关系（一个人有多条狗）</div><div class="line"></div><div class="line">@interface Person : RLMObject</div><div class="line">@property NSString      *name;</div><div class="line">@property NSData        *picture;</div><div class="line">@property RLMArray&lt;Dog&gt; *dogs;</div><div class="line">@end</div><div class="line"></div><div class="line"></div><div class="line">// 数据模型的使用和常规Objective-C对象的使用一样</div><div class="line">Dog *mydog = [[Dog alloc] init];</div><div class="line">mydog.name = @&quot;Rex&quot;;</div><div class="line">mydog.age = 1;</div><div class="line">NSLog(@&quot;Name of dog: %@&quot;, mydog.name);</div><div class="line"></div><div class="line"></div><div class="line">// 查询所有小于2岁的狗狗</div><div class="line">RLMResults *puppies = [Dog objectsWhere:@&quot;age &lt; 2&quot;];</div><div class="line">NSLog(@&quot;Count of all dogs less than 2 years old: %ld&quot;, puppies.count);  // count == 0</div><div class="line"></div><div class="line"></div><div class="line">// 数据的存储十分简单</div><div class="line">RLMRealm *realm = [RLMRealm defaultRealm];</div><div class="line">[realm transactionWithBlock:^&#123;</div><div class="line">    [realm addObject:mydog];</div><div class="line">&#125;];</div><div class="line"></div><div class="line">// 检索操作会在需要的时候及时更新</div><div class="line">NSLog(@&quot;Count of all dogs less than 2 years old: %ld&quot;, puppies.count);  // count == 1</div><div class="line"></div><div class="line"></div><div class="line">// 可以在线程中执行检索或者更新操作（推荐）</div><div class="line">dispatch_async(dispatch_queue_create(&quot;background&quot;, 0), ^&#123;</div><div class="line">    Dog *theDog = [[Dog objectsWhere:@&quot;age == 1&quot;] firstObject];</div><div class="line">    RLMRealm *realm = [RLMRealm defaultRealm];</div><div class="line">    [realm beginWriteTransaction];</div><div class="line">    theDog.age = 3;</div><div class="line">    [realm commitWriteTransaction];</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>如果您的App正在使用Core Data并且打算换成Realm，可以参考这篇文章 <a href="https://realm.io/news/migrating-from-core-data-to-realm/" target="_blank" rel="external">Migrating an App from Core Data to Realm</a>。</p>
 <hr>
 <h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><ul>
@@ -690,16 +687,12 @@ tanDogs = [Dog objectsWithPredicate:pred];
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/01/003-iOS-SDK/" rel="next" title="iOS点燃SDK的地狱之门">
-                <i class="fa fa-chevron-left"></i> iOS点燃SDK的地狱之门
-              </a>
-            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/05/18/005-Hexo-GitHub/" rel="prev" title="HEXO+GitHub搭建个人博客">
-                HEXO+GitHub搭建个人博客 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/17/001-First-Tutorial/" rel="prev" title="世上无难事，只要肯放弃。">
+                世上无难事，只要肯放弃。 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -862,7 +855,7 @@ tanDogs = [Dog objectsWithPredicate:pred];
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

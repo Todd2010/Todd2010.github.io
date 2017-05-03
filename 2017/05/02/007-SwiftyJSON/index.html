@@ -1,0 +1,854 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="SwiftyJSON README翻译及源码解读">
+<meta property="og:url" content="http://todd2010.github.io/2017/05/02/007-SwiftyJSON/index.html">
+<meta property="og:site_name" content="Buddha&#39;s Temple">
+<meta property="og:image" content="http://todd2010.github.io/2017/05/02/007-SwiftyJSON/media/14937083256926/SwiftyJSON_01.png">
+<meta property="og:updated_time" content="2017-05-03T09:02:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SwiftyJSON README翻译及源码解读">
+<meta name="twitter:image" content="http://todd2010.github.io/2017/05/02/007-SwiftyJSON/media/14937083256926/SwiftyJSON_01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> SwiftyJSON README翻译及源码解读 | Buddha's Temple </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=56164015";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Buddha's Temple</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SwiftyJSON README翻译及源码解读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-02T14:58:45+08:00" content="2017-05-02">
+              2017-05-02
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="media/14937083256926/SwiftyJSON_01.png" alt="SwiftyJSON_01"></p>
+<a id="more"></a>    
+<h1 id="README翻译"><a href="#README翻译" class="headerlink" title="README翻译"></a>README翻译</h1><h2 id="为什么Swift对JSON的处理不够友好？"><a href="#为什么Swift对JSON的处理不够友好？" class="headerlink" title="为什么Swift对JSON的处理不够友好？"></a>为什么Swift对JSON的处理不够友好？</h2><p><code>Swift</code> 是一门类型安全的语言，这也就意味着 <code>Swift</code> 对于类型的处理必然十分严格。虽然明确的类型能够为我们避免许多错误的发生，然而，对于 <code>Swift</code> 中 <code>JSON</code> 处理以及其他一些隐含类型的操作，也就变得异常痛苦。</p>
+<p>我们拿 <code>Twitter</code> 的一个 <code>API</code> 来举例。通过这个 <a href="https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline" target="_blank" rel="external">API</a>，我们可以获取到关于 <code>Timeline</code> 的 <code>JSON</code> 数据，然后从这一坨 <code>JSON</code> 数据中获取第一条 <code>Timeline</code> 的 <code>用户名</code>。代码如下：  </p>
+<pre><code class="Swift"><span class="keyword">if</span> <span class="keyword">let</span> <span class="type">JSONObject</span> = <span class="keyword">try</span>? <span class="type">JSONSerialization</span>.jsonObject(with: data, options: .allowFragments) <span class="keyword">as</span>? [[<span class="type">String</span>: <span class="type">Any</span>]],
+    <span class="keyword">let</span> user = <span class="type">JSONObject</span>[<span class="number">0</span>][<span class="string">"user"</span>] <span class="keyword">as</span>? [<span class="type">String</span>: <span class="type">Any</span>],
+    <span class="keyword">let</span> username = user[<span class="string">"name"</span>] <span class="keyword">as</span>? <span class="type">String</span> {
+    <span class="comment">// Finally we got the username</span>
+}
+</code></pre>
+<p>很明显，这种写法并不友好。</p>
+<p>即使我们采用如下的 <code>Optinal</code> 链式取值，也依然不忍直视：  </p>
+<pre><code class="Swift"><span class="keyword">if</span> <span class="keyword">let</span> <span class="type">JSONObject</span> = <span class="keyword">try</span> <span class="type">JSONSerialization</span>.jsonObject(with: data, options: .allowFragments) <span class="keyword">as</span>? [[<span class="type">String</span>: <span class="type">Any</span>]],
+    <span class="keyword">let</span> username = (<span class="type">JSONObject</span>[<span class="number">0</span>][<span class="string">"user"</span>] <span class="keyword">as</span>? [<span class="type">String</span>: <span class="type">Any</span>])?[<span class="string">"name"</span>] <span class="keyword">as</span>? <span class="type">String</span> {
+    <span class="comment">// Finally we got the username</span>
+}
+</code></pre>
+<p>来看看采用 <code>SwiftyJSON</code> 后的代码是多么的优雅吧！  </p>
+<pre><code class="Swift"><span class="keyword">let</span> <span class="type">JSONObject</span> = <span class="type">JSON</span>(data: dataFromNetworking)
+<span class="keyword">if</span> <span class="keyword">let</span> userName = <span class="type">JSONObject</span>[<span class="number">0</span>][<span class="string">"user"</span>][<span class="string">"name"</span>].string {
+    <span class="comment">// Simply we got the username</span>
+}
+</code></pre>
+<p>并且，我们完全不需要担心 <code>Optional</code> 解包以及数组越界，<code>SwiftyJSON</code> 已经都为我们考虑好了。  </p>
+<pre><code class="Swift"><span class="keyword">let</span> <span class="type">JSONObject</span> = <span class="type">JSON</span>(data: dataFromNetworking)
+<span class="keyword">if</span> <span class="keyword">let</span> userName = <span class="type">JSONObject</span>[<span class="number">999999</span>][<span class="string">"wrong_key"</span>][<span class="string">"wrong_name"</span>].string {
+    <span class="comment">// The ".string" property still produces the correct Optional String type with safety</span>
+} <span class="keyword">else</span> {
+    <span class="comment">// Print the error</span>
+    <span class="built_in">print</span>(<span class="type">JSONObject</span>[<span class="number">999999</span>][<span class="string">"wrong_key"</span>][<span class="string">"wrong_name"</span>])
+}
+</code></pre>
+<h2 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h2><p><strong>初始化</strong></p>
+<pre><code class="Swift"><span class="keyword">import</span> SwiftyJSON
+
+<span class="comment">// dataFromNetworking的类型是Data</span>
+<span class="keyword">let</span> <span class="type">JSONObject</span> = <span class="type">JSON</span>(data: dataFromNetworking)  
+
+<span class="comment">// jsonObject的类型是[JSON]、[String: JSON]、Data以及JSONObject</span>
+<span class="comment">// JSONObject即NSString/String, NSNumber/Int/Float/Double/Bool, NSArray/Array, NSDictionary/Dictionary, or NSNull</span>
+<span class="keyword">let</span> <span class="type">JSONObject</span> = <span class="type">JSON</span>(jsonObject)
+</code></pre>
+<p><strong>下标</strong>  </p>
+<pre><code class="Swift"><span class="comment">// Getting a double from a JSON Array</span>
+<span class="keyword">let</span> name = json[<span class="number">0</span>].double
+
+<span class="comment">// Getting an array of string from a JSON Array</span>
+<span class="keyword">let</span> arrayNames =  json[<span class="string">"users"</span>].arrayValue.<span class="built_in">map</span>({$<span class="number">0</span>[<span class="string">"name"</span>].stringValue})
+
+<span class="comment">// Getting a string from a JSON Dictionary</span>
+<span class="keyword">let</span> name = json[<span class="string">"name"</span>].stringValue
+
+<span class="comment">// Getting a string using a path to the element</span>
+<span class="keyword">let</span> path: [<span class="type">JSONSubscriptType</span>] = [<span class="number">1</span>, <span class="string">"list"</span>, <span class="number">2</span>, <span class="string">"name"</span>]
+<span class="keyword">let</span> name = json[path].string
+<span class="comment">// Just the same</span>
+<span class="keyword">let</span> name = json[<span class="number">1</span>][<span class="string">"list"</span>][<span class="number">2</span>][<span class="string">"name"</span>].string
+<span class="comment">// Alternatively</span>
+<span class="keyword">let</span> name = json[<span class="number">1</span>, <span class="string">"list"</span>, <span class="number">2</span>, <span class="string">"name"</span>].string
+</code></pre>
+<p><strong>循环</strong>  </p>
+<pre><code class="Swift"><span class="comment">// If json is Dictionary</span>
+<span class="keyword">for</span> (key, subJSON): (<span class="type">String</span>, <span class="type">JSON</span>) <span class="keyword">in</span> json {
+   <span class="comment">// Do something you want</span>
+}
+
+<span class="comment">// If json is Array</span>
+<span class="comment">// The index is 0..&lt;json.count's string value</span>
+<span class="keyword">for</span> (index, subJSON): (<span class="type">String</span>, <span class="type">JSON</span>) <span class="keyword">in</span> json {
+    <span class="comment">// Do something you want</span>
+}
+
+<span class="comment">// 不管是Dictionary还是Array，元祖中的第一个元素都是String类型</span>
+</code></pre>
+<p><strong>错误</strong>  </p>
+<p>对于 <code>Swift</code> 中的常规数据类型，在进行 <code>Getter</code> 或 <code>Setter</code> 操作的时候，如果是</p>
+<ul>
+<li><code>Array</code>，可能会由于越界产生崩溃。</li>
+<li><code>Dictionary</code>，可能会莫名奇妙的产生了 <code>nil</code>。</li>
+<li>既不是 <code>Array</code> 也不是 <code>Dictionary</code>，可能会产生 <code>unrecognised selector</code> 异常导致App崩溃。  </li>
+</ul>
+<p>然而在 <code>SwiftyJSON</code> 下，这些都不会发生。</p>
+<pre><code class="Swift"><span class="comment">// 使用Array进行初始化</span>
+<span class="keyword">let</span> json = <span class="type">JSON</span>([<span class="string">"name"</span>, <span class="string">"age"</span>])
+<span class="keyword">if</span> <span class="keyword">let</span> name = json[<span class="number">999</span>].string {
+    <span class="comment">// Do something you want</span>
+} <span class="keyword">else</span> {
+    <span class="built_in">print</span>(json[<span class="number">999</span>].error) <span class="comment">// "Array[999] is out of bounds"</span>
+}
+
+<span class="comment">// 使用字典进行初始化</span>
+<span class="keyword">let</span> json = <span class="type">JSON</span>([<span class="string">"name"</span>: <span class="string">"Jack"</span>, <span class="string">"age"</span>: <span class="number">25</span>])
+<span class="keyword">if</span> <span class="keyword">let</span> name = json[<span class="string">"address"</span>].string {
+    <span class="comment">// Do something you want</span>
+} <span class="keyword">else</span> {
+    <span class="built_in">print</span>(json[<span class="string">"address"</span>].error) <span class="comment">// "Dictionary["address"] does not exist"</span>
+}
+
+<span class="comment">// 使用Int进行初始化</span>
+<span class="keyword">let</span> json = <span class="type">JSON</span>(<span class="number">12345</span>)
+<span class="keyword">if</span> <span class="keyword">let</span> age = json[<span class="number">0</span>].string {
+    <span class="comment">// Do something you want</span>
+} <span class="keyword">else</span> {
+    <span class="built_in">print</span>(json[<span class="number">0</span>])  <span class="comment">// "Array[0] failure, It is not an array"</span>
+    <span class="built_in">print</span>(json[<span class="number">0</span>].error)  <span class="comment">// "Array[0] failure, It is not an array"</span>
+}
+<span class="keyword">if</span> <span class="keyword">let</span> name = json[<span class="string">"name"</span>].string {
+    <span class="comment">// Do something you want</span>
+} <span class="keyword">else</span> {
+    <span class="built_in">print</span>(json[<span class="string">"name"</span>])  <span class="comment">// "Dictionary["name"] failure, It is not an dictionary"</span>
+    <span class="built_in">print</span>(json[<span class="string">"name"</span>].error)  <span class="comment">// "Dictionary["name"] failure, It is not an dictionary"</span>
+}
+</code></pre>
+<p><strong>Optinal取值</strong>  </p>
+<pre><code class="Swift"><span class="comment">// NSNumber</span>
+<span class="keyword">if</span> <span class="keyword">let</span> id = json[<span class="string">"user"</span>][<span class="string">"favourites_count"</span>].number {
+   <span class="comment">// Do something you want</span>
+} <span class="keyword">else</span> {
+   <span class="comment">// Print the error</span>
+   <span class="built_in">print</span>(json[<span class="string">"user"</span>][<span class="string">"favourites_count"</span>].error)
+}
+
+<span class="comment">// String</span>
+<span class="keyword">if</span> <span class="keyword">let</span> id = json[<span class="string">"user"</span>][<span class="string">"name"</span>].string {
+   <span class="comment">// Do something you want</span>
+} <span class="keyword">else</span> {
+   <span class="comment">// Print the error</span>
+   <span class="built_in">print</span>(json[<span class="string">"user"</span>][<span class="string">"name"</span>])
+}
+
+<span class="comment">// Bool</span>
+<span class="keyword">if</span> <span class="keyword">let</span> id = json[<span class="string">"user"</span>][<span class="string">"is_translator"</span>].bool {
+   <span class="comment">// Do something you want</span>
+} <span class="keyword">else</span> {
+   <span class="comment">// Print the error</span>
+   <span class="built_in">print</span>(json[<span class="string">"user"</span>][<span class="string">"is_translator"</span>])
+}
+
+<span class="comment">// Int</span>
+<span class="keyword">if</span> <span class="keyword">let</span> id = json[<span class="string">"user"</span>][<span class="string">"id"</span>].int {
+   <span class="comment">// Do something you want</span>
+} <span class="keyword">else</span> {
+   <span class="comment">// Print the error</span>
+   <span class="built_in">print</span>(json[<span class="string">"user"</span>][<span class="string">"id"</span>])
+}
+</code></pre>
+<p><strong>非Optinal取值（直接取值，若无值，则赋默认值）</strong></p>
+<pre><code class="Swift"><span class="comment">// If not a Number or nil, return 0</span>
+<span class="keyword">let</span> id: <span class="type">Int</span> = json[<span class="string">"id"</span>].intValue
+
+<span class="comment">// If not a String or nil, return ""</span>
+<span class="keyword">let</span> name: <span class="type">String</span> = json[<span class="string">"name"</span>].stringValue
+
+<span class="comment">// If not an Array or nil, return []</span>
+<span class="keyword">let</span> list: <span class="type">Array</span>&lt;<span class="type">JSON</span>&gt; = json[<span class="string">"list"</span>].arrayValue
+
+<span class="comment">// If not a Dictionary or nil, return [:]</span>
+<span class="keyword">let</span> user: <span class="type">Dictionary</span>&lt;<span class="type">String</span>, <span class="type">JSON</span>&gt; = json[<span class="string">"user"</span>].dictionaryValue
+</code></pre>
+<p><strong>Setter</strong></p>
+<pre><code class="Swift">json[<span class="string">"name"</span>] = <span class="type">JSON</span>(<span class="string">"new-name"</span>)  <span class="comment">// [String: JSON]</span>
+json[<span class="number">0</span>] = <span class="type">JSON</span>(<span class="number">1</span>)  <span class="comment">// [JSON]</span>
+
+json[<span class="string">"id"</span>].int =  <span class="number">1234567890</span>
+json[<span class="string">"coordinate"</span>].double =  <span class="number">8766.766</span>
+json[<span class="string">"name"</span>].string =  <span class="string">"Jack"</span>
+json.arrayObject = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]
+json.dictionaryObject = [<span class="string">"name"</span>: <span class="string">"Jack"</span>, <span class="string">"age"</span>: <span class="number">25</span>]
+</code></pre>
+<p><strong>原始对象</strong></p>
+<pre><code class="Swift"><span class="comment">// Convert the JSON to raw Data</span>
+<span class="keyword">if</span> <span class="keyword">let</span> data = json.rawData() {
+    <span class="comment">// Do something you want</span>
+}  
+
+<span class="comment">// Convert the JSON to a raw String</span>
+<span class="keyword">if</span> <span class="keyword">let</span> string = json.rawString() {
+    <span class="comment">// Do something you want</span>
+}
+</code></pre>
+<p><strong>值是否存在</strong></p>
+<pre><code class="Swift"><span class="comment">// Shows you whether value specified in JSON or not</span>
+<span class="keyword">if</span> json[<span class="string">"name"</span>].exists()
+</code></pre>
+<p><strong>字面量转换</strong></p>
+<p><code>Swift</code> 为我们提供了一组非常有意思的协议，用来将字面量转换为特定的类型。对于那些实现了字面量转换协议的类型，在提供字面量赋值的时候，就可以简单地按照协议中定义的规则通过赋值的方式将值直接转换为对应类型。在实际开发中我们经常可能用到的有：<code>NilLiteralConvertible</code>, <code>ArrayLiteralConvertible</code>, <code>DictionaryLiteralConvertible</code>, <code>BooleanLiteralConvertible</code>, <code>IntegerLiteralConvertible</code>, <code>FloatLiteralConvertible</code>, <code>StringLiteralConvertible</code></p>
+<pre><code class="Swift"><span class="comment">// NilLiteralConvertible</span>
+<span class="keyword">let</span> json: <span class="type">JSON</span> =  <span class="literal">nil</span>
+
+<span class="comment">// ArrayLiteralConvertible</span>
+<span class="keyword">let</span> json: <span class="type">JSON</span> =  [<span class="string">"I"</span>, <span class="string">"am"</span>, <span class="string">"a"</span>, <span class="string">"json"</span>]
+
+<span class="comment">// DictionaryLiteralConvertible</span>
+<span class="keyword">let</span> json: <span class="type">JSON</span> =  [<span class="string">"I"</span>: <span class="string">"am"</span>, <span class="string">"a"</span>: <span class="string">"json"</span>]
+
+<span class="comment">// BooleanLiteralConvertible</span>
+<span class="keyword">let</span> json: <span class="type">JSON</span> =  <span class="literal">true</span>
+
+<span class="comment">// IntegerLiteralConvertible</span>
+<span class="keyword">let</span> json: <span class="type">JSON</span> =  <span class="number">12345</span>
+
+<span class="comment">// FloatLiteralConvertible</span>
+<span class="keyword">let</span> json: <span class="type">JSON</span> =  <span class="number">2.8765</span>
+
+<span class="comment">// StringLiteralConvertible</span>
+<span class="keyword">let</span> json: <span class="type">JSON</span> = <span class="string">"I'm a json"</span>
+
+
+<span class="comment">// With subscript in array</span>
+<span class="keyword">var</span> json: <span class="type">JSON</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+json[<span class="number">0</span>] = <span class="number">100</span>
+json[<span class="number">1</span>] = <span class="number">200</span>
+json[<span class="number">2</span>] = <span class="number">300</span>
+json[<span class="number">999</span>] = <span class="number">300</span>  <span class="comment">// Don't worry, nothing will happen</span>
+
+<span class="comment">// With subscript in dictionary</span>
+<span class="keyword">var</span> json: <span class="type">JSON</span> =  [<span class="string">"name"</span>: <span class="string">"Jack"</span>, <span class="string">"age"</span>: <span class="number">25</span>]
+json[<span class="string">"name"</span>] = <span class="string">"Mike"</span>
+json[<span class="string">"age"</span>] = <span class="string">"25"</span>  <span class="comment">//It's OK to set String</span>
+json[<span class="string">"address"</span>] = <span class="string">"L.A."</span>  <span class="comment">// Add the "address": "L.A." in json</span>
+
+<span class="comment">// Array &amp; Dictionary</span>
+<span class="keyword">var</span> json: <span class="type">JSON</span> =  [<span class="string">"name"</span>: <span class="string">"Jack"</span>, <span class="string">"age"</span>: <span class="number">25</span>, <span class="string">"list"</span>: [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, [<span class="string">"what"</span>: <span class="string">"this"</span>]]]
+json[<span class="string">"list"</span>][<span class="number">3</span>][<span class="string">"what"</span>] = <span class="string">"that"</span>
+json[<span class="string">"list"</span>, <span class="number">3</span>, <span class="string">"what"</span>] = <span class="string">"that"</span>
+<span class="keyword">let</span> path: [<span class="type">JSONSubscriptType</span>] = [<span class="string">"list"</span>, <span class="number">3</span>, <span class="string">"what"</span>]
+json[path] = <span class="string">"that"</span>
+
+<span class="comment">// With other JSON objects</span>
+<span class="keyword">let</span> user: <span class="type">JSON</span> = [<span class="string">"username"</span>: <span class="string">"Steve"</span>, <span class="string">"password"</span>: <span class="string">"123456"</span>]
+<span class="keyword">let</span> auth: <span class="type">JSON</span> = [
+  <span class="string">"user"</span>: user.object  <span class="comment">// use user.object instead of just user</span>
+  <span class="string">"apiKey"</span>: <span class="string">"token123456"</span>
+]
+</code></pre>
+<p><strong>合并</strong></p>
+<pre><code class="Swift"><span class="keyword">let</span> original: <span class="type">JSON</span> = [
+    <span class="string">"first_name"</span>: <span class="string">"John"</span>,
+    <span class="string">"age"</span>: <span class="number">20</span>,
+    <span class="string">"skills"</span>: [<span class="string">"Coding"</span>, <span class="string">"Reading"</span>],
+    <span class="string">"address"</span>: [
+        <span class="string">"street"</span>: <span class="string">"Front St"</span>,
+        <span class="string">"zip"</span>: <span class="string">"12345"</span>,
+    ]
+]
+<span class="keyword">let</span> update: <span class="type">JSON</span> = [
+    <span class="string">"last_name"</span>: <span class="string">"Doe"</span>,
+    <span class="string">"age"</span>: <span class="number">21</span>,
+    <span class="string">"skills"</span>: [<span class="string">"Writing"</span>],
+    <span class="string">"address"</span>: [
+        <span class="string">"zip"</span>: <span class="string">"12342"</span>,
+        <span class="string">"city"</span>: <span class="string">"New York City"</span>
+    ]
+]
+
+<span class="keyword">let</span> updated = original.merge(with: update)
+<span class="comment">/*
+[
+    "first_name": "John",
+    "last_name": "Doe",
+    "age": 21,
+    "skills": ["Coding", "Reading", "Writing"],
+    "address": [
+        "street": "Front St",
+        "zip": "12342",
+        "city": "New York City"
+    ]
+]
+*/</span>
+</code></pre>
+<h1 id="SwiftyJSON源码解析"><a href="#SwiftyJSON源码解析" class="headerlink" title="SwiftyJSON源码解析"></a>SwiftyJSON源码解析</h1>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/15/006-Swift-Notes/" rel="next" title="《The Swift Programming Language》读书摘要">
+                <i class="fa fa-chevron-left"></i> 《The Swift Programming Language》读书摘要
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Todd Cheng" />
+          <p class="site-author-name" itemprop="name">Todd Cheng</p>
+          <p class="site-description motion-element" itemprop="description">古佛中的逗逼佛</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Todd2010" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/todd2010" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#README翻译"><span class="nav-number">1.</span> <span class="nav-text">README翻译</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么Swift对JSON的处理不够友好？"><span class="nav-number">1.1.</span> <span class="nav-text">为什么Swift对JSON的处理不够友好？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体使用"><span class="nav-number">1.2.</span> <span class="nav-text">具体使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SwiftyJSON源码解析"><span class="nav-number">2.</span> <span class="nav-text">SwiftyJSON源码解析</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Todd Cheng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
