@@ -84,17 +84,18 @@
 
 
 
-<meta name="description" content="该篇文章分为两部分，第一部分翻译自SwiftyJSON的README文档，从而对SwiftyJSON的使用有个大体的了解。第二部分对SwiftyJSON的源代码进行抽丝剥茧般的详细解读。">
+<meta name="description" content="该篇文章分为两部分，第一部分翻译自SwiftyJSON的README文档，可以对SwiftyJSON的使用有个大体的了解。第二部分对SwiftyJSON的源代码进行抽丝剥茧般的详细解读。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SwiftyJSON README翻译及源码解读">
 <meta property="og:url" content="http://todd2010.github.io/2017/05/02/007-SwiftyJSON/index.html">
 <meta property="og:site_name" content="Buddha&#39;s Temple">
-<meta property="og:description" content="该篇文章分为两部分，第一部分翻译自SwiftyJSON的README文档，从而对SwiftyJSON的使用有个大体的了解。第二部分对SwiftyJSON的源代码进行抽丝剥茧般的详细解读。">
+<meta property="og:description" content="该篇文章分为两部分，第一部分翻译自SwiftyJSON的README文档，可以对SwiftyJSON的使用有个大体的了解。第二部分对SwiftyJSON的源代码进行抽丝剥茧般的详细解读。">
 <meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/SwiftyJSON_01.png">
-<meta property="og:updated_time" content="2017-05-03T09:57:33.000Z">
+<meta property="og:image" content="http://7xth9g.com2.z0.glb.clouddn.com/SwiftyJSON_02.png">
+<meta property="og:updated_time" content="2017-05-08T06:26:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SwiftyJSON README翻译及源码解读">
-<meta name="twitter:description" content="该篇文章分为两部分，第一部分翻译自SwiftyJSON的README文档，从而对SwiftyJSON的使用有个大体的了解。第二部分对SwiftyJSON的源代码进行抽丝剥茧般的详细解读。">
+<meta name="twitter:description" content="该篇文章分为两部分，第一部分翻译自SwiftyJSON的README文档，可以对SwiftyJSON的使用有个大体的了解。第二部分对SwiftyJSON的源代码进行抽丝剥茧般的详细解读。">
 <meta name="twitter:image" content="http://7xth9g.com2.z0.glb.clouddn.com/SwiftyJSON_01.png">
 
 
@@ -284,7 +285,7 @@
       
         <p><img src="http://7xth9g.com2.z0.glb.clouddn.com/SwiftyJSON_01.png" alt="SwiftyJSON_01">   </p>
 <blockquote>
-<p>该篇文章分为两部分，第一部分翻译自<a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" rel="external">SwiftyJSON的README文档</a>，从而对SwiftyJSON的使用有个大体的了解。第二部分对SwiftyJSON的源代码进行抽丝剥茧般的详细解读。</p>
+<p>该篇文章分为两部分，第一部分翻译自<a href="https://github.com/SwiftyJSON/SwiftyJSON" target="_blank" rel="external">SwiftyJSON的README文档</a>，可以对SwiftyJSON的使用有个大体的了解。第二部分对SwiftyJSON的源代码进行抽丝剥茧般的详细解读。</p>
 </blockquote>
 <a id="more"></a>     
 <hr>
@@ -557,7 +558,46 @@ json[path] = <span class="string">"that"</span>
 */</span>
 </code></pre>
 <hr>
-<h1 id="第二部分-SwiftyJSON源码解读"><a href="#第二部分-SwiftyJSON源码解读" class="headerlink" title="第二部分 - SwiftyJSON源码解读"></a>第二部分 - SwiftyJSON源码解读</h1>
+<h1 id="第二部分-SwiftyJSON源码解读"><a href="#第二部分-SwiftyJSON源码解读" class="headerlink" title="第二部分 - SwiftyJSON源码解读"></a>第二部分 - SwiftyJSON源码解读</h1><p>在写本篇博客的时候，<a href="https://github.com/SwiftyJSON/SwiftyJSON/releases/tag/3.1.4" target="_blank" rel="external">SwiftyJSON最新的Release版本为3.1.4</a>，下面就基于此版本的源码来细读一下。  </p>
+<p>把最新的 <code>Release</code> 版本下载下来，双击 <code>SwiftyJSON.xcworkspace</code> 文件打开工程，在 <code>Source</code> 文件夹下，可以看到 <code>SwiftyJSON</code> 库就只有两个源码文件，分别是 <code>SwiftyJSON.h</code> 和  <code>SwiftyJSON.swift</code>。  </p>
+<p>先来看 <code>SwiftyJSON.h</code> 文件，显而易见的，这仅仅是描述了 <code>SwiftyJSON</code> 库的版本号，并且如果在你具体的工程中通过 <code>Pod</code> 方式引入 <code>SwiftyJSON</code> 库的话，是看不到 <code>SwiftyJSON.h</code> 文件的。  </p>
+<p>那么，我们就来好好看看 <code>SwiftyJSON.swift</code> 这个文件吧！！！      </p>
+<p>从上面第一部分的 <code>README</code> 可以看出，<code>SwiftyJSON</code> 库的功能还是非常强大的，能够极大的方便我们操作JSON数据。然而可能会出乎你意料的是，这么强大的库仅仅只用了 <code>1475</code> 行代码就实现了，用 <code>cloc</code> 工具可以更细致的统计一下，如下图，扣除空行和代码注释，<code>SwiftyJSON.swift</code> 需要阅读的代码只剩下 <code>1154</code> 行了，这也就相当于两个略微复杂页面的 <code>ViewController</code> 代码量吧。   </p>
+<p><img src="http://7xth9g.com2.z0.glb.clouddn.com/SwiftyJSON_02.png" alt="SwiftyJSON_02">   </p>
+<p>接下来我们就正式开始阅读源码了，那从什么地方开始看起来呢？一般来说总是从初始化代码开始。不过在这里，为了能够进一步快速缩小代码行数，我准备从最简单且代码量较大的地方着手，因为这样一来，既可以由浅入深，又能在心理上造成看的很快的错觉。    </p>
+<p>那最简单且代码量又较大的一部分在哪里呢？在 <code>1027</code> 行的 <code>extension JSON { ... }</code>。这块代码有 <code>242</code> 行，主要定义了 24 个计算性属性，分别为：  </p>
+<ul>
+<li><code>double</code> 和 <code>doubleValue</code>   </li>
+<li><code>float</code> 和 <code>floatValue</code>   </li>
+<li><code>int</code> 和 <code>intValue</code>   </li>
+<li><code>uInt</code> 和 <code>uIntValue</code>   </li>
+<li><code>int8</code> 和 <code>int8Value</code>，<code>uInt8</code> 和 <code>uInt8Value</code>，<code>int16</code> 和 <code>int16Value</code>，<code>uInt16</code> 和 <code>uInt16Value</code>，<code>int32</code> 和 <code>int32Value</code>，<code>uInt32</code> 和 <code>uInt32Value</code>，<code>int64</code> 和 <code>int64Value</code>，<code>uInt64</code> 和 <code>uInt64Value</code>   </li>
+</ul>
+<p>从源代码中可以看出，这24个计算型属性几乎都成对出现而且都极其类似，那就挑一对看下到底都表达了些什么意思。   </p>
+<pre><code class="Swift"><span class="keyword">public</span> <span class="keyword">var</span> double: <span class="type">Double</span>? {
+    <span class="keyword">get</span> {
+        <span class="keyword">return</span> <span class="keyword">self</span>.number?.doubleValue
+    }
+    <span class="keyword">set</span> {
+        <span class="keyword">if</span> <span class="keyword">let</span> newValue = newValue {
+            <span class="keyword">self</span>.object = <span class="type">NSNumber</span>(value: newValue)
+        } <span class="keyword">else</span> {
+            <span class="keyword">self</span>.object = <span class="type">NSNull</span>()
+        }
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">var</span> doubleValue: <span class="type">Double</span> {
+    <span class="keyword">get</span> {
+        <span class="keyword">return</span> <span class="keyword">self</span>.numberValue.doubleValue
+    }
+    <span class="keyword">set</span> {
+        <span class="keyword">self</span>.object = <span class="type">NSNumber</span>(value: newValue)
+    }
+}
+</code></pre>
+<p><code>1154</code> 扣除 <code>242</code> 还剩下 <code>912</code> 了。</p>
+
       
     </div>
 
